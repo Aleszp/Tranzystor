@@ -2,286 +2,310 @@ package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+
+/**
+ * Renders programs InterFace that consists of two sections between which user may switch: <br> 
+ *  - first section with two graphs and basic simulation controls; <br>
+ *  - second section with control panel; <br>
+ *  */
 public class InterFace extends JFrame 
 {
-	private static final long serialVersionUID = -8683962114940324116L;
+	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Default (and only constructor) which creates InterFace 
+	 *  - first section with two graphs and basic simulation controls; <br>
+	 *  - second section with control panel; <br>
+	 *  */
 	public InterFace() throws HeadlessException 
 	{
-		super("symulacja tranzystora");
-		setSize(640,720);
+		super("Symulacja tranzystora");
+		setSize(640,480);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setLayout(new BoxLayout(this.getContentPane(),BoxLayout.Y_AXIS));
-		
-        Dimension sizew = new Dimension(220, 200);		//rozmiarow preferonch wykresow
-        Color kolorramek=Color.blue; 					//zmienna koloru ramek
-		
-		String[] U ={"Uce" ,"Ube" };
-		String[] I ={"Ib","Ie","Ic"};
-
-		String[] Uj ={"V" ,"mV"};
-		String[] Ij ={"A","mA"};
-		
-		/*********************************************/
-
-		JPanel wykres1 =new JPanel();					// lewegy panel wykresu
-		wykres1.setPreferredSize(sizew);
-		wykres1.setBorder(new LineBorder(kolorramek));
-		
-		JPanel wykres2 =new JPanel();					// prawegy panel wykresu
-		wykres2.setPreferredSize(sizew);
-		wykres2.setBorder(new LineBorder(kolorramek));
-		
-		JPanel wykresy =new JPanel();					//elnent okreslajcy polozenie wykrsow
-		wykresy.add(wykres1);
-		wykresy.add(wykres2);
-		
-		/*********************************************/	//elemty panelu nastawów lewego wykresu
-		
-		JComboBox OX1 = new JComboBox(U);
-		JPanel OX1p =new JPanel();
-		OX1p.add(new JLabel("OX"));
-		OX1p.add(OX1);
-		
-		JComboBox OY1 = new JComboBox(I);
-		JPanel OY1p =new JPanel();
-		OY1p.add(new JLabel("OY"));
-		OY1p.add(OY1);
-		
-		JLabel par1 =new JLabel(U[1]);					//elmety w wersji koñcowje bêd¹ modyfkowane przez Listener
-		JLabel par1w =new JLabel("");
-		JLabel par1j =new JLabel(Uj[0]);
-		JPanel par1p =new JPanel();
-		par1p.add(par1);
-		par1p.add(par1w);
-		par1p.add(par1j);	
-		
-		
-		JPanel w1nast =new JPanel();					// panel nastawów lewego wykresu
-		w1nast.setBorder(new LineBorder(kolorramek));
-		w1nast.setLayout(new BoxLayout(w1nast,BoxLayout.Y_AXIS));
-		w1nast.add(new JLabel("Wykres1",JLabel.CENTER));
-		w1nast.add(OX1p);
-		w1nast.add(OY1p);
-		w1nast.add(par1p);
-		
-		/********************/							//elemty panelu nastawów prawego wykresu
-		
-		JComboBox OX2 = new JComboBox(U);
-		JPanel OX2p =new JPanel();
-		OX2p.add(new JLabel("OX"));
-		OX2p.add(OX2);
-		
-		JComboBox OY2 = new JComboBox(I);
-		JPanel OY2p =new JPanel();
-		OY2p.add(new JLabel("OY"));
-		OY2p.add(OY2);
-		
-		JLabel par2 =new JLabel(U[1]);					//elmety w wersji koñcowje bêd¹ modyfkowane przez Listener
-		JLabel par2w =new JLabel("");
-		JLabel par2j =new JLabel(Uj[0]);
-		JPanel par2p =new JPanel();
-		par2p.add(par2);
-		par2p.add(par2w);
-		par2p.add(par2j);
-		
-		
-		JPanel w2nast =new JPanel();					// panel nastawów prawego wykresu
-		w2nast.setBorder(new LineBorder(kolorramek));
-		w2nast.setLayout(new BoxLayout(w2nast,BoxLayout.Y_AXIS));
-		w2nast.add(new JLabel("Wykres2",JLabel.CENTER));
-		w2nast.add(OX2p);
-		w2nast.add(OY2p);
-		w2nast.add(par2p);
-		
-		/********************/
-		
-		JPanel wnast =new JPanel();						//elnent okreslajcy polozenie nastawow wykrsow
-		wnast.add(w1nast);
-		wnast.add(w2nast);
-		
-		/*********************************************/
-		
-		JTextField PU= new JTextField(3);
-		JComboBox PUj = new JComboBox(Uj);
-		JPanel PUp =new JPanel();
-		PUp.add(new JLabel("Wartość początkowa"));
-		PUp.add(PU);
-		PUp.add(PUj);
-
-		JTextField Uk= new JTextField(3);
-		JPanel Ukp =new JPanel();
-		Ukp.add(new JLabel("Liczba kroków"));
-		Ukp.add(Uk);
-		
-		JTextField KU= new JTextField(3);
-		JComboBox KUj = new JComboBox(Uj);
-		JPanel KUp =new JPanel();
-		KUp.add(new JLabel("Wartość końcowa"));
-		KUp.add(KU);
-		KUp.add(KUj);
-		
-		JPanel ust1wp =new JPanel();	
-		JComboBox ust1w = new JComboBox(U);
-		ust1wp.add(ust1w);
-		
-		JPanel ust1 =new JPanel();					//lewy panel ustawień
-		ust1.setBorder(new LineBorder(kolorramek));
-		ust1.setLayout(new BoxLayout(ust1,BoxLayout.Y_AXIS));
-		ust1.add(ust1wp);
-		ust1.add(PUp);
-		ust1.add(Ukp);
-		ust1.add(KUp);
-
-		
-		/********************/
-		
-		JTextField Ucem= new JTextField(3);
-		JComboBox Ucemj = new JComboBox(Uj);
-		JPanel Ucemp =new JPanel();
-		Ucemp.add(new JLabel("Ucemax"));
-		Ucemp.add(Ucem);
-		Ucemp.add(Ucemj);
-
-		JTextField Ubem= new JTextField(3);
-		JComboBox Ubemj = new JComboBox(Uj);
-		JPanel Ubemp =new JPanel();
-		Ubemp.add(new JLabel("Ubemax"));
-		Ubemp.add(Ubem);
-		Ubemp.add(Ubemj);
-
-		JTextField Ucbm= new JTextField(3);
-		JComboBox Ucbmj = new JComboBox(Uj);
-		JPanel Ucbmp =new JPanel();
-		Ucbmp.add(new JLabel("Ucbmax"));
-		Ucbmp.add(Ucbm);
-		Ucbmp.add(Ucbmj);
-		
-		JTextField Icm= new JTextField(3);
-		JComboBox Icmj = new JComboBox(Ij);
-		JPanel Icmp =new JPanel();
-		Icmp.add(new JLabel("Icmax"));
-		Icmp.add(Icm);
-		Icmp.add(Icmj);
-		
-		JTextField Ibm= new JTextField(3);
-		JComboBox Ibmj = new JComboBox(Ij);
-		JPanel Ibmp =new JPanel();
-		Ibmp.add(new JLabel("Ibmax"));
-		Ibmp.add(Ibm);
-		Ibmp.add(Ibmj);
-		
-		JTextField Iem= new JTextField(3);
-		JComboBox Iemj = new JComboBox(Ij);
-		JPanel Iemp =new JPanel();
-		Iemp.add(new JLabel("Icmax"));
-		Iemp.add(Iem);
-		Iemp.add(Iemj);
-		
-		JPanel ust2 =new JPanel();					//prawegy panel ustawien
-		ust2.setBorder(new LineBorder(kolorramek));
-		ust2.setLayout(new BoxLayout(ust2,BoxLayout.Y_AXIS));
-		ust2.add(Ucemp);
-		ust2.add(Ubemp);
-		ust2.add(Ucbmp);
-		ust2.add(Icmp);
-		ust2.add(Ibmp);
-		ust2.add(Iemp);
-		
-		/********************/
-		
-		JPanel ust =new JPanel();						//elnent okreslajcy polozenie ustawien
-		ust.add(ust1);
-		ust.add(ust2);
-		
-		/*********************************************/
-		
-
-		JTextField h11= new JTextField(3);
-		JPanel h11p =new JPanel();
-		h11p.add(new JLabel("H11"));
-		h11p.add(h11);
-
-		JTextField h21= new JTextField(3);
-		JPanel h21p =new JPanel();
-		h21p.add(new JLabel("H21"));
-		h21p.add(h21);
-		
-		JPanel m1 =new JPanel();
-		m1.setLayout(new BoxLayout(m1,BoxLayout.Y_AXIS));
-		m1.add(h11p);
-		m1.add(h21p);
-		
-		/********************/
-
-		JTextField h12= new JTextField(3);
-		JPanel h12p =new JPanel();
-		h12p.add(new JLabel("H12"));
-		h12p.add(h12);
-		
-		JTextField h22= new JTextField(3);
-		JPanel h22p =new JPanel();
-		h22p.add(new JLabel("H22"));
-		h22p.add(h22);
-
-		JPanel m2 =new JPanel();
-		m2.setLayout(new BoxLayout(m2,BoxLayout.Y_AXIS));
-		m2.add(h12p);
-		m2.add(h22p);
-		
-		JPanel macierz =new JPanel();
-		macierz.setBorder(new LineBorder(kolorramek));
-		macierz.add(m1);
-		macierz.add(m2);
-		
-		/*********************************************/
-		
-		JPanel menu =new JPanel();						//glowna ramka
-		menu.setBorder(new LineBorder(kolorramek));
-		menu.setLayout(new BoxLayout(menu,BoxLayout.Y_AXIS));
-		menu.add(new JLabel("Nastawy:",JLabel.CENTER));
-		menu.add(wnast);
-		menu.add(ust);
-		menu.add(macierz);
-		
-		/*********************************************/
-		
-		JButton wczytaj = new JButton("Wczytaj Tranzystor");
-		
-		JButton zapisz = new JButton("Zapisz tranzystor");
-		
-		JButton wyniki = new JButton("Zapisz wyniki");
-		
-		JButton IO = new JButton("I/O");
-		
-		JPanel przyciski =new JPanel();	
-		przyciski.add(wczytaj);
-		przyciski.add(zapisz);
-		przyciski.add(wyniki);
-		przyciski.add(IO);
-		
-		/*********************************************/
-
-		
-		add(wykresy);
-		add(menu);
-		add(przyciski);
-	}
+		setLayout(new GridLayout());
 	
-	public static void main(String[] args) //Służy do testów
-	{
+		Dimension sizeMinimal = new Dimension();
+		sizeMinimal.setSize(300, 400);
 		
+		Dimension sizeOfWindow = this.getSize();	
+		Dimension graphSizePreffered = new Dimension();
+		graphSizePreffered.setSize(sizeOfWindow.getWidth()/2-25,sizeOfWindow.getHeight()-150);//	
+		
+        Color frameColor=Color.blue; 					//zmienna koloru ramek
+		
+		String[] voltagesNames ={"Uce" ,"Ube" };
+		String[] currentsNames ={"Ib","Ie","Ic"};
+
+		String[] voltagesUnits ={"V" ,"mV"};
+		String[] currentsUnits ={"A","mA"};
+		
+		/*********************************************/	//elementy panelu nastaw lewego graphu
+		
+		JComboBox<String> graph1OXComboBox = new JComboBox<String>(voltagesNames);
+		JPanel graph1OXPanel =new JPanel();
+		graph1OXPanel.add(new JLabel("OX"));						
+		graph1OXPanel.add(graph1OXComboBox);
+		
+		JComboBox<String> graph1OYComboBox = new JComboBox<String>(currentsNames);
+		JPanel graph1OYPanel =new JPanel();
+		graph1OYPanel.add(new JLabel("OY"));
+		graph1OYPanel.add(graph1OYComboBox);
+		
+		JPanel graph1ParameterPanel =new JPanel();
+		JLabel graph1ParameterValueLabel =new JLabel(voltagesNames[1]);					//elmenty w wersji końcowje będą modyfkowane przez Listener
+		JLabel graph1ParameterNameLabel =new JLabel("");
+		JLabel graph1ParameterUnitLabel =new JLabel(voltagesUnits[0]);
+		
+		graph1ParameterPanel.add(graph1ParameterValueLabel);
+		graph1ParameterPanel.add(graph1ParameterNameLabel);
+		graph1ParameterPanel.add(graph1ParameterUnitLabel);	
+		
+		
+		JPanel graph1Setting =new JPanel();					// panel nastaw lewego graphu
+		graph1Setting.setBorder(new LineBorder(frameColor));
+		graph1Setting.setLayout(new BoxLayout(graph1Setting,BoxLayout.Y_AXIS));
+		graph1Setting.add(new JLabel("Wykres1",JLabel.CENTER));
+		graph1Setting.add(graph1OXPanel);
+		graph1Setting.add(graph1OYPanel);
+		graph1Setting.add(graph1ParameterPanel);
+		
+		/********************/							//elemty panelu nastaw prawego wykresu
+		
+		JComboBox<String> graph2OXComboBox = new JComboBox<String>(voltagesNames);
+		JPanel graph2OXPanel =new JPanel();
+		graph2OXPanel.add(new JLabel("OX"));
+		graph2OXPanel.add(graph2OXComboBox);
+		
+		JComboBox<String> graph2OYComboBox = new JComboBox<String>(currentsNames);
+		JPanel graph2OYPanel =new JPanel();
+		graph2OYPanel.add(new JLabel("OY"));
+		graph2OYPanel.add(graph2OYComboBox);
+		
+		JLabel graph2ParameterValueLabel =new JLabel(voltagesNames[1]);					//elementy w wersji końcowej będą modyfkowane przez Listener
+		JLabel graph2ParameterNameLabel =new JLabel("");
+		JLabel graph2ParameterUnitLabel =new JLabel(voltagesUnits[0]);
+		JPanel graph2ParameterPanel =new JPanel();
+		graph2ParameterPanel.add(graph2ParameterValueLabel);
+		graph2ParameterPanel.add(graph2ParameterNameLabel);
+		graph2ParameterPanel.add(graph2ParameterUnitLabel);
+		
+		
+		JPanel graph2Setting =new JPanel();					// panel nastaw prawego wykresu
+		graph2Setting.setBorder(new LineBorder(frameColor));
+		graph2Setting.setLayout(new BoxLayout(graph2Setting,BoxLayout.Y_AXIS));
+		graph2Setting.add(new JLabel("Wykres2",JLabel.CENTER));
+		graph2Setting.add(graph2OXPanel);
+		graph2Setting.add(graph2OYPanel);
+		graph2Setting.add(graph2ParameterPanel);
+		
+		/********************/
+		
+		JPanel graphsSetttings =new JPanel();						//element okreslajcy polozenie nastaw wykrsów
+		graphsSetttings.add(graph1Setting);
+		graphsSetttings.add(graph2Setting);
+		
+		/* Elementy nastaw panelu */
+		
+		JTextField voltage1StartValueInput= new JTextField(3);
+		JComboBox<String> voltage1StartValueLabel = new JComboBox<String>(voltagesUnits);
+		JPanel voltage1StartPanel =new JPanel();
+		voltage1StartPanel.add(new JLabel("Wartość początkowa"));
+		voltage1StartPanel.add(voltage1StartValueInput);
+		voltage1StartPanel.add(voltage1StartValueLabel);
+
+		JTextField voltage1StepsInput= new JTextField(3);
+		JPanel voltage1StepsPanel =new JPanel();
+		voltage1StepsPanel.add(new JLabel("Liczba kroków"));
+		voltage1StepsPanel.add(voltage1StepsInput);
+		
+		JTextField ku= new JTextField(3);
+		JComboBox<String> voltage1EndValueUnits = new JComboBox<String>(voltagesUnits);
+		JPanel voltage1EndValuePanel =new JPanel();
+		voltage1EndValuePanel.add(new JLabel("Wartość końcowa"));
+		voltage1EndValuePanel.add(ku);
+		voltage1EndValuePanel.add(voltage1EndValueUnits);
+		
+		JPanel voltage1SettingsPanel =new JPanel();	
+		JComboBox<String> voltage1SettingsVoltageName = new JComboBox<String>(voltagesNames);
+		voltage1SettingsPanel.add(voltage1SettingsVoltageName);
+		
+		//
+		
+		JPanel settings1 =new JPanel();					//lewy panel ustawien
+		settings1.setBorder(new LineBorder(frameColor));
+		settings1.setLayout(new BoxLayout(settings1,BoxLayout.Y_AXIS));
+		settings1.add(voltage1SettingsPanel);
+		settings1.add(voltage1StartPanel);
+		settings1.add(voltage1StepsPanel);
+		settings1.add(voltage1EndValuePanel);
+		
+		/********************/
+		
+		JTextField colectorBaseVoltageMaximialValueInput= new JTextField(3);
+		JComboBox<String> colectorBaseVoltageMaximialValueUnit = new JComboBox<String>(voltagesUnits);
+		JPanel colectorBaseVoltageMaximialValuePanel =new JPanel();
+		colectorBaseVoltageMaximialValuePanel.add(new JLabel("Ucemax"));
+		colectorBaseVoltageMaximialValuePanel.add(colectorBaseVoltageMaximialValueInput);
+		colectorBaseVoltageMaximialValuePanel.add(colectorBaseVoltageMaximialValueUnit);
+
+		JTextField baseEmitterVoltageMaximialValueInput= new JTextField(3);
+		JComboBox<String> baseEmitterVoltageMaximialValueUnit = new JComboBox<String>(voltagesUnits);
+		JPanel baseEmitterVoltageMaximialValuePanel =new JPanel();
+		baseEmitterVoltageMaximialValuePanel.add(new JLabel("Ubemax"));
+		baseEmitterVoltageMaximialValuePanel.add(baseEmitterVoltageMaximialValueInput);
+		baseEmitterVoltageMaximialValuePanel.add(baseEmitterVoltageMaximialValueUnit);
+
+		JTextField collectorBaseVoltageMaximialValueInput= new JTextField(3);
+		JComboBox<String> collectorBaseVoltageMaximialValueUnit = new JComboBox<String>(voltagesUnits);
+		JPanel collectorBaseVoltageMaximialValuePanel =new JPanel();
+		collectorBaseVoltageMaximialValuePanel.add(new JLabel("Ucbmax"));
+		collectorBaseVoltageMaximialValuePanel.add(collectorBaseVoltageMaximialValueInput);
+		collectorBaseVoltageMaximialValuePanel.add(collectorBaseVoltageMaximialValueUnit);
+		
+		JTextField collectorCurrentMaximialValueInput= new JTextField(3);
+		JComboBox<String> collectorCurrentMaximialValueUnit = new JComboBox<String>(currentsUnits);
+		JPanel collectorCurrentMaximialValuePanel =new JPanel();
+		collectorCurrentMaximialValuePanel.add(new JLabel("Icmax"));
+		collectorCurrentMaximialValuePanel.add(collectorCurrentMaximialValueInput);
+		collectorCurrentMaximialValuePanel.add(collectorCurrentMaximialValueUnit);
+		
+		JTextField baseCurrentMaximialValueInput= new JTextField(3);
+		JComboBox<String> baseCurrentMaximialValueUnit = new JComboBox<String>(currentsUnits);
+		JPanel baseCurrentMaximialValuePanel =new JPanel();
+		baseCurrentMaximialValuePanel.add(new JLabel("Ibmax"));
+		baseCurrentMaximialValuePanel.add(baseCurrentMaximialValueInput);
+		baseCurrentMaximialValuePanel.add(baseCurrentMaximialValueUnit);
+		
+		JTextField emitterCurrentMaximialValueInput= new JTextField(3);
+		JComboBox<String> emitterCurrentMaximialValueUnit = new JComboBox<String>(currentsUnits);
+		JPanel emitterCurrentMaximialValuePanel =new JPanel();
+		emitterCurrentMaximialValuePanel.add(new JLabel("Icmax"));
+		emitterCurrentMaximialValuePanel.add(emitterCurrentMaximialValueInput);
+		emitterCurrentMaximialValuePanel.add(emitterCurrentMaximialValueUnit);
+		
+		JPanel settings2 =new JPanel();					//prawy panel ustawien
+		settings2.setBorder(new LineBorder(frameColor));
+		settings2.setLayout(new BoxLayout(settings2,BoxLayout.Y_AXIS));
+		settings2.add(colectorBaseVoltageMaximialValuePanel);
+		settings2.add(baseEmitterVoltageMaximialValuePanel);
+		settings2.add(collectorBaseVoltageMaximialValuePanel);
+		settings2.add(collectorCurrentMaximialValuePanel);
+		settings2.add(baseCurrentMaximialValuePanel);
+		settings2.add(emitterCurrentMaximialValuePanel);
+		
+		/********************/
+		
+		JPanel settings =new JPanel();						//elnent okreslajcy polozenie ustawien
+		settings.add(settings1);
+		settings.add(settings2);
+		
+		/*********************************************/
+
+		JTextField h11TextField= new JTextField(3);
+		JPanel h11Panel =new JPanel();
+		h11Panel.add(new JLabel("H11"));
+		h11Panel.add(h11TextField);
+
+		JTextField h21TextField= new JTextField(3);
+		JPanel h21Panel =new JPanel();
+		h21Panel.add(new JLabel("H21"));
+		h21Panel.add(h21TextField);
+		
+		JPanel hybridMatrixRow1 =new JPanel();
+		hybridMatrixRow1.setLayout(new BoxLayout(hybridMatrixRow1,BoxLayout.Y_AXIS));
+		hybridMatrixRow1.add(h11Panel);
+		hybridMatrixRow1.add(h21Panel);
+		
+		/********************/
+
+		JTextField h12TextField= new JTextField(3);
+		JPanel h12Panel =new JPanel();
+		h12Panel.add(new JLabel("H12"));
+		h12Panel.add(h12TextField);
+		
+		JTextField h22TextField= new JTextField(3);
+		JPanel h22Panel =new JPanel();
+		h22Panel.add(new JLabel("H22"));
+		h22Panel.add(h22TextField);
+
+		JPanel hybridMatrixRow2 =new JPanel();
+		hybridMatrixRow2.setLayout(new BoxLayout(hybridMatrixRow2,BoxLayout.Y_AXIS));
+		hybridMatrixRow2.add(h12Panel);
+		hybridMatrixRow2.add(h22Panel);
+		
+		JPanel hybridMatrix =new JPanel();
+		hybridMatrix.setBorder(new LineBorder(frameColor));
+		hybridMatrix.add(hybridMatrixRow1);
+		hybridMatrix.add(hybridMatrixRow2);
+		
+		/*********************************************/
+
+		JPanel graph1 =new JPanel();					// lewegy panel wykresu
+		graph1.setMinimumSize(sizeMinimal);
+		graph1.setPreferredSize(graphSizePreffered);
+		graph1.setBorder(new LineBorder(frameColor));
+		
+		JPanel graph2 =new JPanel();					// prawegy panel graphu
+		graph2.setMinimumSize(sizeMinimal);
+		graph2.setPreferredSize(graphSizePreffered);
+		graph2.setBorder(new LineBorder(frameColor));
+		
+		JPanel graphs =new JPanel();					//elnent okreslajcy polozenie wykrsow
+		graphs.add(graph1);
+		graphs.add(graph2);
+		graphs.setLayout(new GridLayout());
+		
+		/*********************************************/
+		
+		
+		JButton loadButton = new JButton("Wczytaj Tranzystor");	
+		JButton saveButton = new JButton("Zapisz tranzystor");
+		JButton saveResultsButton = new JButton("Zapisz wyniki");
+		JButton startStopButton = new JButton("Zacznij/Zakończ symulację");  
+		//w gotowej wersji programu będzie zmieniać nazwę zależnie od stanu symulacji na 
+		//"Zacznij symulację" dla nieaktywnej i "Zakończ symulację" dla aktywnej
+		
+		JPanel buttons =new JPanel();	
+		buttons.add(loadButton);
+		buttons.add(saveButton);
+		buttons.add(saveResultsButton);
+		buttons.add(startStopButton);
+		
+		/*********************************************/
+
+		JPanel mainPanel =new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
+		mainPanel.add(graphs);
+		mainPanel.add(buttons);
+		
+		JPanel settingPanel =new JPanel();						//główna ramka
+		settingPanel.setLayout(new BoxLayout(settingPanel,BoxLayout.Y_AXIS));
+		settingPanel.add(new JLabel("Nastawy:",JLabel.CENTER));
+		settingPanel.add(graphsSetttings);
+		settingPanel.add(settings);
+		settingPanel.add(hybridMatrix);
+		
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.addTab("Menu główne",mainPanel);
+        tabbedPane.addTab("Menu ustawień",settingPanel);
+        
+        add(tabbedPane);
+	}	
+
+	public static void main(String[] args)  //klasa main przeznaczona do testów wyglądu InterFace'u
+	{
 		InterFace frame = new InterFace();
 		frame.setVisible(true);
 	}
