@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-
 /**
  * Renders programs InterFace that consists of two sections between which user may switch: <br> 
  *  - first section with two graphs and basic simulation controls; <br>
@@ -21,12 +20,6 @@ import javax.swing.JTabbedPane;
 public class InterFace extends JFrame 
 {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Default (and only constructor) which creates InterFace 
-	 *  - first section with two graphs and basic simulation controls; <br>
-	 *  - second section with control panel; <br>
-	 *  */
 	
 	Dimension sizeMinimal = new Dimension(300, 400);	
 	Color frameColor=null;
@@ -36,6 +29,12 @@ public class InterFace extends JFrame
 	
 	String[] voltagesUnits ={"V" ,"mV"};
 	String[] currentsUnits ={"A","mA"};
+	
+	/**
+	 * Default (and only constructor) which creates InterFace 
+	 *  - first section with two graphs and basic simulation controls; <br>
+	 *  - second section with control panel; <br>
+	 *  */
 	
 	public InterFace(Color frameColorIn) throws HeadlessException 
 	{
