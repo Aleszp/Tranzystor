@@ -127,11 +127,12 @@ public class Data
 	 */
 	public void countCurrentsForSingleStep(int collectorEmittervoltageStepId, int baseEmittervoltageStepId)
 	{		
-		if(voltageBE[baseEmittervoltageStepId]<=saturationVoltage)
+		//If base-emitter voltage is lower than saturation base-emitter voltage treat it as non-linear 
+		if(voltageBE[baseEmittervoltageStepId]<saturationVoltage)
 		{
 			currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]=saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1);
 		}
-		else
+		else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
 		{
 			currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]=(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId]*hMatrix[1])/hMatrix[0];
 			currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
@@ -168,10 +169,10 @@ public class Data
 			if(ii<39)voltageCE[ii+1]=voltageCE[ii]+0.25;
 		}
 
-		assertEquals(saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1),0.015,0.001);
-		assertEquals(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 0.015, 0.001);
-		assertEquals(getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 5.882, 0.001);
-		assertEquals(getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 5.898, 0.001);
+		assertEquals(saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1),0.015,0.001); //jest ok
+		assertEquals(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 0.015, 0.001); //powinien być ten sam wynik co w poprzednim, ale jest inny
+		assertEquals(getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 5.882, 0.001); // ??
+		assertEquals(getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 5.898, 0.001);   // ??
 	}
 	
 	/**
