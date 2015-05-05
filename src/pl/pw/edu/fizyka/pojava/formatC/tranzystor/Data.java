@@ -131,15 +131,16 @@ public class Data
 		//If base-emitter voltage is lower than saturation base-emitter voltage treat it as non-linear 
 		if(voltageBE[baseEmittervoltageStepId]<saturationVoltage)
 		{
-			currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]=saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1);
+			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1));
 		}
 		else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
 		{
-			currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]=(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId]*hMatrix[1])/hMatrix[0];
-			currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
+			double tmp=(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId]*hMatrix[1])/hMatrix[0];
+			tmp+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
+			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,tmp);
 		}
-		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]=hMatrix[2]*currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmittervoltageStepId];
-		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][2]=currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1];	
+		setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,hMatrix[2]*currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmittervoltageStepId]);
+		setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]);	
 	}
 	
 	@Test
@@ -148,42 +149,43 @@ public class Data
 		Data dataContainer=new Data();
 		
 		int collectorEmittervoltageStep=39;
-		int baseEmittervoltageStep=11;
+		int baseEmittervoltageStep=2;
 		
-		saturationVoltage=0.25;
-		saturationCurrent=0.033;
-		fitParameter=5;
-		hMatrix[0]=5000;
-		hMatrix[1]=0.00016;
-		hMatrix[2]=380;	
-		hMatrix[3]=50*Math.pow(10,-9);
+		dataContainer.saturationVoltage=0.25;
+		dataContainer.saturationCurrent=0.033;
+		dataContainer.fitParameter=5;
+		dataContainer.hMatrix[0]=5000;
+		dataContainer.hMatrix[1]=0.00016;
+		dataContainer.hMatrix[2]=380;	
+		dataContainer.hMatrix[3]=50*Math.pow(10,-9);
 		
-		voltageCE[0]=0;
-		voltageBE[0]=0;
+		dataContainer.voltageCE[0]=0;
+		dataContainer.voltageBE[0]=0;
 		
 		for(int ii=0;ii<40;ii++)
 		{
 			for(int jj=0;jj<200;jj++)
 			{
 				dataContainer.countCurrentsForSingleStep(ii,jj);
-				if(ii<199)voltageBE[ii+1]=voltageBE[ii]+0.025;
+				if(ii<199)dataContainer.voltageBE[ii+1]=dataContainer.voltageBE[ii]+0.025;
 			}
-			if(ii<39)voltageCE[ii+1]=voltageCE[ii]+0.25;
+			if(ii<39)dataContainer.voltageCE[ii+1]=dataContainer.voltageCE[ii]+0.25;
 		}
+			
 		double current;
-		if(voltageBE[baseEmittervoltageStep]<saturationVoltage)
+		if(dataContainer.voltageBE[baseEmittervoltageStep]<dataContainer.saturationVoltage)
 		{
-			current=saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStep]/(fitParameter*0.026))-1);
+			current=dataContainer.saturationCurrent*(Math.exp(dataContainer.voltageBE[baseEmittervoltageStep]/(dataContainer.fitParameter*0.026))-1);
 		}
 		else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
 		{
-			current=(voltageCE[collectorEmittervoltageStep]-voltageBE[baseEmittervoltageStep]*hMatrix[1])/hMatrix[0];
-			current+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
+			current=(dataContainer.voltageCE[collectorEmittervoltageStep]-dataContainer.voltageBE[baseEmittervoltageStep]*dataContainer.hMatrix[1])/dataContainer.hMatrix[0];
+			current+=dataContainer.saturationCurrent*(Math.exp(dataContainer.saturationVoltage/(dataContainer.fitParameter*0.026))-1);
 		}
-		assertEquals(current,0.238,0.001); //When calculates here, than it's ok, but works only below saturation current, so above I comment it out
-		assertEquals(getBaseCurrent(collectorEmittervoltageStep,baseEmittervoltageStep), 0.238, 0.001); //Here should be the same (the same formula is used), but it isn't 
-		assertEquals(getCollectorCurrent(collectorEmittervoltageStep,baseEmittervoltageStep), 90.625, 0.001); // ??
-		assertEquals(getEmitterCurrent(collectorEmittervoltageStep,baseEmittervoltageStep), 90.863, 0.001);   // ??
+		assertEquals(current,0.015,0.001); //When calculates here, than it's ok
+		assertEquals(dataContainer.getBaseCurrent(collectorEmittervoltageStep,baseEmittervoltageStep), 0.015, 0.001); //fixed 
+		assertEquals(dataContainer.getCollectorCurrent(collectorEmittervoltageStep,baseEmittervoltageStep), 5.882, 0.001); //fixed
+		assertEquals(dataContainer.getEmitterCurrent(collectorEmittervoltageStep,baseEmittervoltageStep), 5.898, 0.001);   //fixed
 	}
 	
 	/**
