@@ -76,6 +76,7 @@ public class Data
 	 * @see #baseEmitterVoltageRange
 	 */
 	
+	//Commented out in order to make tests not throw "Test class can only have one constructor" error
 	/*public Data(int collectorEmitterVoltegeSteps_,int baseEmitterVoltegeSteps_, double collectorEmitterVoltageRange_[], double baseEmitterVoltageRange_[]) throws HeadlessException 
 	{
 		//Wczytaj dane początkowe
