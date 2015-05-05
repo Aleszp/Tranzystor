@@ -143,7 +143,7 @@ public class Data
 	}
 	
 	@Test
-	public void test()
+	public void testCountCurrentsForSingleStep()
 	{
 		Data dataContainer=new Data();
 		
@@ -160,6 +160,7 @@ public class Data
 		
 		voltageCE[0]=0;
 		voltageBE[0]=0;
+		
 		for(int ii=0;ii<40;ii++)
 		{
 			for(int jj=0;jj<200;jj++)
@@ -186,6 +187,17 @@ public class Data
 	{
 		return currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0];
 	}
+	
+	@Test
+	public void testGetBaseCurrent()
+	{
+		int collectorEmittervoltageStepId=5;
+		int baseEmittervoltageStepId=10;
+		double testValue=0.45;
+		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]=testValue;
+		assertEquals(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
+	}
+	
 	/**
 	 * Use {@link #getCollectorCurrent(int, int)}
 	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
@@ -196,6 +208,16 @@ public class Data
 	{
 		return currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1];
 	}
+	
+	@Test
+	public void testGetCollectorCurrent()
+	{
+		int collectorEmittervoltageStepId=5;
+		int baseEmittervoltageStepId=10;
+		double testValue=7.62;
+		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]=testValue;
+		assertEquals(getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
+	}
 	/**
 	 * Use {@link #getEmitterCurrent(int, int)}
 	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
@@ -205,6 +227,16 @@ public class Data
 	public double getEmitterCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId)
 	{
 		return currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][2];
+	}
+	
+	@Test
+	public void testGetEmitterCurrent()
+	{
+		int collectorEmittervoltageStepId=5;
+		int baseEmittervoltageStepId=10;
+		double testValue=3.14;
+		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][2]=testValue;
+		assertEquals(getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
 	}
 		
 }
