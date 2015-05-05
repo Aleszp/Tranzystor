@@ -147,8 +147,8 @@ public class Data
 	{
 		Data dataContainer=new Data();
 		
-		int collectorEmittervoltageStepId=39;
-		int baseEmittervoltageStepId=2;
+		int collectorEmittervoltageStep=39;
+		int baseEmittervoltageStep=11;
 		
 		saturationVoltage=0.25;
 		saturationCurrent=0.033;
@@ -170,11 +170,20 @@ public class Data
 			}
 			if(ii<39)voltageCE[ii+1]=voltageCE[ii]+0.25;
 		}
-
-		assertEquals(saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1),0.015,0.001); //When calculates here, than it's ok
-		assertEquals(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 0.015, 0.001); //Here should be the same (the same formula is used), but it isn't 
-		assertEquals(getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 5.882, 0.001); // ??
-		assertEquals(getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 5.898, 0.001);   // ??
+		double current;
+		if(voltageBE[baseEmittervoltageStep]<saturationVoltage)
+		{
+			current=saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStep]/(fitParameter*0.026))-1);
+		}
+		else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
+		{
+			current=(voltageCE[collectorEmittervoltageStep]-voltageBE[baseEmittervoltageStep]*hMatrix[1])/hMatrix[0];
+			current+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
+		}
+		assertEquals(current,0.238,0.001); //When calculates here, than it's ok, but works only below saturation current, so above I comment it out
+		assertEquals(getBaseCurrent(collectorEmittervoltageStep,baseEmittervoltageStep), 0.238, 0.001); //Here should be the same (the same formula is used), but it isn't 
+		assertEquals(getCollectorCurrent(collectorEmittervoltageStep,baseEmittervoltageStep), 90.625, 0.001); // ??
+		assertEquals(getEmitterCurrent(collectorEmittervoltageStep,baseEmittervoltageStep), 90.863, 0.001);   // ??
 	}
 	
 	/**
@@ -188,13 +197,24 @@ public class Data
 		return currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0];
 	}
 	
+	/**
+	 * Use {@link #setBaseCurrent(int, int, double)}
+	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param base current new value
+	 */
+	public void setBaseCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId, double value)
+	{
+		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]=value;
+	}
+	
 	@Test
-	public void testGetBaseCurrent()
+	public void testSetAndGetBaseCurrent()
 	{
 		int collectorEmittervoltageStepId=5;
 		int baseEmittervoltageStepId=10;
 		double testValue=0.45;
-		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]=testValue;
+		setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,testValue);
 		assertEquals(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
 	}
 	
@@ -208,14 +228,24 @@ public class Data
 	{
 		return currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1];
 	}
+	/**
+	 * Use {@link #setCollectorCurrent(int, int, double)}
+	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param collector current new value
+	 */
+	public void setCollectorCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId, double value)
+	{
+		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]=value;
+	}
 	
 	@Test
-	public void testGetCollectorCurrent()
+	public void testSetAndGetCollectorCurrent()
 	{
 		int collectorEmittervoltageStepId=5;
 		int baseEmittervoltageStepId=10;
 		double testValue=7.62;
-		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]=testValue;
+		setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,testValue);
 		assertEquals(getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
 	}
 	/**
@@ -228,14 +258,24 @@ public class Data
 	{
 		return currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][2];
 	}
+	/**
+	 * Use {@link #setEmitterCurrent(int, int, double)}
+	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param emitter current new value
+	 */
+	public void setEmitterCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId, double value)
+	{
+		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][2]=value;
+	}
 	
 	@Test
-	public void testGetEmitterCurrent()
+	public void testSetAndGetEmitterCurrent()
 	{
 		int collectorEmittervoltageStepId=5;
 		int baseEmittervoltageStepId=10;
 		double testValue=3.14;
-		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][2]=testValue;
+		setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,testValue);
 		assertEquals(getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
 	}
 		
