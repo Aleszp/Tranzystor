@@ -76,7 +76,7 @@ public class Data
 	 * @see #baseEmitterVoltageRange
 	 */
 	
-	//Commented out in order to make tests not throw "Test class can only have one constructor" error
+	//Commented out in order to make tests not throw "Test class can only have one constructor" error, especially as they demand it to have no parameters
 	/*public Data(int collectorEmitterVoltegeSteps_,int baseEmitterVoltegeSteps_, double collectorEmitterVoltageRange_[], double baseEmitterVoltageRange_[]) throws HeadlessException 
 	{
 		//Wczytaj dane początkowe
@@ -142,7 +142,10 @@ public class Data
 		setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,hMatrix[2]*currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmittervoltageStepId]);
 		setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]);	
 	}
-	
+	/**
+	 * Test method countCurrentsForSingleStep
+	 * @see #countCurrentsForSingleStep 
+	 */
 	@Test
 	public void testCountCurrentsForSingleStep()
 	{
@@ -210,6 +213,11 @@ public class Data
 		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]=value;
 	}
 	
+	/**
+	 * Test setter and getter for base current 
+	 * @see getBaseCurrent
+	 * @see setBaseCurrent
+	 */
 	@Test
 	public void testSetAndGetBaseCurrent()
 	{
@@ -241,6 +249,11 @@ public class Data
 		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]=value;
 	}
 	
+	/**
+	 * Test setter and getter for collector current 
+	 * @see getCollectorCurrent
+	 * @see setCollectorCurrent
+	 */
 	@Test
 	public void testSetAndGetCollectorCurrent()
 	{
@@ -271,6 +284,11 @@ public class Data
 		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][2]=value;
 	}
 	
+	/**
+	 * Test setter and getter for emitter current
+	 * @see getEmitterCurrent
+	 * @see setEmitterCurrent 
+	 */
 	@Test
 	public void testSetAndGetEmitterCurrent()
 	{
