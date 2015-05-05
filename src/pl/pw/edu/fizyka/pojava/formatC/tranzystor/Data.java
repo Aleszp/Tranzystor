@@ -169,8 +169,8 @@ public class Data
 			if(ii<39)voltageCE[ii+1]=voltageCE[ii]+0.25;
 		}
 
-		assertEquals(saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1),0.015,0.001); //jest ok
-		assertEquals(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 0.015, 0.001); //powinien być ten sam wynik co w poprzednim, ale jest inny
+		assertEquals(saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1),0.015,0.001); //When calculates here, than it's ok
+		assertEquals(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 0.015, 0.001); //Here should be the same (the same formula is used), but it isn't 
 		assertEquals(getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 5.882, 0.001); // ??
 		assertEquals(getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), 5.898, 0.001);   // ??
 	}
