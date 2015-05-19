@@ -14,8 +14,11 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
- *Displays calculated values.  
+ *Displays calculated values.  <br>
+ *
  *@author Aleksander Szpakiewicz-Szatan
+ *
+ *
  */
 public class Graph extends JPanel 
 {
@@ -26,9 +29,16 @@ public class Graph extends JPanel
 	int voltageId;
 	int currentId;
 
-	public Graph(Color frameColor, int voltageId_, int currentId_) 
+	/**
+	 * Use {@link #Graph(Color, in, int)} as constructor.
+	 * 
+	 * @param frameColor_ sets color of frame
+	 * @param voltageId_ selects which voltage is on OX
+	 * @param currentId_ selects which current is on OY
+	 */
+	public Graph(int voltageId_, int currentId_, Color frameColor_) 
 	{
-		setBorder(new LineBorder(frameColor));
+		setBorder(new LineBorder(frameColor_));
 		voltageId=voltageId_;
 		currentId=currentId_;
 			
@@ -53,6 +63,14 @@ public class Graph extends JPanel
 		setLayout(new GridLayout());
 		this.add(chartPanel);
 	}
+	/**
+	 * Use {@link #addData(double, double)} to add a point to chart
+	 * 
+	 * @param x argument of added point (voltage)
+	 * @param y value of added point (current)
+	 * 
+	 * @see #Graph(Color, in, int)
+	 */
 	void addData(double x, double y)
 	{
 		dataSeries.add(x,y);

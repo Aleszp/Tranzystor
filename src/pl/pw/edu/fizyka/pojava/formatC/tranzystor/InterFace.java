@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 /**
@@ -33,6 +34,7 @@ public class InterFace extends JFrame
 	MatrixPanel hybridMatrix;
 	SettingsPanel settings1;
 	SettingsPanel settings2;
+	SettingsPanel settings3;
 	GraphSettings graph1Setting;
 	GraphSettings graph2Setting;
 	
@@ -51,10 +53,9 @@ public class InterFace extends JFrame
 	
         frameColor=frameColorIn; 					//zmienna koloru ramek
 		
-		graph1Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,"Wykres1");		
-
-		graph2Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,"Wykres2");
-		graph2Setting.graphParameterLabel.setText("Voltage 1 V"); 		//przyk�ad odwo�nia do elementu wewn�tzengo
+		graph1Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,"Wykres1",voltagesUnits);		
+		graph2Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,"Wykres2",voltagesUnits);
+		
 		
 		JPanel graphsSetttings =new JPanel();						
 		graphsSetttings.add(graph1Setting);
@@ -66,14 +67,26 @@ public class InterFace extends JFrame
 		settings1 =new SettingsPanel(frameColor, 3 ,settings1Panels,"Uce");
 		
 		ValuePanel[] settings2Panels={
+				new ValuePanel("Początkowe napięcie",3,voltagesUnits),new ValuePanel("Liczba kroków",3),new ValuePanel("Końcowe napięcie",3,voltagesUnits)};
+		
+		settings2 =new SettingsPanel(frameColor, 3 ,settings2Panels,"Ube");
+		
+		ValuePanel[] settings3Panels={
 				new ValuePanel("Ucemax",3,voltagesUnits),new ValuePanel("Ubemax",3,voltagesUnits),new ValuePanel("Ucbmax",3,voltagesUnits),
 				new ValuePanel("Icmax",3,currentsUnits),new ValuePanel("Ibmax",3,currentsUnits),new ValuePanel("Iemax",3,currentsUnits)};
 
-		settings2=new SettingsPanel(frameColor, 6 ,settings2Panels,"Uce");
+		settings3=new SettingsPanel(frameColor, 6 ,settings3Panels,"Wartości skrajne");
+		
+		
+		JPanel settings12 =new JPanel();
+		settings12.setLayout(new BorderLayout());
+		settings12.add(settings1,BorderLayout.NORTH);
+		settings12.add(settings2,BorderLayout.SOUTH);
 		
 		JPanel settings =new JPanel();
-		settings.add(settings1);
-		settings.add(settings2);
+		settings.setLayout(new GridLayout());
+		settings.add(settings12);
+		settings.add(settings3);
 		
 		hybridMatrix =new MatrixPanel(frameColor,3);
 		
@@ -93,9 +106,11 @@ public class InterFace extends JFrame
 		settingPanel.add(settings);
 		settingPanel.add(hybridMatrix);
 		
+		JScrollPane settingScrollPane = new JScrollPane(settingPanel);
+		
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Menu główne",mainPanel);
-        tabbedPane.addTab("Menu ustawień",settingPanel);
+        tabbedPane.addTab("Menu ustawień",settingScrollPane);
         
         add(tabbedPane);
 	}	

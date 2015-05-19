@@ -1,8 +1,11 @@
 package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
 import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -13,10 +16,9 @@ public class GraphSettings extends JPanel
 	
 	ValuePanel ox;
 	ValuePanel oy;
-	JPanel graphParameterPanel =new JPanel();
-	JLabel graphParameterLabel;
+	ValuePanel parameter;
 
-	public GraphSettings(Color frameColor,String[] oxin,String[] oyin,String name) 
+	public GraphSettings(Color frameColor,String[] oxin,String[] oyin,String name,String[] voltagesUnits) 
 	{
 		setBorder(new LineBorder(frameColor));
 		add(new JLabel(name,JLabel.CENTER));
@@ -25,11 +27,25 @@ public class GraphSettings extends JPanel
 		add(ox);
 		oy=new ValuePanel("OY",oyin);
 		add(oy);
+		//Zmieniłem to idiotyczne pole na parametr, Szatan
+		parameter=new ValuePanel(oxin[1],3,voltagesUnits);
+		add(parameter);
 		
-		graphParameterLabel =new JLabel("aa");
-		graphParameterPanel.add(graphParameterLabel);
-		
-		add(graphParameterPanel);
+		//Łukasz, tak to wymyśliłeś, że wymyślenie do czego dodać Listener to katorga. Twórz jakąkolwiek dokumentację. Szatan
+		ItemListener OXListener=new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e) 
+			{
+				@SuppressWarnings("unchecked")
+				JComboBox<String> cb = (JComboBox<String>)e.getSource();
+				if(cb.getSelectedIndex()==0)
+					parameter.label.setText(oxin[1]);
+				else
+					parameter.label.setText(oxin[0]);
+			}			
+		};	
+		ox.unit.addItemListener(OXListener);
 	}
 	
 	/*

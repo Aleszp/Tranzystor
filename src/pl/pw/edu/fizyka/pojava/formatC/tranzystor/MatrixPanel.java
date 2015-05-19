@@ -1,6 +1,8 @@
 package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -35,5 +37,6 @@ public class MatrixPanel extends JPanel
 		setBorder(new LineBorder(frameColor));
 		add(Column1);
 		add(Column2);
+		this.setMinimumSize(new Dimension(120,120));
 	}
 }
