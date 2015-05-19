@@ -26,27 +26,24 @@ public class Graph extends JPanel
 	
 	XYSeries dataSeries;
 	XYSeriesCollection dataCollection;
-	int voltageId;
-	int currentId;
+	JFreeChart chart;
+	
 
 	/**
-	 * Use {@link #Graph(Color, in, int)} as constructor.
+	 * Use {@link #Graph(Color)} as constructor.
 	 * 
 	 * @param frameColor_ sets color of frame
-	 * @param voltageId_ selects which voltage is on OX
-	 * @param currentId_ selects which current is on OY
-	 */
-	public Graph(int voltageId_, int currentId_, Color frameColor_) 
+	 *  */
+	public Graph(Color frameColor_) 
 	{
 		setBorder(new LineBorder(frameColor_));
-		voltageId=voltageId_;
-		currentId=currentId_;
+		
 			
 		dataSeries =new XYSeries("");
 		dataCollection = new XYSeriesCollection();
 		dataCollection.addSeries(dataSeries);
 		
-		JFreeChart chart = ChartFactory.createXYLineChart
+		chart = ChartFactory.createXYLineChart
 				(
 				"Natężenie prądu",
 				"Napięcie",

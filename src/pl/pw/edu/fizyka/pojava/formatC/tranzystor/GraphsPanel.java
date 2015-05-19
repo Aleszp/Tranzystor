@@ -18,9 +18,9 @@ public class GraphsPanel extends JPanel
 		layot.setVgap(10);
 		layot.setHgap(10);
 		
-		graph1=new Graph(0,0,frameColor);
+		graph1=new Graph(frameColor);
 		add(graph1);
-		graph2=new Graph(0,0,frameColor);
+		graph2=new Graph(frameColor);
 		add(graph2);
 		
 		//Dodane do testu metody addData (w przyszłości zostanie usunięte)

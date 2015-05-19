@@ -53,9 +53,13 @@ public class InterFace extends JFrame
 	
         frameColor=frameColorIn; 					//zmienna koloru ramek
 		
-		graph1Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,"Wykres1",voltagesUnits);		
-		graph2Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,"Wykres2",voltagesUnits);
+        GraphsPanel graphs =new GraphsPanel(frameColor);
+        
+		graph1Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph1);		
+		graph2Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph2);
 		
+		graph1Setting.refreshGraph();
+		graph2Setting.refreshGraph();
 		
 		JPanel graphsSetttings =new JPanel();						
 		graphsSetttings.add(graph1Setting);
@@ -89,8 +93,6 @@ public class InterFace extends JFrame
 		settings.add(settings3);
 		
 		hybridMatrix =new MatrixPanel(frameColor,3);
-		
-		GraphsPanel graphs =new GraphsPanel(frameColor);
 
 		ButtonPanel buttons =new ButtonPanel(simulation);
 		
