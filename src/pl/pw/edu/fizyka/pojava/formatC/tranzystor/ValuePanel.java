@@ -22,8 +22,7 @@ public class ValuePanel extends JPanel
 	
 	public ValuePanel(String name, int textFieldSize ,String[] unitType) 
 	{
-		// TODO Auto-generated constructor stub
-		
+				
 		value = new JTextField(textFieldSize);
 		unit = new JComboBox<String>(unitType);
 		add(new JLabel(name));
