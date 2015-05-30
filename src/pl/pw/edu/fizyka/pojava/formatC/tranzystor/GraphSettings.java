@@ -64,7 +64,7 @@ public class GraphSettings extends JPanel
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				parameter.label.setText(oxin[1-cb.getSelectedIndex()]);			
 				graph.chart.getXYPlot().getDomainAxis().setLabel(oxin[cb.getSelectedIndex()]+" /V");
-				graph.chart.setTitle("Natężenie prądu "+oyin[oy.unit.getSelectedIndex()]+" w zależności od napięcia "+oxin[ox.unit.getSelectedIndex()]+" dla "+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+				graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[8]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
 			}			
 		};	
 		ox.unit.addItemListener(OXListener);
@@ -77,7 +77,7 @@ public class GraphSettings extends JPanel
 				@SuppressWarnings("unchecked")
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				graph.chart.getXYPlot().getRangeAxis().setLabel(oyin[cb.getSelectedIndex()]+" /A");
-				graph.chart.setTitle("Natężenie prądu "+oyin[oy.unit.getSelectedIndex()]+" w zależności od napięcia "+oxin[ox.unit.getSelectedIndex()]+" dla "+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+				graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[9]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
 			}		
 		};	
 		oy.unit.addItemListener(OYListener);
@@ -86,15 +86,15 @@ public class GraphSettings extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				graph.chart.setTitle("Natężenie prądu "+oyin[oy.unit.getSelectedIndex()]+" w zależności od napięcia "+oxin[ox.unit.getSelectedIndex()]+" dla "+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+				graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[9]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
 			}
 		};
 		parameter.value.addActionListener(parameterListener);
-		graph.chart.setTitle("Natężenie prądu "+oyin[oy.unit.getSelectedIndex()]+" w zależności od napięcia "+oxin[ox.unit.getSelectedIndex()]+" dla "+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+		graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[9]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
 	}
 	public void refreshGraph()
 	{
-		graph.chart.setTitle("Natężenie prądu "+oyin[oy.unit.getSelectedIndex()]+" w zależności od napięcia "+oxin[ox.unit.getSelectedIndex()]+" dla "+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+		graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[9]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
 	}
 	
 	/*

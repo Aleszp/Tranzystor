@@ -46,7 +46,7 @@ public class InterFace extends JFrame
 	
 	public InterFace(Color frameColorIn, Simulation simulation) throws HeadlessException 
 	{
-		super("Symulacja tranzystora");
+		super(Language.words[0]);
 		setSize(640,480);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new GridLayout());
@@ -66,12 +66,12 @@ public class InterFace extends JFrame
 		graphsSetttings.add(graph2Setting);
 		
 		ValuePanel[] settings1Panels={
-				new ValuePanel("Początkowe napięcie",3,voltagesUnits),new ValuePanel("Liczba kroków",3),new ValuePanel("Końcowe napięcie",3,voltagesUnits)};
+				new ValuePanel(Language.words[14],3,voltagesUnits),new ValuePanel(Language.words[15],3),new ValuePanel(Language.words[16],3,voltagesUnits)};
 		
 		settings1 =new SettingsPanel(frameColor, 3 ,settings1Panels,"Uce");
 		
 		ValuePanel[] settings2Panels={
-				new ValuePanel("Początkowe napięcie",3,voltagesUnits),new ValuePanel("Liczba kroków",3),new ValuePanel("Końcowe napięcie",3,voltagesUnits)};
+				new ValuePanel(Language.words[14],3,voltagesUnits),new ValuePanel(Language.words[15],3),new ValuePanel(Language.words[16],3,voltagesUnits)};
 		
 		settings2 =new SettingsPanel(frameColor, 3 ,settings2Panels,"Ube");
 		
@@ -79,7 +79,7 @@ public class InterFace extends JFrame
 				new ValuePanel("Ucemax",3,voltagesUnits),new ValuePanel("Ubemax",3,voltagesUnits),new ValuePanel("Ucbmax",3,voltagesUnits),
 				new ValuePanel("Icmax",3,currentsUnits),new ValuePanel("Ibmax",3,currentsUnits),new ValuePanel("Iemax",3,currentsUnits)};
 
-		settings3=new SettingsPanel(frameColor, 6 ,settings3Panels,"Wartości skrajne");
+		settings3=new SettingsPanel(frameColor, 6 ,settings3Panels,Language.words[17]);
 		
 		
 		JPanel settings12 =new JPanel();
@@ -103,7 +103,7 @@ public class InterFace extends JFrame
 		
 		JPanel settingPanel =new JPanel();						//g��wna ramka
 		settingPanel.setLayout(new BoxLayout(settingPanel,BoxLayout.Y_AXIS));
-		settingPanel.add(new JLabel("Nastawy:",JLabel.CENTER));
+		settingPanel.add(new JLabel(Language.words[13],JLabel.CENTER));
 		settingPanel.add(graphsSetttings);
 		settingPanel.add(settings);
 		settingPanel.add(hybridMatrix);
@@ -111,8 +111,8 @@ public class InterFace extends JFrame
 		JScrollPane settingScrollPane = new JScrollPane(settingPanel);
 		
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Menu główne",mainPanel);
-        tabbedPane.addTab("Menu ustawień",settingScrollPane);
+        tabbedPane.addTab(Language.words[1],mainPanel);
+        tabbedPane.addTab(Language.words[2],settingScrollPane);
         
         add(tabbedPane);
 	}	

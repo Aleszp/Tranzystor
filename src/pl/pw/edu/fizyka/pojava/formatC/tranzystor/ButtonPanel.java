@@ -17,10 +17,10 @@ public class ButtonPanel extends JPanel
 
 	public ButtonPanel(Simulation simulation) 
 	{
-		loadButton = new JButton("Wczytaj Tranzystor");	
-		saveButton = new JButton("Zapisz tranzystor");
-		saveResultsButton = new JButton("Zapisz wyniki");
-		startStopButton = new JButton("Start");  
+		loadButton = new JButton(Language.words[3]);	
+		saveButton = new JButton(Language.words[4]);
+		saveResultsButton = new JButton(Language.words[5]);
+		startStopButton = new JButton(Language.words[6]);  
 		
 		ActionListener startStopAction=new ActionListener()
 		{
@@ -30,12 +30,12 @@ public class ButtonPanel extends JPanel
 				if(simulation.working)
 				{
 					simulation.working=false;
-					startStopButton.setText("Start");
+					startStopButton.setText(Language.words[6]);
 				}
 				else
 				{
 					simulation.working=true;
-					startStopButton.setText("Stop");
+					startStopButton.setText(Language.words[7]);
 				}
 			}
 		};

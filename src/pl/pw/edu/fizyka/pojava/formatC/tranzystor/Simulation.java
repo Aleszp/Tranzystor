@@ -10,7 +10,7 @@ public class Simulation
 {
 	boolean working;
 	static InterFace frame;
-	
+	static Language lang;
 	/**
 	 * Use {@link #Data(} as constructor.<br>
 	 * Sets working flag to false (as in start user needs to input data first)
@@ -26,6 +26,8 @@ public class Simulation
 	 **/
 	public static void main(String[] args) 
 	{
+		lang=new Language();
+		lang.initialise();
 		Simulation simulation=new Simulation();
 		frame = new InterFace(Color.blue,simulation);
 		frame.setVisible(true);

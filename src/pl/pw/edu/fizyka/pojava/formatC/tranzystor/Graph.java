@@ -45,9 +45,9 @@ public class Graph extends JPanel
 		
 		chart = ChartFactory.createXYLineChart
 				(
-				"Natężenie prądu",
-				"Napięcie",
-				"Prąd",
+				Language.words[8],
+				Language.words[12],
+				Language.words[11],
 				dataCollection, 
 				PlotOrientation.VERTICAL, 
 				false, 
