@@ -63,6 +63,12 @@ public class Data
 	double saturationCurrent;
 	double fitParameter;
 	
+	double maxBaseCurrent;
+	double maxCollectorCurrent;
+	double maxEmitterCurrent;
+	double maxVoltageBE;
+	double maxVoltageCE;
+	double maxVoltageCB;
 	
 	/**
 	 * Use {@link #Data(int, int, double[], double[])} as constructor.
@@ -107,6 +113,13 @@ public class Data
 		baseEmitterVoltageRange[0]=0;
 		baseEmitterVoltageRange[1]=5;
 		
+		maxBaseCurrent=1000;
+		maxCollectorCurrent=1000;
+		maxEmitterCurrent=1000;
+		maxVoltageBE=1000;
+		maxVoltageCE=1000;
+		maxVoltageCB=1000;
+		
 		createArrays();
 	}
 	
@@ -127,20 +140,38 @@ public class Data
 	 * @param baseEmittervoltageStepId base-emitter voltage id - determines which value from array to use
 	 */
 	public void countCurrentsForSingleStep(int collectorEmittervoltageStepId, int baseEmittervoltageStepId)
-	{		
-		//If base-emitter voltage is lower than saturation base-emitter voltage treat it as non-linear 
-		if(voltageBE[baseEmittervoltageStepId]<saturationVoltage)
+	{	
+		//If voltege values don't exceed allowed values
+		if(voltageBE[baseEmittervoltageStepId]<=maxVoltageBE&&voltageCE[collectorEmittervoltageStepId]<=maxVoltageCE&&(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId])<=maxVoltageCB)
 		{
-			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1));
+			//If base-emitter voltage is lower than saturation base-emitter voltage treat it as non-linear 
+			if(voltageBE[baseEmittervoltageStepId]<saturationVoltage)
+			{
+				setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1));
+			}
+			else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
+			{
+				double tmp=(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId]*hMatrix[1])/hMatrix[0];
+				tmp+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
+				setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,tmp);
+			}
+			setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,hMatrix[2]*currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmittervoltageStepId]);
+			setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]);
+			if(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxBaseCurrent||
+				getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxCollectorCurrent||
+				getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxEmitterCurrent)
+			{
+				setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
+				setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
+				setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
+			}
 		}
-		else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
+		else
 		{
-			double tmp=(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId]*hMatrix[1])/hMatrix[0];
-			tmp+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
-			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,tmp);
+			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
+			setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
+			setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
 		}
-		setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,hMatrix[2]*currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmittervoltageStepId]);
-		setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]);	
 	}
 	/**
 	 * Test method countCurrentsForSingleStep
