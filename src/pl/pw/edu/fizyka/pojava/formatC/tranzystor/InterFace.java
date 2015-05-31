@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * Renders programs InterFace that consists of two sections between which user may switch: <br> 
@@ -113,6 +115,17 @@ public class InterFace extends JFrame
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab(Language.words[1],mainPanel);
         tabbedPane.addTab(Language.words[2],settingScrollPane);
+        
+        ChangeListener changeListener=new ChangeListener() //Przy zmianie karty odświeżone zostają wykresy (by dostosować je do zmian w zakładce ustawień). Szatan
+        {
+			@Override
+			public void stateChanged(ChangeEvent e) 
+			{
+				graph1Setting.refreshGraph();
+				graph2Setting.refreshGraph();
+			}
+        };
+        tabbedPane.addChangeListener(changeListener);
         
         add(tabbedPane);
 	}	

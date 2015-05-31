@@ -14,12 +14,10 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
- *Displays calculated values.  <br>
+ *Displays calculated values. 
  *
  *@author Aleksander Szpakiewicz-Szatan
- *
- *
- */
+ **/
 public class Graph extends JPanel 
 {
 	private static final long serialVersionUID = 1L;

@@ -22,7 +22,7 @@ public class GraphsPanel extends JPanel
 		add(graph1);
 		graph2=new Graph(frameColor);
 		add(graph2);
-		
+		/*
 		//Dodane do testu metody addData (w przyszłości zostanie usunięte)
 		graph1.addData(1,1);
 		graph1.addData(2,2);
@@ -32,6 +32,6 @@ public class GraphsPanel extends JPanel
 		for(double ii=0.0;ii<10;ii+=0.1)
 			graph2.addData(ii,ii*ii-7*ii+5);
 		//Koniec testu metody addData		
-		
+		*/
 	}
 }

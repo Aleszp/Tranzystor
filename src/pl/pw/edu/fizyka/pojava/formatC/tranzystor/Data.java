@@ -298,5 +298,17 @@ public class Data
 		setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,testValue);
 		assertEquals(getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
 	}
+	
+	/**
+	 * Use {@link #setEmitterCurrent(int, int, double)}
+	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param emitter current new value
+	 */
+	public void loadArray(InterFace interFace)
+	{
+		for(int ii=0;ii<4;ii++)
+			hMatrix[ii]=interFace.hybridMatrix.getH(ii);
+	}
 		
 }

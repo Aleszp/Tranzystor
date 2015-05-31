@@ -102,7 +102,7 @@ public class Language
 			words[ii++]="Zapisz wyniki";
 			words[ii++]="Start";
 			words[ii++]="Stop";
-			words[ii++]="Natężenie prądu"; 
+			words[ii++]="Natężenie prądu "; 
 			words[ii++]=" w zależności od napięcia ";
 			words[ii++]=" dla napięcia ";
 			words[ii++]="Prąd /mA";

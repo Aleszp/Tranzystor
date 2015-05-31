@@ -2,7 +2,6 @@ package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -17,7 +16,6 @@ public class MatrixPanel extends JPanel
 	
 	public MatrixPanel(Color frameColor ,int textFieldSize) 
 	{
-		
 		h11 =new ValuePanel("H11",textFieldSize);
 		h21 =new ValuePanel("H21",textFieldSize);
 
@@ -38,5 +36,37 @@ public class MatrixPanel extends JPanel
 		add(Column1);
 		add(Column2);
 		this.setMinimumSize(new Dimension(120,120));
+	}
+	/**
+	 * @return H11 element of transistor's hybrid matrix 
+	 */
+	public double getH11(){return h11.getValue();}
+	/**
+	 * @return H12 element of transistor's hybrid matrix 
+	 */
+	public double getH12(){return h12.getValue();}
+	/**
+	 * @return H11 element of transistor's hybrid matrix 
+	 */
+	public double getH21(){return h21.getValue();}
+	/**
+	 * @return H11 element of transistor's hybrid matrix 
+	 */
+	public double getH22(){return h22.getValue();}
+	/**
+	 * Use {@link #getH(int)} to get value of transistor's h-matrix
+	 * @return value of h-matrix element with id as follows:
+	 * <li>0 - h11 </li>
+	 * <li>1 - h12 </li>
+	 * <li>2 - h21 </li>
+	 * <li>3 - h22 </li>
+	 */
+	public double getH(int id)
+	{
+		if(id==0)return h11.getValue();
+		if(id==1)return h12.getValue();
+		if(id==2)return h21.getValue();
+		if(id==3)return h22.getValue();
+		return -1; //returns -1 if no matrix element was chosen
 	}
 }

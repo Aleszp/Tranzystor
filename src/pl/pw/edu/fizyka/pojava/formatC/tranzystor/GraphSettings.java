@@ -1,13 +1,13 @@
 package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
+/*import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.ItemListener;*/
 
 import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
+//import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -53,45 +53,11 @@ public class GraphSettings extends JPanel
 		parameter=new ValuePanel(oxin[1],3,voltagesUnits);
 		add(parameter);
 		parameter.value.setText("0");
-		
-		//Łukasz, tak to wymyśliłeś, że wymyślenie do czego dokładnie dodać Listener to katorga. Twórz jakąkolwiek dokumentację. Szatan
-		ItemListener OXListener=new ItemListener()
-		{
-			@Override
-			public void itemStateChanged(ItemEvent e) 
-			{
-				@SuppressWarnings("unchecked")
-				JComboBox<String> cb = (JComboBox<String>)e.getSource();
-				parameter.label.setText(oxin[1-cb.getSelectedIndex()]);			
-				graph.chart.getXYPlot().getDomainAxis().setLabel(oxin[cb.getSelectedIndex()]+" /V");
-				graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[8]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
-			}			
-		};	
-		ox.unit.addItemListener(OXListener);
-		
-		ItemListener OYListener=new ItemListener()
-		{
-			@Override
-			public void itemStateChanged(ItemEvent e) 
-			{
-				@SuppressWarnings("unchecked")
-				JComboBox<String> cb = (JComboBox<String>)e.getSource();
-				graph.chart.getXYPlot().getRangeAxis().setLabel(oyin[cb.getSelectedIndex()]+" /A");
-				graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[9]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
-			}		
-		};	
-		oy.unit.addItemListener(OYListener);
-		ActionListener parameterListener=new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[9]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
-			}
-		};
-		parameter.value.addActionListener(parameterListener);
-		graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[9]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+		//Listenery przeniesione do zmiany zakładek. Szatan
 	}
+	/**
+	 * Use it to refresh text displayed on graph after changing it's settings.
+	 */
 	public void refreshGraph()
 	{
 		graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[9]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
