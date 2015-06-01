@@ -40,6 +40,12 @@ public class InterFace extends JFrame
 	GraphSettings graph1Setting;
 	GraphSettings graph2Setting;
 	
+	ValuePanel[] collectorEmitterVoltageSettingsPanel;
+	ValuePanel[] baseEmitterVoltageSettingsPanel;
+	ValuePanel[] maximumValuesSettingsPanel;
+	
+	ButtonPanel buttons;
+	
 	/**
 	 * Default (and only constructor) which creates InterFace 
 	 *  - first section with two graphs and basic simulation controls; <br>
@@ -67,21 +73,21 @@ public class InterFace extends JFrame
 		graphsSetttings.add(graph1Setting);
 		graphsSetttings.add(graph2Setting);
 		
-		ValuePanel[] settings1Panels={
+		ValuePanel[] settings1Panels_={
 				new ValuePanel(Language.words[14],3,voltagesUnits),new ValuePanel(Language.words[15],3),new ValuePanel(Language.words[16],3,voltagesUnits)};
+		collectorEmitterVoltageSettingsPanel=settings1Panels_;
+		settings1 =new SettingsPanel(frameColor, 3 ,collectorEmitterVoltageSettingsPanel,"Uce");
 		
-		settings1 =new SettingsPanel(frameColor, 3 ,settings1Panels,"Uce");
-		
-		ValuePanel[] settings2Panels={
+		ValuePanel[] settings2Panels_={
 				new ValuePanel(Language.words[14],3,voltagesUnits),new ValuePanel(Language.words[15],3),new ValuePanel(Language.words[16],3,voltagesUnits)};
+		baseEmitterVoltageSettingsPanel=settings2Panels_;
+		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,"Ube");
 		
-		settings2 =new SettingsPanel(frameColor, 3 ,settings2Panels,"Ube");
-		
-		ValuePanel[] settings3Panels={
+		ValuePanel[] settings3Panels_={
 				new ValuePanel("Ucemax",3,voltagesUnits),new ValuePanel("Ubemax",3,voltagesUnits),new ValuePanel("Ucbmax",3,voltagesUnits),
 				new ValuePanel("Icmax",3,currentsUnits),new ValuePanel("Ibmax",3,currentsUnits),new ValuePanel("Iemax",3,currentsUnits)};
-
-		settings3=new SettingsPanel(frameColor, 6 ,settings3Panels,Language.words[17]);
+		maximumValuesSettingsPanel=settings3Panels_;
+		settings3=new SettingsPanel(frameColor, 6 ,maximumValuesSettingsPanel,Language.words[17]);
 		
 		
 		JPanel settings12 =new JPanel();
@@ -96,7 +102,7 @@ public class InterFace extends JFrame
 		
 		hybridMatrix =new MatrixPanel(frameColor,3);
 
-		ButtonPanel buttons =new ButtonPanel(simulation);
+		buttons =new ButtonPanel(simulation);
 		
 		JPanel mainPanel =new JPanel();
 		mainPanel.setLayout(new BorderLayout());

@@ -27,14 +27,14 @@ public class ButtonPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				if(simulation.working)
+				if(Simulation.working)
 				{
-					simulation.working=false;
+					Simulation.working=false;
 					startStopButton.setText(Language.words[6]);
 				}
 				else
 				{
-					simulation.working=true;
+					Simulation.working=true;
 					startStopButton.setText(Language.words[7]);
 				}
 			}

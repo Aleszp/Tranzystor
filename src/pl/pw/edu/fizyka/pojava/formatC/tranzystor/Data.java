@@ -103,22 +103,8 @@ public class Data
 	 */
 	public Data() throws HeadlessException 
 	{
-		
-		collectorEmitterVoltegeSteps=40;
-		baseEmitterVoltegeSteps=200;
 		collectorEmitterVoltageRange=new double[2];
 		baseEmitterVoltageRange=new double[2];
-		collectorEmitterVoltageRange[0]=0;
-		collectorEmitterVoltageRange[1]=5;
-		baseEmitterVoltageRange[0]=0;
-		baseEmitterVoltageRange[1]=5;
-		
-		maxBaseCurrent=1000;
-		maxCollectorCurrent=1000;
-		maxEmitterCurrent=1000;
-		maxVoltageBE=1000;
-		maxVoltageCE=1000;
-		maxVoltageCB=1000;
 		
 		createArrays();
 	}
@@ -132,6 +118,31 @@ public class Data
 		voltageCE=new double[collectorEmitterVoltegeSteps];
 		voltageBE=new double[baseEmitterVoltegeSteps];
 		currents=new double[collectorEmitterVoltegeSteps][baseEmitterVoltegeSteps][3];
+	}
+	/**
+	 * Use {@link #createArrays(double, double, double, double)} to fill arrays of voltages.
+	 * @param collectorEmitterStartVoltege - collector-emitter voltage value for start of simulation
+	 * @param collectorEmitterEndVoltege - collector-emitter voltage value for end of simulation
+	 * @param baseEmitterStartVoltege - base-emitter voltage value for start of simulation
+	 * @param baseEmitterEndVoltege - base-emitter voltage value for end of simulation
+	 */
+	public void fillVoltageArrays(double collectorEmitterStartVoltege,double collectorEmitterEndVoltege,double baseEmitterStartVoltege,double baseEmitterEndVoltege)
+	{
+		voltageCE=new double[collectorEmitterVoltegeSteps];
+		voltageBE=new double[baseEmitterVoltegeSteps];
+		currents=new double[collectorEmitterVoltegeSteps][baseEmitterVoltegeSteps][3];
+		voltageCE[0]=collectorEmitterStartVoltege;
+		voltageBE[0]=baseEmitterStartVoltege;
+		double collectorEmitterStep=(collectorEmitterEndVoltege-collectorEmitterStartVoltege)/collectorEmitterVoltegeSteps;
+		double baseEmitterStep=(baseEmitterEndVoltege-baseEmitterStartVoltege)/baseEmitterVoltegeSteps;
+		for(int ii=1;ii<collectorEmitterVoltegeSteps;ii++)
+		{
+			voltageCE[ii]=voltageCE[ii-1]+collectorEmitterStep;
+		}
+		for(int jj=1;jj<baseEmitterVoltegeSteps;jj++)
+		{
+			voltageBE[jj]=voltageBE[jj-1]+baseEmitterStep;
+		}
 	}
 	
 	/**
@@ -331,15 +342,25 @@ public class Data
 	}
 	
 	/**
-	 * Use {@link #setEmitterCurrent(int, int, double)}
-	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
-	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
-	 * @param emitter current new value
+	 * Use {@link #LoadArray(InterFace)}
+	 * @param interFace - InterFace frame which holds hybrid matrix
 	 */
 	public void loadArray(InterFace interFace)
 	{
 		for(int ii=0;ii<4;ii++)
 			hMatrix[ii]=interFace.hybridMatrix.getH(ii);
 	}
-		
+	/**
+	 * Use {@link #setMaximumValues(ValuePanel[])}
+	 * @param panel - array of ValuePanels that contains maximum values data
+	 */
+	public void setMaximumValues(ValuePanel panel[])
+	{
+		maxVoltageCE=panel[0].getValue();
+		maxVoltageBE=panel[1].getValue();
+		maxVoltageCB=panel[2].getValue();
+		maxCollectorCurrent=panel[3].getValue();
+		maxBaseCurrent=panel[4].getValue();
+		maxEmitterCurrent=panel[5].getValue();
+	}
 }
