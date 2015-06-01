@@ -37,6 +37,28 @@ public class ValuePanel extends JPanel
 		add(value);
 		//add(unit);  // j. w.
 	}
+	public ValuePanel(String name, int textFieldSize ,double defaultValue) 
+	{
+		value = new JTextField(textFieldSize);
+		
+		value.setText(String.valueOf(defaultValue));
+		//unit = new JComboBox<String>(unitType); //Różne jednostki raczej nie są potrzebne. Szatan
+		label=new JLabel(name);
+		add(label);
+		add(value);
+		//add(unit);  // j. w.
+	}
+	public ValuePanel(String name, int textFieldSize ,int defaultValue) 
+	{
+		value = new JTextField(textFieldSize);
+		
+		value.setText(String.valueOf(defaultValue));
+		//unit = new JComboBox<String>(unitType); //Różne jednostki raczej nie są potrzebne. Szatan
+		label=new JLabel(name);
+		add(label);
+		add(value);
+		//add(unit);  // j. w.
+	}
 	
 	public ValuePanel(String name,String[] unitType) 
 	{

@@ -74,18 +74,18 @@ public class InterFace extends JFrame
 		graphsSetttings.add(graph2Setting);
 		
 		ValuePanel[] settings1Panels_={
-				new ValuePanel(Language.words[14],3,voltagesUnits),new ValuePanel(Language.words[15],3),new ValuePanel(Language.words[16],3,voltagesUnits)};
+				new ValuePanel(Language.words[14],6,0),new ValuePanel(Language.words[15],6,1000),new ValuePanel(Language.words[16],6,10)};
 		collectorEmitterVoltageSettingsPanel=settings1Panels_;
 		settings1 =new SettingsPanel(frameColor, 3 ,collectorEmitterVoltageSettingsPanel,"Uce");
 		
 		ValuePanel[] settings2Panels_={
-				new ValuePanel(Language.words[14],3,voltagesUnits),new ValuePanel(Language.words[15],3),new ValuePanel(Language.words[16],3,voltagesUnits)};
+				new ValuePanel(Language.words[14],6,0),new ValuePanel(Language.words[15],6,10),new ValuePanel(Language.words[16],6,5)};
 		baseEmitterVoltageSettingsPanel=settings2Panels_;
 		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,"Ube");
 		
 		ValuePanel[] settings3Panels_={
-				new ValuePanel("Ucemax",3,voltagesUnits),new ValuePanel("Ubemax",3,voltagesUnits),new ValuePanel("Ucbmax",3,voltagesUnits),
-				new ValuePanel("Icmax",3,currentsUnits),new ValuePanel("Ibmax",3,currentsUnits),new ValuePanel("Iemax",3,currentsUnits)};
+				new ValuePanel("Ucemax",6,100),new ValuePanel("Ubemax",6,100),new ValuePanel("Ucbmax",6,100),
+				new ValuePanel("Icmax",6,100),new ValuePanel("Ibmax",6,100),new ValuePanel("Iemax",6,100)};
 		maximumValuesSettingsPanel=settings3Panels_;
 		settings3=new SettingsPanel(frameColor, 6 ,maximumValuesSettingsPanel,Language.words[17]);
 		
@@ -100,7 +100,7 @@ public class InterFace extends JFrame
 		settings.add(settings12);
 		settings.add(settings3);
 		
-		hybridMatrix =new MatrixPanel(frameColor,3);
+		hybridMatrix =new MatrixPanel(frameColor,6);
 
 		buttons =new ButtonPanel(simulation);
 		

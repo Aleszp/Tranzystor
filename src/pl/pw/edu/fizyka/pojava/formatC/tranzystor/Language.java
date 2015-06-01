@@ -130,7 +130,7 @@ public class Language
 			words[ii++]="Current /mA";
 			words[ii++]="Voltage /V";
 			words[ii++]="Setting:";
-			words[ii++]="Beginning voltage";
+			words[ii++]="Initial voltage";
 			words[ii++]="Number of steps";
 			words[ii++]="Final voltage";
 			words[ii++]="Limiting values";

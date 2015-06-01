@@ -64,6 +64,7 @@ class Simulator implements Runnable
 				data.loadArray(frame);
 				data.setSaturationValues(frame.hybridMatrix);
 				data.fillVoltageArrays(frame.collectorEmitterVoltageSettingsPanel[0].getValue(), frame.collectorEmitterVoltageSettingsPanel[2].getValue(), frame.baseEmitterVoltageSettingsPanel[0].getValue(), frame.baseEmitterVoltageSettingsPanel[2].getValue());
+				
 				for(int ii=0;ii<data.collectorEmitterVoltegeSteps;ii++)
 				{
 					for(int jj=0;jj<data.baseEmitterVoltegeSteps;jj++)

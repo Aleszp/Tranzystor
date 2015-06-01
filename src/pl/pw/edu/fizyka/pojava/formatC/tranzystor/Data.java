@@ -105,7 +105,7 @@ public class Data
 	{
 		collectorEmitterVoltageRange=new double[2];
 		baseEmitterVoltageRange=new double[2];
-		
+		fitParameter=1;
 		createArrays();
 	}
 	
@@ -133,15 +133,17 @@ public class Data
 		currents=new double[collectorEmitterVoltegeSteps][baseEmitterVoltegeSteps][3];
 		voltageCE[0]=collectorEmitterStartVoltege;
 		voltageBE[0]=baseEmitterStartVoltege;
-		double collectorEmitterStep=(collectorEmitterEndVoltege-collectorEmitterStartVoltege)/collectorEmitterVoltegeSteps;
-		double baseEmitterStep=(baseEmitterEndVoltege-baseEmitterStartVoltege)/baseEmitterVoltegeSteps;
+		double collectorEmitterStep=(collectorEmitterEndVoltege-collectorEmitterStartVoltege)/(collectorEmitterVoltegeSteps-1);
+		double baseEmitterStep=(baseEmitterEndVoltege-baseEmitterStartVoltege)/(baseEmitterVoltegeSteps-1);
 		for(int ii=1;ii<collectorEmitterVoltegeSteps;ii++)
 		{
 			voltageCE[ii]=voltageCE[ii-1]+collectorEmitterStep;
+			System.out.println(voltageCE[ii]);
 		}
 		for(int jj=1;jj<baseEmitterVoltegeSteps;jj++)
 		{
 			voltageBE[jj]=voltageBE[jj-1]+baseEmitterStep;
+			System.out.println(voltageBE[jj]);
 		}
 	}
 	
