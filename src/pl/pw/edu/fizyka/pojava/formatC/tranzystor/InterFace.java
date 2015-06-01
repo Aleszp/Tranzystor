@@ -56,7 +56,7 @@ public class InterFace extends JFrame
 	{
 		super(Language.words[0]);
 		setSize(640,480);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new GridLayout());
 	
         frameColor=frameColorIn; 					//zmienna koloru ramek

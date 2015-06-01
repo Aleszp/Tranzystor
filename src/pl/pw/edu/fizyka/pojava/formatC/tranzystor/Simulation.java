@@ -3,7 +3,7 @@ package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 import java.awt.Color;
 
 /**
- *Main class of program. Here GUI and data containers are initialised.<br> 
+ *Main class of program. Here GUI and data containers are initialized.<br> 
  *@author Aleksander Szpakiewicz-Szatan
  */
 public class Simulation 
@@ -29,7 +29,9 @@ public class Simulation
 		lang=new Language();
 		lang.initialise();
 		Simulation simulation=new Simulation();
+		
 		frame = new InterFace(Color.blue,simulation);
+		frame.setTitle(Language.words[0]);
 		frame.setVisible(true);
 		Simulator simulator=new Simulator(frame);
 		simulator.run();
@@ -60,6 +62,7 @@ class Simulator implements Runnable
 				data.baseEmitterVoltegeSteps=(int)frame.baseEmitterVoltageSettingsPanel[1].getValue(); //Ubesteps
 				data.setMaximumValues(frame.maximumValuesSettingsPanel);
 				data.loadArray(frame);
+				data.setSaturationValues(frame.hybridMatrix);
 				data.fillVoltageArrays(frame.collectorEmitterVoltageSettingsPanel[0].getValue(), frame.collectorEmitterVoltageSettingsPanel[2].getValue(), frame.baseEmitterVoltageSettingsPanel[0].getValue(), frame.baseEmitterVoltageSettingsPanel[2].getValue());
 				for(int ii=0;ii<data.collectorEmitterVoltegeSteps;ii++)
 				{

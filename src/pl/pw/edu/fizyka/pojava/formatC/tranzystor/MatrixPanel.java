@@ -13,6 +13,8 @@ public class MatrixPanel extends JPanel
 	ValuePanel h21;
 	ValuePanel h12;
 	ValuePanel h22;
+	ValuePanel saturationVoltage;
+	ValuePanel saturationCurrent;
 	
 	public MatrixPanel(Color frameColor ,int textFieldSize) 
 	{
@@ -32,9 +34,18 @@ public class MatrixPanel extends JPanel
 		Column2.add(h12);
 		Column2.add(h22);
 		
+		saturationVoltage=new ValuePanel("UCEsat",textFieldSize);
+		saturationCurrent=new ValuePanel("ICsat",textFieldSize);
+		
+		JPanel Column3 =new JPanel();
+		Column3.setLayout(new BoxLayout(Column3,BoxLayout.Y_AXIS));
+		Column3.add(saturationVoltage);
+		Column3.add(saturationCurrent);
+		
 		setBorder(new LineBorder(frameColor));
 		add(Column1);
 		add(Column2);
+		add(Column3);
 		this.setMinimumSize(new Dimension(120,120));
 	}
 	/**
@@ -53,6 +64,17 @@ public class MatrixPanel extends JPanel
 	 * @return H11 element of transistor's hybrid matrix 
 	 */
 	public double getH22(){return h22.getValue();}
+	
+	
+	/**
+	 * @return saturationVoltage element of transistor's hybrid matrix 
+	 */
+	public double getSaturationVoltage(){return saturationVoltage.getValue();}
+	/**
+	 * @return saturationVoltage element of transistor's hybrid matrix 
+	 */
+	public double getSaturationCurrent(){return saturationCurrent.getValue();}
+	
 	/**
 	 * Use {@link #getH(int)} to get value of transistor's h-matrix
 	 * @return value of h-matrix element with id as follows:

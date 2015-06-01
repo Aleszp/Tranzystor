@@ -363,4 +363,13 @@ public class Data
 		maxBaseCurrent=panel[4].getValue();
 		maxEmitterCurrent=panel[5].getValue();
 	}
+	/**
+	 * Use {@link #setSaturationValues(ValuePanel[])}
+	 * @param panel - Matrix Array (also holds saturation values)
+	 */
+	public void setSaturationValues(MatrixPanel panel)
+	{
+		saturationVoltage=panel.getSaturationVoltage();
+		saturationCurrent=panel.getSaturationCurrent();
+	}
 }
