@@ -15,19 +15,6 @@ public class Data
 	int collectorEmitterVoltegeSteps;
 	int baseEmitterVoltegeSteps;
 	
-	/**
-	 * Index: <ul>
-	 * <li> - start collector-emitter voltage value,</li>
-	 * <li>1 - end collector-emitter voltage value;</li></ul>
-	 */
-	double collectorEmitterVoltageRange[];
-	/**
-	 * Index: <ul>
-	 * <li>0 - start base-emitter voltage value,</li>
-	 * <li>1 - end base-emitter voltage value;</li></ul>
-	 */
-	double baseEmitterVoltageRange[];
-	
 	double voltageCE[]; 
 	
 	double voltageBE[]; 
@@ -99,12 +86,11 @@ public class Data
 	}*/
 	
 	/**
-	 * Use {@link #Data()} as default (for test purposes) constructor. 
+	 * Use {@link #Data()} as constructor. 
 	 */
 	public Data() throws HeadlessException 
 	{
-		collectorEmitterVoltageRange=new double[2];
-		baseEmitterVoltageRange=new double[2];
+		
 		fitParameter=3;
 		createArrays();
 	}
@@ -149,38 +135,43 @@ public class Data
 	
 	/**
 	 * Use {@link #countCurrentsForSingleStep(int,int)} to calculate base, collector and emitter currents and put results in class'es array of currents.
-	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
-	 * @param baseEmittervoltageStepId base-emitter voltage id - determines which value from array to use
+	 * @param collectorEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmitterVoltageStepId base-emitter voltage id - determines which value from array to use
 	 */
-	public void countCurrentsForSingleStep(int collectorEmittervoltageStepId, int baseEmittervoltageStepId)
+	public void countCurrentsForSingleStep(int collectorEmitterVoltageStepId, int baseEmitterVoltageStepId)
 	{	
 		//If base-emitter voltage is lower than saturation base-emitter voltage treat it as non-linear 
-		if(voltageBE[baseEmittervoltageStepId]<saturationVoltage)
+		if(voltageBE[baseEmitterVoltageStepId]<saturationVoltage)
 		{
-			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1));
+			setBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,saturationCurrent*(Math.exp(voltageBE[baseEmitterVoltageStepId]/(fitParameter*0.026))-1));
 		}
 		else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
 		{
-			double tmp=(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId]*hMatrix[1])/hMatrix[0];
+			double tmp=(voltageCE[collectorEmitterVoltageStepId]-voltageBE[baseEmitterVoltageStepId]*hMatrix[1])/hMatrix[0];
 			tmp+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
-			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,tmp);
+			setBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,tmp);
 		}
-		setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,hMatrix[2]*currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmittervoltageStepId]);
-		setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]);
+		setCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,hMatrix[2]*currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmitterVoltageStepId]);
+		setEmitterCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][0]+currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][1]);
 			
 	}
-	public void checkMaximumValues(int collectorEmittervoltageStepId, int baseEmittervoltageStepId)
+	/**
+	 * Use {@link #checkMaximumValues(int,int)} to check if voltages or calculated currents don't exceed allowed values (for single pair of voltages).
+	 * @param collectorEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmitterVoltageStepId base-emitter voltage id - determines which value from array to use
+	 */
+	public void checkMaximumValues(int collectorEmitterVoltageStepId, int baseEmitterVoltageStepId)
 	{
-		if(voltageBE[baseEmittervoltageStepId]>maxVoltageBE||
-				voltageCE[collectorEmittervoltageStepId]>maxVoltageCE||
-				(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId])>maxVoltageCB||
-				getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxBaseCurrent||
-				getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxCollectorCurrent||
-				getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxEmitterCurrent)
+		if(voltageBE[baseEmitterVoltageStepId]>maxVoltageBE||
+				voltageCE[collectorEmitterVoltageStepId]>maxVoltageCE||
+				(voltageCE[collectorEmitterVoltageStepId]-voltageBE[baseEmitterVoltageStepId])>maxVoltageCB||
+				getBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId)>maxBaseCurrent||
+				getCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId)>maxCollectorCurrent||
+				getEmitterCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId)>maxEmitterCurrent)
 		{
-			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
-			setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
-			setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
+			setBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,0);
+			setCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,0);
+			setEmitterCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,0);
 		}
 	}
 	
@@ -195,6 +186,10 @@ public class Data
 		
 		int collectorEmittervoltageStep=39;
 		int baseEmittervoltageStep=2;
+		
+		dataContainer.collectorEmitterVoltegeSteps=100;
+		dataContainer.baseEmitterVoltegeSteps=200;
+		dataContainer.createArrays();
 		
 		dataContainer.saturationVoltage=0.25;
 		dataContainer.saturationCurrent=0.033;
@@ -235,24 +230,24 @@ public class Data
 	
 	/**
 	 * Use {@link #getBaseCurrent(int, int)}
-	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
-	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param collectorEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
 	 * @return base current value
 	 */
-	public double getBaseCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId)
+	public double getBaseCurrent(int collectorEmitterVoltageStepId,int baseEmitterVoltageStepId)
 	{
-		return currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0];
+		return currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][0];
 	}
 	
 	/**
 	 * Use {@link #setBaseCurrent(int, int, double)}
-	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
-	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param collectorEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
 	 * @param base current new value
 	 */
-	public void setBaseCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId, double value)
+	public void setBaseCurrent(int collectorEmitterVoltageStepId,int baseEmitterVoltageStepId, double value)
 	{
-		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]=value;
+		currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][0]=value;
 	}
 	
 	/**
@@ -263,32 +258,35 @@ public class Data
 	@Test
 	public void testSetAndGetBaseCurrent()
 	{
-		int collectorEmittervoltageStepId=5;
-		int baseEmittervoltageStepId=10;
+		int collectorEmitterVoltageStepId=0;
+		int baseEmitterVoltageStepId=0;
 		double testValue=0.45;
-		setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,testValue);
-		assertEquals(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
+		collectorEmitterVoltegeSteps=1;
+		baseEmitterVoltegeSteps=1;
+		createArrays();
+		setBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,testValue);
+		assertEquals(getBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId), testValue, 0.001);
 	}
 	
 	/**
 	 * Use {@link #getCollectorCurrent(int, int)}
-	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
-	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param collectorEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
 	 * @return collector current value
 	 */
-	public double getCollectorCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId)
+	public double getCollectorCurrent(int collectorEmitterVoltageStepId,int baseEmitterVoltageStepId)
 	{
-		return currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1];
+		return currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][1];
 	}
 	/**
 	 * Use {@link #setCollectorCurrent(int, int, double)}
-	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
-	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param collectorEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
 	 * @param collector current new value
 	 */
-	public void setCollectorCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId, double value)
+	public void setCollectorCurrent(int collectorEmitterVoltageStepId,int baseEmitterVoltageStepId, double value)
 	{
-		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]=value;
+		currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][1]=value;
 	}
 	
 	/**
@@ -299,31 +297,34 @@ public class Data
 	@Test
 	public void testSetAndGetCollectorCurrent()
 	{
-		int collectorEmittervoltageStepId=5;
-		int baseEmittervoltageStepId=10;
+		int collectorEmitterVoltageStepId=0;
+		int baseEmitterVoltageStepId=0;
 		double testValue=7.62;
-		setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,testValue);
-		assertEquals(getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
+		collectorEmitterVoltegeSteps=1;
+		baseEmitterVoltegeSteps=1;
+		createArrays();
+		setCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,testValue);
+		assertEquals(getCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId), testValue, 0.001);
 	}
 	/**
 	 * Use {@link #getEmitterCurrent(int, int)}
-	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
-	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param collectorEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
 	 * @return emitter current value
 	 */
-	public double getEmitterCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId)
+	public double getEmitterCurrent(int collectorEmitterVoltageStepId,int baseEmitterVoltageStepId)
 	{
-		return currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][2];
+		return currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][2];
 	}
 	/**
 	 * Use {@link #setEmitterCurrent(int, int, double)}
-	 * @param collectorEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
-	 * @param baseEmittervoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param collectorEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
 	 * @param emitter current new value
 	 */
-	public void setEmitterCurrent(int collectorEmittervoltageStepId,int baseEmittervoltageStepId, double value)
+	public void setEmitterCurrent(int collectorEmitterVoltageStepId,int baseEmitterVoltageStepId, double value)
 	{
-		currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][2]=value;
+		currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][2]=value;
 	}
 	
 	/**
@@ -334,11 +335,14 @@ public class Data
 	@Test
 	public void testSetAndGetEmitterCurrent()
 	{
-		int collectorEmittervoltageStepId=5;
-		int baseEmittervoltageStepId=10;
+		int collectorEmitterVoltageStepId=0;
+		int baseEmitterVoltageStepId=0;
 		double testValue=3.14;
-		setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,testValue);
-		assertEquals(getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId), testValue, 0.001);
+		collectorEmitterVoltegeSteps=1;
+		baseEmitterVoltegeSteps=1;
+		createArrays();
+		setEmitterCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,testValue);
+		assertEquals(getEmitterCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId), testValue, 0.001);
 	}
 	
 	/**

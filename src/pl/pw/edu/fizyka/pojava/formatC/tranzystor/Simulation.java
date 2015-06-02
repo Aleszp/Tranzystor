@@ -50,10 +50,6 @@ class Simulator implements Runnable
 	@Override
 	public void run() 
 	{
-		//frame.settings1Panels[0].getValue(); //Ucestart
-		//frame.settings1Panels[2].getValue(); //Ucestop
-		//frame.settings2Panels[0].getValue(); //Ubestart
-		//frame.settings2Panels[2].getValue(); //Ubestop
 		while(true)
 		{
 			if(Simulation.working==true)

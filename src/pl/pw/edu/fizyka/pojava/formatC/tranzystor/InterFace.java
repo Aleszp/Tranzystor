@@ -74,18 +74,18 @@ public class InterFace extends JFrame
 		graphsSetttings.add(graph2Setting);
 		
 		ValuePanel[] settings1Panels_={
-				new ValuePanel(Language.words[14],6,0),new ValuePanel(Language.words[15],6,1000),new ValuePanel(Language.words[16],6,10)};
+				new ValuePanel(Language.words[14],6,0),new ValuePanel(Language.words[15],6,10),new ValuePanel(Language.words[16],6,1)};
 		collectorEmitterVoltageSettingsPanel=settings1Panels_;
-		settings1 =new SettingsPanel(frameColor, 3 ,collectorEmitterVoltageSettingsPanel,"Uce");
+		settings1 =new SettingsPanel(frameColor, 3 ,collectorEmitterVoltageSettingsPanel,"Ube");
 		
 		ValuePanel[] settings2Panels_={
-				new ValuePanel(Language.words[14],6,0),new ValuePanel(Language.words[15],6,10),new ValuePanel(Language.words[16],6,5)};
+				new ValuePanel(Language.words[14],6,0),new ValuePanel(Language.words[15],6,100),new ValuePanel(Language.words[16],6,1)};
 		baseEmitterVoltageSettingsPanel=settings2Panels_;
-		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,"Ube");
+		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,"Uce");
 		
 		ValuePanel[] settings3Panels_={
-				new ValuePanel("Ucemax",6,100),new ValuePanel("Ubemax",6,100),new ValuePanel("Ucbmax",6,100),
-				new ValuePanel("Icmax",6,100),new ValuePanel("Ibmax",6,100),new ValuePanel("Iemax",6,100)};
+				new ValuePanel("Ucemax",6,1),new ValuePanel("Ubemax",6,1),new ValuePanel("Ucbmax",6,1),
+				new ValuePanel("Icmax",6,10000),new ValuePanel("Ibmax",6,10000),new ValuePanel("Iemax",6,10000)};
 		maximumValuesSettingsPanel=settings3Panels_;
 		settings3=new SettingsPanel(frameColor, 6 ,maximumValuesSettingsPanel,Language.words[17]);
 		

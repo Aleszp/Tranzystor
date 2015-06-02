@@ -6,7 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;*/
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 //import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -53,10 +57,25 @@ public class GraphSettings extends JPanel
 		parameter=new ValuePanel(oxin[1],5,voltagesUnits);
 		add(parameter);
 		parameter.value.setText("0");
-		//Listenery przeniesione do zmiany zakładek. Szatan
+		//Jedno napięcie to argument, drugie to parametr
+		ox.unit.addItemListener(new ItemListener()
+		{
+            @Override
+            public void itemStateChanged(ItemEvent e)
+            {
+            	@SuppressWarnings("unchecked")
+				JComboBox<Integer> cb = (JComboBox<Integer>)e.getSource();
+            	if(cb.getSelectedIndex()==0)
+            		parameter.label.setText("Ube");
+            	else
+            		parameter.label.setText("Uce");
+            }
+        });
+		
 	}
 	/**
 	 * Use it to refresh text displayed on graph after changing it's settings.
+	 * @author Aleksander Szpakiewicz-Szatan
 	 */
 	public void refreshGraph()
 	{

@@ -96,7 +96,7 @@ public class Language
 		int ii=0;
 		if(chosen==0)
 		{
-			version="Alfa 1";
+			version="Alfa 1.1";
 			words[ii++]="Symulacja Tranzystora";
 			words[ii++]="Menu główne";
 			words[ii++]="Menu ustawień";
@@ -120,7 +120,7 @@ public class Language
 		}
 		if(chosen==1)
 		{
-			version="Alpha 1";
+			version="Alpha 1.1";
 			words[ii++]="Transistor Simulation";
 			words[ii++]="Main Menu";
 			words[ii++]="Settings Menu";

@@ -37,27 +37,35 @@ public class ValuePanel extends JPanel
 		add(value);
 		//add(unit);  // j. w.
 	}
+	/**
+	 * @author Aleksander Szpakiewicz-Szatan
+	 * Use {@link #ValuePanel(String, int, double)} as constructor.
+	 * @param name - nazwa wyświetlana obok pola
+	 * @param textFieldSize - długość pola w znakach
+	 * @param defaultValue - wartość domyśłna
+	 */
 	public ValuePanel(String name, int textFieldSize ,double defaultValue) 
 	{
 		value = new JTextField(textFieldSize);
-		
 		value.setText(String.valueOf(defaultValue));
-		//unit = new JComboBox<String>(unitType); //Różne jednostki raczej nie są potrzebne. Szatan
 		label=new JLabel(name);
 		add(label);
 		add(value);
-		//add(unit);  // j. w.
 	}
+	/**
+	 * @author Aleksander Szpakiewicz-Szatan
+	 * Use {@link #ValuePanel(String, int, int)} as constructor.
+	 * @param name - nazwa wyświetlana obok pola
+	 * @param textFieldSize - długość pola w znakach
+	 * @param defaultValue - wartość domyśłna
+	 */
 	public ValuePanel(String name, int textFieldSize ,int defaultValue) 
 	{
-		value = new JTextField(textFieldSize);
-		
+		value = new JTextField(textFieldSize);		
 		value.setText(String.valueOf(defaultValue));
-		//unit = new JComboBox<String>(unitType); //Różne jednostki raczej nie są potrzebne. Szatan
 		label=new JLabel(name);
 		add(label);
 		add(value);
-		//add(unit);  // j. w.
 	}
 	
 	public ValuePanel(String name,String[] unitType) 
@@ -66,11 +74,11 @@ public class ValuePanel extends JPanel
 		add(new JLabel(name));
 		add(unit);
 	}
-	/*
+	
 	public int getUnit()
 	{
 		return unit.getSelectedIndex();						//trzeba doda� throw i catch na wypadek nie istniena wrato�ci
-	}*/
+	}
 	
 	public double getValue()
 	{
