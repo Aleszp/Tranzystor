@@ -50,7 +50,7 @@ public class GraphSettings extends JPanel
 		oy=new ValuePanel("OY",oyin);
 		add(oy);
 		//Zmieniłem to idiotyczne pole na parametr, Szatan
-		parameter=new ValuePanel(oxin[1],3,voltagesUnits);
+		parameter=new ValuePanel(oxin[1],5,voltagesUnits);
 		add(parameter);
 		parameter.value.setText("0");
 		//Listenery przeniesione do zmiany zakładek. Szatan

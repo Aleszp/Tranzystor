@@ -105,7 +105,7 @@ public class Data
 	{
 		collectorEmitterVoltageRange=new double[2];
 		baseEmitterVoltageRange=new double[2];
-		fitParameter=1;
+		fitParameter=3;
 		createArrays();
 	}
 	
@@ -154,38 +154,36 @@ public class Data
 	 */
 	public void countCurrentsForSingleStep(int collectorEmittervoltageStepId, int baseEmittervoltageStepId)
 	{	
-		//If voltege values don't exceed allowed values
-		if(voltageBE[baseEmittervoltageStepId]<=maxVoltageBE&&voltageCE[collectorEmittervoltageStepId]<=maxVoltageCE&&(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId])<=maxVoltageCB)
+		//If base-emitter voltage is lower than saturation base-emitter voltage treat it as non-linear 
+		if(voltageBE[baseEmittervoltageStepId]<saturationVoltage)
 		{
-			//If base-emitter voltage is lower than saturation base-emitter voltage treat it as non-linear 
-			if(voltageBE[baseEmittervoltageStepId]<saturationVoltage)
-			{
-				setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1));
-			}
-			else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
-			{
-				double tmp=(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId]*hMatrix[1])/hMatrix[0];
-				tmp+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
-				setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,tmp);
-			}
-			setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,hMatrix[2]*currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmittervoltageStepId]);
-			setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]);
-			if(getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxBaseCurrent||
+			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,saturationCurrent*(Math.exp(voltageBE[baseEmittervoltageStepId]/(fitParameter*0.026))-1));
+		}
+		else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
+		{
+			double tmp=(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId]*hMatrix[1])/hMatrix[0];
+			tmp+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
+			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,tmp);
+		}
+		setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,hMatrix[2]*currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmittervoltageStepId]);
+		setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][0]+currents[collectorEmittervoltageStepId][baseEmittervoltageStepId][1]);
+			
+	}
+	public void checkMaximumValues(int collectorEmittervoltageStepId, int baseEmittervoltageStepId)
+	{
+		if(voltageBE[baseEmittervoltageStepId]>maxVoltageBE||
+				voltageCE[collectorEmittervoltageStepId]>maxVoltageCE||
+				(voltageCE[collectorEmittervoltageStepId]-voltageBE[baseEmittervoltageStepId])>maxVoltageCB||
+				getBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxBaseCurrent||
 				getCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxCollectorCurrent||
 				getEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId)>maxEmitterCurrent)
-			{
-				setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
-				setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
-				setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
-			}
-		}
-		else
 		{
 			setBaseCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
 			setCollectorCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
 			setEmitterCurrent(collectorEmittervoltageStepId,baseEmittervoltageStepId,0);
 		}
 	}
+	
 	/**
 	 * Test method countCurrentsForSingleStep
 	 * @see #countCurrentsForSingleStep 
@@ -373,5 +371,23 @@ public class Data
 	{
 		saturationVoltage=panel.getSaturationVoltage();
 		saturationCurrent=panel.getSaturationCurrent();
+	}
+	/**
+	 * Use {@link #getBaseEmitterVoltage(int)}
+	 * @param baseEmitterVoltageStep  base-emitter voltage id - determines which value from array to use
+	 * @return base-emitter voltage value
+	 */
+	public double getBaseEmitterVoltage(int baseEmitterVoltageStep) 
+	{
+		return voltageBE[baseEmitterVoltageStep];
+	}
+	/**
+	 * Use {@link #getCollectorEmitterVoltage(int)}
+	 * @param baseCollectorVoltageStep  collector-emitter voltage id - determines which value from array to use
+	 * @return collector-emitter voltage value
+	 */
+	public double getCollectorEmitterVoltage(int collectorEmitterVoltageStep) 
+	{
+		return voltageCE[collectorEmitterVoltageStep];
 	}
 }

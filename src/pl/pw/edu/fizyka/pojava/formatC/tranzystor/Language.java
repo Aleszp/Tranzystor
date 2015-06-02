@@ -18,6 +18,8 @@ public class Language
 {
 	JFrame frame;
 	static String words[];
+	static String version;
+	
 	int chosen; //Id of chosen language, -1 means no language chosen yet 
 	InputStream inputStream;
 	Scanner scan;
@@ -94,6 +96,7 @@ public class Language
 		int ii=0;
 		if(chosen==0)
 		{
+			version="Alfa 1";
 			words[ii++]="Symulacja Tranzystora";
 			words[ii++]="Menu główne";
 			words[ii++]="Menu ustawień";
@@ -113,9 +116,11 @@ public class Language
 			words[ii++]="Końcowe napięcie";
 			words[ii++]="Wartości skrajne";
 			words[ii++]="Macierz hybrydowa";
+			
 		}
 		if(chosen==1)
 		{
+			version="Alpha 1";
 			words[ii++]="Transistor Simulation";
 			words[ii++]="Main Menu";
 			words[ii++]="Settings Menu";

@@ -31,7 +31,7 @@ public class Simulation
 		Simulation simulation=new Simulation();
 		
 		frame = new InterFace(Color.blue,simulation);
-		frame.setTitle(Language.words[0]);
+		frame.setTitle(Language.words[0]+" ("+Language.version+")");
 		frame.setVisible(true);
 		Simulator simulator=new Simulator(frame);
 		simulator.run();
@@ -65,12 +65,18 @@ class Simulator implements Runnable
 				data.setSaturationValues(frame.hybridMatrix);
 				data.fillVoltageArrays(frame.collectorEmitterVoltageSettingsPanel[0].getValue(), frame.collectorEmitterVoltageSettingsPanel[2].getValue(), frame.baseEmitterVoltageSettingsPanel[0].getValue(), frame.baseEmitterVoltageSettingsPanel[2].getValue());
 				
-				for(int ii=0;ii<data.collectorEmitterVoltegeSteps;ii++)
+				clearGraph(frame.graph1Setting);
+				clearGraph(frame.graph2Setting);
+				
+				for(int jj=0;jj<data.baseEmitterVoltegeSteps&&Simulation.working==true;jj++)
 				{
-					for(int jj=0;jj<data.baseEmitterVoltegeSteps;jj++)
+					for(int ii=0;ii<data.collectorEmitterVoltegeSteps&&Simulation.working==true;ii++)
 					{
 						data.countCurrentsForSingleStep(ii, jj);
-						System.out.println(data.getBaseCurrent(ii, jj));
+						System.out.println(data.getCollectorEmitterVoltage(ii)+"; "+data.getBaseEmitterVoltage(jj)+"; "+data.getBaseCurrent(ii, jj)+"; "+data.getCollectorCurrent(ii, jj)+"; "+data.getEmitterCurrent(ii, jj));
+						data.checkMaximumValues(ii, jj);
+						addToGraph(frame.graph1Setting, jj, ii);
+						addToGraph(frame.graph2Setting, jj, ii);
 					}
 				}
 				Simulation.working=false;
@@ -88,5 +94,29 @@ class Simulator implements Runnable
 				}
 			}
 		}
+	}
+	void addToGraph(GraphSettings graphSettings, int baseEmitterVoltageStep, int collectorEmitterVoltageStep)
+	{
+		double voltage, current;
+		if(graphSettings.ox.unit.getSelectedIndex()==0&&(Math.abs(graphSettings.parameter.getValue()-data.getCollectorEmitterVoltage(collectorEmitterVoltageStep))<0.01)) //Ube
+			voltage=data.getBaseEmitterVoltage(baseEmitterVoltageStep);
+		else
+			if(graphSettings.ox.unit.getSelectedIndex()==1&&(Math.abs(graphSettings.parameter.getValue()-data.getBaseEmitterVoltage(baseEmitterVoltageStep))<0.01)) //Uce
+				voltage=data.getCollectorEmitterVoltage(collectorEmitterVoltageStep);
+			else
+				return;
+		
+		if(graphSettings.oy.unit.getSelectedIndex()==0) //Ib
+			current=data.getBaseCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);
+		else
+			if(graphSettings.oy.unit.getSelectedIndex()==1) //Ie
+				current=data.getEmitterCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);
+			else
+				current=data.getCollectorCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);
+		graphSettings.graph.addData(voltage, current);
+	}
+	void clearGraph(GraphSettings graphSettings)
+	{
+		graphSettings.graph.clearData();
 	}
 }

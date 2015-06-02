@@ -70,4 +70,8 @@ public class Graph extends JPanel
 	{
 		dataSeries.add(x,y);
 	}
+	void clearData()
+	{
+		dataSeries.clear();
+	}
 }

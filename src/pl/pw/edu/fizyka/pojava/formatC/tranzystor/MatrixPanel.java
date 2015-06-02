@@ -18,16 +18,16 @@ public class MatrixPanel extends JPanel
 	
 	public MatrixPanel(Color frameColor ,int textFieldSize) 
 	{
-		h11 =new ValuePanel("H11",textFieldSize,1000);
-		h21 =new ValuePanel("H21",textFieldSize,0);
+		h11 =new ValuePanel("H11",textFieldSize,6000);
+		h21 =new ValuePanel("H21",textFieldSize,380);
 
 		JPanel Column1 =new JPanel();
 		Column1.setLayout(new BoxLayout(Column1,BoxLayout.Y_AXIS));
 		Column1.add(h11);
 		Column1.add(h21);
 
-		h12 =new ValuePanel("H12",textFieldSize,100);
-		h22 =new ValuePanel("H22",textFieldSize,0);
+		h12 =new ValuePanel("H12",textFieldSize,0.00016);
+		h22 =new ValuePanel("H22",textFieldSize,0.00000005);
 
 		JPanel Column2 =new JPanel();
 		Column2.setLayout(new BoxLayout(Column2,BoxLayout.Y_AXIS));

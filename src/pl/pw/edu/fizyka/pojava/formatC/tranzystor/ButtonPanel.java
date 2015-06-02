@@ -1,5 +1,6 @@
 package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,13 @@ public class ButtonPanel extends JPanel
 		saveButton = new JButton(Language.words[4]);
 		saveResultsButton = new JButton(Language.words[5]);
 		startStopButton = new JButton(Language.words[6]);  
+		
+		loadButton.setBackground(Color.GRAY);
+		loadButton.setOpaque(true);
+		saveButton.setBackground(Color.GRAY);
+		saveButton.setOpaque(true);
+		saveResultsButton.setBackground(Color.GRAY);
+		saveResultsButton.setOpaque(true);
 		
 		ActionListener startStopAction=new ActionListener()
 		{
