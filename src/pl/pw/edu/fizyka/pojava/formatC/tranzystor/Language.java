@@ -19,6 +19,7 @@ public class Language
 	JFrame frame;
 	static String words[];
 	static String version;
+	double versionNumer;
 	
 	int chosen; //Id of chosen language, -1 means no language chosen yet 
 	InputStream inputStream;
@@ -27,6 +28,7 @@ public class Language
 	
 	public Language()
 	{
+		versionNumer=1.2;
 		frame =new JFrame("Wybierz język, choose language.");
 		frame.setSize(320, 60);
 		frame.setLayout(new FlowLayout());
@@ -96,7 +98,7 @@ public class Language
 		int ii=0;
 		if(chosen==0)
 		{
-			version="Alfa 1.1";
+			version="Alfa "+versionNumer;
 			words[ii++]="Symulacja Tranzystora";
 			words[ii++]="Menu główne";
 			words[ii++]="Menu ustawień";
@@ -120,7 +122,7 @@ public class Language
 		}
 		if(chosen==1)
 		{
-			version="Alpha 1.1";
+			version="Alpha "+versionNumer;;
 			words[ii++]="Transistor Simulation";
 			words[ii++]="Main Menu";
 			words[ii++]="Settings Menu";

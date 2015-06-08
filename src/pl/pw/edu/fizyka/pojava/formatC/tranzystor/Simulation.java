@@ -8,8 +8,8 @@ import java.awt.Color;
  */
 public class Simulation 
 {
-	static boolean working;
-	static InterFace frame;
+	boolean working;
+	InterFace frame;
 	static Language lang;
 	/**
 	 * Use {@link #Data(} as constructor.<br>
@@ -30,10 +30,10 @@ public class Simulation
 		lang.initialise();
 		Simulation simulation=new Simulation();
 		
-		frame = new InterFace(Color.blue,simulation);
+		InterFace frame = new InterFace(Color.blue,simulation);
 		frame.setTitle(Language.words[0]+" ("+Language.version+")");
 		frame.setVisible(true);
-		Simulator simulator=new Simulator(frame);
+		Simulator simulator=new Simulator(frame, simulation);
 		simulator.run();
 	}
 }
@@ -41,18 +41,20 @@ class Simulator implements Runnable
 {
 	InterFace frame;
 	Data data;
+	Simulation simulation;
 	
-	public Simulator(InterFace frame_)
+	public Simulator(InterFace frame_, Simulation simulation_)
 	{
 		frame=frame_;
 		data=new Data();
+		simulation=simulation_;
 	}
 	@Override
 	public void run() 
 	{
 		while(true)
 		{
-			if(Simulation.working==true)
+			if(simulation.working==true)
 			{
 				data.collectorEmitterVoltegeSteps=(int)frame.collectorEmitterVoltageSettingsPanel[1].getValue(); //Ucesteps
 				data.baseEmitterVoltegeSteps=(int)frame.baseEmitterVoltageSettingsPanel[1].getValue(); //Ubesteps
@@ -64,9 +66,9 @@ class Simulator implements Runnable
 				clearGraph(frame.graph1Setting);
 				clearGraph(frame.graph2Setting);
 				
-				for(int jj=0;jj<data.baseEmitterVoltegeSteps&&Simulation.working==true;jj++)
+				for(int jj=0;jj<data.baseEmitterVoltegeSteps&&simulation.working==true;jj++)
 				{
-					for(int ii=0;ii<data.collectorEmitterVoltegeSteps&&Simulation.working==true;ii++)
+					for(int ii=0;ii<data.collectorEmitterVoltegeSteps&&simulation.working==true;ii++)
 					{
 						data.countCurrentsForSingleStep(ii, jj);
 						System.out.println(data.getCollectorEmitterVoltage(ii)+"; "+data.getBaseEmitterVoltage(jj)+"; "+data.getBaseCurrent(ii, jj)+"; "+data.getCollectorCurrent(ii, jj)+"; "+data.getEmitterCurrent(ii, jj));
@@ -75,7 +77,7 @@ class Simulator implements Runnable
 						addToGraph(frame.graph2Setting, jj, ii);
 					}
 				}
-				Simulation.working=false;
+				simulation.working=false;
 				frame.buttons.startStopButton.setText(Language.words[6]);
 			}
 			else

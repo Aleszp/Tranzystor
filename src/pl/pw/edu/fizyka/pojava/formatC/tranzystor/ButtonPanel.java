@@ -15,9 +15,11 @@ public class ButtonPanel extends JPanel
 	JButton saveButton;
 	JButton saveResultsButton;
 	JButton startStopButton;
+	Simulation simulation;
 
-	public ButtonPanel(Simulation simulation) 
+	public ButtonPanel(Simulation simulation_) 
 	{
+		simulation=simulation_;
 		loadButton = new JButton(Language.words[3]);	
 		saveButton = new JButton(Language.words[4]);
 		saveResultsButton = new JButton(Language.words[5]);
@@ -35,14 +37,14 @@ public class ButtonPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				if(Simulation.working)
+				if(simulation.working)
 				{
-					Simulation.working=false;
+					simulation.working=false;
 					startStopButton.setText(Language.words[6]);
 				}
 				else
 				{
-					Simulation.working=true;
+					simulation.working=true;
 					startStopButton.setText(Language.words[7]);
 				}
 			}
