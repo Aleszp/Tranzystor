@@ -66,9 +66,9 @@ public class GraphSettings extends JPanel
             	@SuppressWarnings("unchecked")
 				JComboBox<Integer> cb = (JComboBox<Integer>)e.getSource();
             	if(cb.getSelectedIndex()==0)
-            		parameter.label.setText(Localization.getString("Ube"));
-            	else
             		parameter.label.setText(Localization.getString("Uce"));
+            	else
+            		parameter.label.setText(Localization.getString("Ube"));
             }
         });
 		

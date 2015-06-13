@@ -79,7 +79,7 @@ class Simulator implements Runnable
 					}
 				}
 				simulation.working=false;
-				frame.buttons.startStopButton.setText(Localization.texts.getString("stopButton"));
+				frame.buttons.startStopButton.setText(Localization.texts.getString("startButton"));
 			}
 			else
 			{
@@ -97,10 +97,10 @@ class Simulator implements Runnable
 	void addToGraph(GraphSettings graphSettings, int baseEmitterVoltageStep, int collectorEmitterVoltageStep)
 	{
 		double voltage, current;
-		if(graphSettings.ox.unit.getSelectedIndex()==0&&(Math.abs(graphSettings.parameter.getValue()-data.getCollectorEmitterVoltage(collectorEmitterVoltageStep))<0.01)) //Ube
+		if(graphSettings.ox.unit.getSelectedIndex()==0&&(Math.abs(graphSettings.parameter.getValue()-data.getCollectorEmitterVoltage(collectorEmitterVoltageStep))<0.001)) //Ube
 			voltage=data.getBaseEmitterVoltage(baseEmitterVoltageStep);
 		else
-			if(graphSettings.ox.unit.getSelectedIndex()==1&&(Math.abs(graphSettings.parameter.getValue()-data.getBaseEmitterVoltage(baseEmitterVoltageStep))<0.01)) //Uce
+			if(graphSettings.ox.unit.getSelectedIndex()==1&&(Math.abs(graphSettings.parameter.getValue()-data.getBaseEmitterVoltage(baseEmitterVoltageStep))<0.001)) //Uce
 				voltage=data.getCollectorEmitterVoltage(collectorEmitterVoltageStep);
 			else
 				return;

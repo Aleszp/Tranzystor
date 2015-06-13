@@ -27,7 +27,7 @@ public class InterFace extends JFrame
 	Dimension sizeMinimal = new Dimension(300, 400);	
 	Color frameColor=null;
 	
-	String[] voltagesNames ={Localization.getString("Uce") ,Localization.getString("Ube") };
+	String[] voltagesNames ={Localization.getString("Ube"), Localization.getString("Uce")};
 	String[] currentsNames ={Localization.getString("Ib"),Localization.getString("Ie"),Localization.getString("Ic")};
 	
 	String[] voltagesUnits ={"V" ,"mV"};
@@ -75,14 +75,14 @@ public class InterFace extends JFrame
 		
 		ValuePanel[] settings1Panels_={
 				new ValuePanel(Localization.getString("startVoltage"),6,0),
-				new ValuePanel(Localization.getString("steps"),6,100),
+				new ValuePanel(Localization.getString("steps"),6,1000),
 				new ValuePanel(Localization.getString("endVoltage"),6,1)};
 		collectorEmitterVoltageSettingsPanel=settings1Panels_;
 		settings1 =new SettingsPanel(frameColor, 3 ,collectorEmitterVoltageSettingsPanel,"Ube");
 		
 		ValuePanel[] settings2Panels_={
 				new ValuePanel(Localization.getString("startVoltage"),6,0),
-				new ValuePanel(Localization.getString("steps"),6,1000),
+				new ValuePanel(Localization.getString("steps"),6,100),
 				new ValuePanel(Localization.getString("endVoltage"),6,1)};
 		baseEmitterVoltageSettingsPanel=settings2Panels_;
 		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,Localization.getString("Uce"));

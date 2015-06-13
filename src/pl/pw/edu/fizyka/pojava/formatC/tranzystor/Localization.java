@@ -9,7 +9,7 @@ public class Localization
 	static String version;
 	public Localization(Locale currentLocale)
 	{
-		texts = ResourceBundle.getBundle("Lang.Labels", currentLocale);
+		texts = ResourceBundle.getBundle("pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Labels", currentLocale);
 		version = "Alfa 1.3";
 	}
 	public static String getString(String title)

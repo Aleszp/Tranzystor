@@ -91,7 +91,7 @@ public class Data
 	public Data() throws HeadlessException 
 	{
 		
-		fitParameter=3;
+		fitParameter=5;
 		createArrays();
 	}
 	
@@ -147,8 +147,8 @@ public class Data
 		}
 		else //If base-emitter voltage is greater than saturation base-emitter voltage treat it as linear
 		{
-			double tmp=(voltageCE[collectorEmitterVoltageStepId]-voltageBE[baseEmitterVoltageStepId]*hMatrix[1])/hMatrix[0];
-			tmp+=saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
+			double tmp=(voltageBE[baseEmitterVoltageStepId]-voltageCE[collectorEmitterVoltageStepId]*hMatrix[1])*1000/hMatrix[0];
+			tmp+=+saturationCurrent*Math.exp(saturationVoltage/(fitParameter*0.026));
 			setBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,tmp);
 		}
 		setCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,hMatrix[2]*currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][0]+hMatrix[3]*voltageCE[collectorEmitterVoltageStepId]);
@@ -193,7 +193,7 @@ public class Data
 		
 		dataContainer.saturationVoltage=0.25;
 		dataContainer.saturationCurrent=0.033;
-		dataContainer.fitParameter=5;
+		dataContainer.fitParameter=10;
 		dataContainer.hMatrix[0]=5000;
 		dataContainer.hMatrix[1]=0.00016;
 		dataContainer.hMatrix[2]=380;	
@@ -374,7 +374,7 @@ public class Data
 	public void setSaturationValues(MatrixPanel panel)
 	{
 		saturationVoltage=panel.getSaturationVoltage();
-		saturationCurrent=panel.getSaturationCurrent();
+		saturationCurrent=panel.getSaturationCurrent()/1000;
 	}
 	/**
 	 * Use {@link #getBaseEmitterVoltage(int)}

@@ -36,7 +36,7 @@ public class MatrixPanel extends JPanel
 		Column2.add(h22);
 		
 		saturationVoltage=new ValuePanel(Localization.getString("UceSAT"),textFieldSize,0.25);
-		saturationCurrent=new ValuePanel(Localization.getString("IcSAT"),textFieldSize,0.33);
+		saturationCurrent=new ValuePanel(Localization.getString("IcSAT"),textFieldSize,330);
 		
 		JPanel Column3 =new JPanel();
 		Column3.setLayout(new BoxLayout(Column3,BoxLayout.Y_AXIS));
