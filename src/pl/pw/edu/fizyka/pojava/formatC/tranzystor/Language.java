@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -38,27 +39,13 @@ public class Language
 		button[0]=new JButton("Polski");
 		button[1]=new JButton("English");
 		
-		/*inputStream=this.getClass().getResourceAsStream("/lang/lang.lang");
-		
-		scan=new Scanner(inputStream);
-		langFilenmame=new String[2];
-		
-		
-		for(int ii=0;scan.hasNext();ii++)
-		{
-			button[ii]=new JButton(scan.next());
-			langFilenmame[ii]=scan.next();
-		}
-		scan.close();
-		
-		*/
 		for(int ii=0;ii<2;ii++)
 		{
 			frame.add(button[ii]);
 			button[ii].addActionListener(new languageChosenListener(ii));
 		}
 	}
-	public void initialise()
+	public Locale initialise()
 	{
 		frame.setVisible(true);
 		while(chosen==-1)
@@ -72,7 +59,11 @@ public class Language
 				e1.printStackTrace();
 			} 
 		}
-		
+		if(chosen==0)
+			return new Locale("pl");
+		if(chosen==1)
+			return Locale.ENGLISH;
+		return null;
 	}
 	
 	public class languageChosenListener implements ActionListener
@@ -88,10 +79,8 @@ public class Language
 			chosen=buttonId;
 			frame.dispose();
 			System.out.println(chosen);
-			LoadLang(chosen);
+			//LoadLang(chosen);
 		}
-		
-		
 	};
 	void LoadLang(int chosen)
 	{
@@ -99,25 +88,25 @@ public class Language
 		if(chosen==0)
 		{
 			version="Alfa "+versionNumer;
-			words[ii++]="Symulacja Tranzystora";
-			words[ii++]="Menu główne";
-			words[ii++]="Menu ustawień";
-			words[ii++]="Wczytaj Tranzystor";
-			words[ii++]="Zapisz Tranzystor";
-			words[ii++]="Zapisz wyniki";
-			words[ii++]="Start";
-			words[ii++]="Stop";
-			words[ii++]="Natężenie prądu "; 
-			words[ii++]=" w zależności od napięcia ";
-			words[ii++]=" dla napięcia ";
-			words[ii++]="Prąd /mA";
-			words[ii++]="Napięcie /V";
-			words[ii++]="Nastawy:";
-			words[ii++]="Początkowe napięcie";
-			words[ii++]="Liczba kroków";
-			words[ii++]="Końcowe napięcie";
-			words[ii++]="Wartości skrajne";
-			words[ii++]="Macierz hybrydowa";
+			words[0]="Symulacja Tranzystora";
+			words[1]="Menu główne";
+			words[2]="Menu ustawień";
+			words[3]="Wczytaj Tranzystor";
+			words[4]="Zapisz Tranzystor";
+			words[5]="Zapisz wyniki";
+			words[6]="Start";
+			words[7]="Stop";
+			words[8]="Natężenie prądu "; 
+			words[9]=" w zależności od napięcia ";
+			words[10]=" dla napięcia ";
+			words[11]="Prąd /mA";
+			words[12]="Napięcie /V";
+			words[13]="Nastawy:";
+			words[14]="Początkowe napięcie";
+			words[15]="Liczba kroków";
+			words[16]="Końcowe napięcie";
+			words[17]="Wartości skrajne";
+			words[18]="Macierz hybrydowa";
 			
 		}
 		if(chosen==1)

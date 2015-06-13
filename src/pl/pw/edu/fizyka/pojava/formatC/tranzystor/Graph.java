@@ -43,14 +43,14 @@ public class Graph extends JPanel
 		
 		chart = ChartFactory.createXYLineChart
 				(
-				Language.words[8],
-				Language.words[12],
-				Language.words[11],
-				dataCollection, 
-				PlotOrientation.VERTICAL, 
-				false, 
-				true,
-				false);
+						Localization.getString("chartTitle1"),
+						Localization.getString("chartOX"),
+						Localization.getString("chartOY"),
+						dataCollection, 
+						PlotOrientation.VERTICAL, 
+						false, 
+						true,
+						false);
 		final ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setMinimumSize(new java.awt.Dimension(320, 240));
 		chartPanel.setPreferredSize(new java.awt.Dimension(640, 480));

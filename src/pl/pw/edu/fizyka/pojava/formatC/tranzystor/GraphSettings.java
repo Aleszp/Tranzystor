@@ -49,9 +49,9 @@ public class GraphSettings extends JPanel
 		
 		add(new JLabel("",JLabel.CENTER));
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-		ox=new ValuePanel("OX",oxin);
+		ox=new ValuePanel(Localization.getString("OX"),oxin);
 		add(ox);
-		oy=new ValuePanel("OY",oyin);
+		oy=new ValuePanel(Localization.getString("OY"),oyin);
 		add(oy);
 		//Zmieniłem to idiotyczne pole na parametr, Szatan
 		parameter=new ValuePanel(oxin[1],5,voltagesUnits);
@@ -66,9 +66,9 @@ public class GraphSettings extends JPanel
             	@SuppressWarnings("unchecked")
 				JComboBox<Integer> cb = (JComboBox<Integer>)e.getSource();
             	if(cb.getSelectedIndex()==0)
-            		parameter.label.setText("Ube");
+            		parameter.label.setText(Localization.getString("Ube"));
             	else
-            		parameter.label.setText("Uce");
+            		parameter.label.setText(Localization.getString("Uce"));
             }
         });
 		
@@ -79,7 +79,7 @@ public class GraphSettings extends JPanel
 	 */
 	public void refreshGraph()
 	{
-		graph.chart.setTitle(Language.words[8]+oyin[oy.unit.getSelectedIndex()]+Language.words[9]+oxin[ox.unit.getSelectedIndex()]+Language.words[10]+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+		graph.chart.setTitle(Localization.getString("chartTitle1")+" "+oyin[oy.unit.getSelectedIndex()]+" "+Localization.getString("chartTitle2")+" "+oxin[ox.unit.getSelectedIndex()]+" "+Localization.getString("chartTitle3")+" "+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
 	}
 	
 	/*

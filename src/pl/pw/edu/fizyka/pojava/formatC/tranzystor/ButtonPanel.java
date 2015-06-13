@@ -20,10 +20,10 @@ public class ButtonPanel extends JPanel
 	public ButtonPanel(Simulation simulation_) 
 	{
 		simulation=simulation_;
-		loadButton = new JButton(Language.words[3]);	
-		saveButton = new JButton(Language.words[4]);
-		saveResultsButton = new JButton(Language.words[5]);
-		startStopButton = new JButton(Language.words[6]);  
+		loadButton = new JButton(Localization.getString("loadButton"));	
+		saveButton = new JButton(Localization.getString("saveButton"));
+		saveResultsButton = new JButton(Localization.getString("exportButton"));
+		startStopButton = new JButton(Localization.getString("startButton"));  
 		
 		loadButton.setBackground(Color.GRAY);
 		loadButton.setOpaque(true);
@@ -40,12 +40,12 @@ public class ButtonPanel extends JPanel
 				if(simulation.working)
 				{
 					simulation.working=false;
-					startStopButton.setText(Language.words[6]);
+					startStopButton.setText(Localization.getString("startButton"));
 				}
 				else
 				{
 					simulation.working=true;
-					startStopButton.setText(Language.words[7]);
+					startStopButton.setText(Localization.getString("stopButton"));
 				}
 			}
 		};

@@ -27,8 +27,8 @@ public class InterFace extends JFrame
 	Dimension sizeMinimal = new Dimension(300, 400);	
 	Color frameColor=null;
 	
-	String[] voltagesNames ={"Uce" ,"Ube" };
-	String[] currentsNames ={"Ib","Ie","Ic"};
+	String[] voltagesNames ={Localization.getString("Uce") ,Localization.getString("Ube") };
+	String[] currentsNames ={Localization.getString("Ib"),Localization.getString("Ie"),Localization.getString("Ic")};
 	
 	String[] voltagesUnits ={"V" ,"mV"};
 	String[] currentsUnits ={"A","mA"};
@@ -54,7 +54,7 @@ public class InterFace extends JFrame
 	
 	public InterFace(Color frameColorIn, Simulation simulation) throws HeadlessException 
 	{
-		super(Language.words[0]);
+		super(Localization.getString("title"));
 		setSize(640,480);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new GridLayout());
@@ -74,20 +74,28 @@ public class InterFace extends JFrame
 		graphsSetttings.add(graph2Setting);
 		
 		ValuePanel[] settings1Panels_={
-				new ValuePanel(Language.words[14],6,0),new ValuePanel(Language.words[15],6,10),new ValuePanel(Language.words[16],6,1)};
+				new ValuePanel(Localization.getString("startVoltage"),6,0),
+				new ValuePanel(Localization.getString("steps"),6,100),
+				new ValuePanel(Localization.getString("endVoltage"),6,1)};
 		collectorEmitterVoltageSettingsPanel=settings1Panels_;
 		settings1 =new SettingsPanel(frameColor, 3 ,collectorEmitterVoltageSettingsPanel,"Ube");
 		
 		ValuePanel[] settings2Panels_={
-				new ValuePanel(Language.words[14],6,0),new ValuePanel(Language.words[15],6,100),new ValuePanel(Language.words[16],6,1)};
+				new ValuePanel(Localization.getString("startVoltage"),6,0),
+				new ValuePanel(Localization.getString("steps"),6,1000),
+				new ValuePanel(Localization.getString("endVoltage"),6,1)};
 		baseEmitterVoltageSettingsPanel=settings2Panels_;
-		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,"Uce");
+		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,Localization.getString("Uce"));
 		
 		ValuePanel[] settings3Panels_={
-				new ValuePanel("Ucemax",6,1),new ValuePanel("Ubemax",6,1),new ValuePanel("Ucbmax",6,1),
-				new ValuePanel("Icmax",6,10000),new ValuePanel("Ibmax",6,10000),new ValuePanel("Iemax",6,10000)};
+				new ValuePanel(Localization.getString("UceMax"),6,1),
+				new ValuePanel(Localization.getString("UbeMax"),6,1),
+				new ValuePanel(Localization.getString("UcbMax"),6,1),
+				new ValuePanel(Localization.getString("IcMax"),6,10000),
+				new ValuePanel(Localization.getString("IbMax"),6,10000),
+				new ValuePanel(Localization.getString("IeMax"),6,10000)};
 		maximumValuesSettingsPanel=settings3Panels_;
-		settings3=new SettingsPanel(frameColor, 6 ,maximumValuesSettingsPanel,Language.words[17]);
+		settings3=new SettingsPanel(frameColor, 6 ,maximumValuesSettingsPanel,Localization.getString("limitingValues"));
 		
 		
 		JPanel settings12 =new JPanel();
@@ -111,7 +119,7 @@ public class InterFace extends JFrame
 		
 		JPanel settingPanel =new JPanel();						//g��wna ramka
 		settingPanel.setLayout(new BoxLayout(settingPanel,BoxLayout.Y_AXIS));
-		settingPanel.add(new JLabel(Language.words[13],JLabel.CENTER));
+		settingPanel.add(new JLabel(Localization.getString("settingsTitle1"),JLabel.CENTER));
 		settingPanel.add(graphsSetttings);
 		settingPanel.add(settings);
 		settingPanel.add(hybridMatrix);
@@ -119,8 +127,8 @@ public class InterFace extends JFrame
 		JScrollPane settingScrollPane = new JScrollPane(settingPanel);
 		
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab(Language.words[1],mainPanel);
-        tabbedPane.addTab(Language.words[2],settingScrollPane);
+        tabbedPane.addTab(Localization.getString("simulationMenu"),mainPanel);
+        tabbedPane.addTab(Localization.getString("settingsMenu"),settingScrollPane);
         
         ChangeListener changeListener=new ChangeListener() //Przy zmianie karty odświeżone zostają wykresy (by dostosować je do zmian w zakładce ustawień). Szatan
         {

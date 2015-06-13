@@ -2,6 +2,7 @@ package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -18,24 +19,24 @@ public class MatrixPanel extends JPanel
 	
 	public MatrixPanel(Color frameColor ,int textFieldSize) 
 	{
-		h11 =new ValuePanel("H11",textFieldSize,6000);
-		h21 =new ValuePanel("H21",textFieldSize,380);
+		h11 =new ValuePanel(Localization.getString("h11"),textFieldSize,6000);
+		h21 =new ValuePanel(Localization.getString("h21"),textFieldSize,380);
 
 		JPanel Column1 =new JPanel();
 		Column1.setLayout(new BoxLayout(Column1,BoxLayout.Y_AXIS));
 		Column1.add(h11);
 		Column1.add(h21);
 
-		h12 =new ValuePanel("H12",textFieldSize,0.00016);
-		h22 =new ValuePanel("H22",textFieldSize,0.00000005);
+		h12 =new ValuePanel(Localization.getString("h12"),textFieldSize,0.00016);
+		h22 =new ValuePanel(Localization.getString("h22"),textFieldSize,0.00000005);
 
 		JPanel Column2 =new JPanel();
 		Column2.setLayout(new BoxLayout(Column2,BoxLayout.Y_AXIS));
 		Column2.add(h12);
 		Column2.add(h22);
 		
-		saturationVoltage=new ValuePanel("UCEsat",textFieldSize,0.25);
-		saturationCurrent=new ValuePanel("ICsat",textFieldSize,0.33);
+		saturationVoltage=new ValuePanel(Localization.getString("UceSAT"),textFieldSize,0.25);
+		saturationCurrent=new ValuePanel(Localization.getString("IcSAT"),textFieldSize,0.33);
 		
 		JPanel Column3 =new JPanel();
 		Column3.setLayout(new BoxLayout(Column3,BoxLayout.Y_AXIS));

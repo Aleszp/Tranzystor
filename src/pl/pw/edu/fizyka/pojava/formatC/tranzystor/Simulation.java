@@ -10,6 +10,7 @@ public class Simulation
 {
 	boolean working;
 	InterFace frame;
+	Localization localization;
 	static Language lang;
 	/**
 	 * Use {@link #Data(} as constructor.<br>
@@ -18,6 +19,8 @@ public class Simulation
 	public Simulation()
 	{
 		working=false;
+		lang=new Language();
+		localization=new Localization(lang.initialise());
 	}
 	
 	/**
@@ -26,12 +29,10 @@ public class Simulation
 	 **/
 	public static void main(String[] args) 
 	{
-		lang=new Language();
-		lang.initialise();
 		Simulation simulation=new Simulation();
 		
 		InterFace frame = new InterFace(Color.blue,simulation);
-		frame.setTitle(Language.words[0]+" ("+Language.version+")");
+		frame.setTitle(Localization.texts.getString("title")+" ("+Localization.version+")");
 		frame.setVisible(true);
 		Simulator simulator=new Simulator(frame, simulation);
 		simulator.run();
@@ -78,7 +79,7 @@ class Simulator implements Runnable
 					}
 				}
 				simulation.working=false;
-				frame.buttons.startStopButton.setText(Language.words[6]);
+				frame.buttons.startStopButton.setText(Localization.texts.getString("stopButton"));
 			}
 			else
 			{
