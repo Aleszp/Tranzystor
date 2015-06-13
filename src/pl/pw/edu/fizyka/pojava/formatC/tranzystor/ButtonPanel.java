@@ -13,7 +13,7 @@ public class ButtonPanel extends JPanel
 	private static final long serialVersionUID = 5962242182743707191L;
 	JButton loadButton;	
 	JButton saveButton;
-	JButton saveResultsButton;
+	JButton exportButton;
 	JButton startStopButton;
 	Simulation simulation;
 
@@ -22,15 +22,15 @@ public class ButtonPanel extends JPanel
 		simulation=simulation_;
 		loadButton = new JButton(Localization.getString("loadButton"));	
 		saveButton = new JButton(Localization.getString("saveButton"));
-		saveResultsButton = new JButton(Localization.getString("exportButton"));
+		exportButton = new JButton(Localization.getString("exportButton"));
 		startStopButton = new JButton(Localization.getString("startButton"));  
 		
 		loadButton.setBackground(Color.GRAY);
 		loadButton.setOpaque(true);
 		saveButton.setBackground(Color.GRAY);
 		saveButton.setOpaque(true);
-		saveResultsButton.setBackground(Color.GRAY);
-		saveResultsButton.setOpaque(true);
+		exportButton.setBackground(Color.GRAY);
+		exportButton.setOpaque(true);
 		
 		ActionListener startStopAction=new ActionListener()
 		{
@@ -53,7 +53,7 @@ public class ButtonPanel extends JPanel
 		
 		add(loadButton);
 		add(saveButton);
-		add(saveResultsButton);
+		add(exportButton);
 		add(startStopButton);
 		setLayout(new GridLayout());
 	}

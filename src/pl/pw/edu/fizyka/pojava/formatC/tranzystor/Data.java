@@ -3,7 +3,6 @@ package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 import static org.junit.Assert.*;
 
 import java.awt.HeadlessException;
-
 import org.junit.Test;
 
 /**
@@ -394,4 +393,18 @@ public class Data
 	{
 		return voltageCE[collectorEmitterVoltageStep];
 	}
+	/**
+	 * Use {@link #getCurrent(int, int,int)}
+	 * @param collectorEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param baseEmitterVoltageStepId collector-emitter voltage id - determines which value from array to use
+	 * @param current id (0 - base current, 1 - collector current, 2 - emitter current, anything else returns 0)
+	 * @return chosen current value
+	 */
+	public double getCurrent(int collectorEmitterVoltageStepId,int baseEmitterVoltageStepId, int id) 
+	{
+		if(id<0||id>2)
+			return 0;
+		return currents[collectorEmitterVoltageStepId][baseEmitterVoltageStepId][id];
+	}
+	
 }

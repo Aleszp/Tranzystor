@@ -23,6 +23,10 @@ public class Simulation
 		localization=new Localization(lang.initialise());
 	}
 	
+	public boolean getWorking()
+	{
+		return working;
+	}
 	/**
 	 *Main method of program. Initializes GUI and data containers, in future will run threads for calculations.<br> 
 	 *
@@ -48,6 +52,8 @@ class Simulator implements Runnable
 	{
 		frame=frame_;
 		data=new Data();
+		FileIO fileIO=new FileIO(frame,data,simulation);
+		fileIO.dummy();
 		simulation=simulation_;
 	}
 	@Override
@@ -72,7 +78,7 @@ class Simulator implements Runnable
 					for(int ii=0;ii<data.collectorEmitterVoltegeSteps&&simulation.working==true;ii++)
 					{
 						data.countCurrentsForSingleStep(ii, jj);
-						System.out.println(data.getCollectorEmitterVoltage(ii)+"; "+data.getBaseEmitterVoltage(jj)+"; "+data.getBaseCurrent(ii, jj)+"; "+data.getCollectorCurrent(ii, jj)+"; "+data.getEmitterCurrent(ii, jj));
+						System.out.println(data.getCollectorEmitterVoltage(ii)+"; "+data.getBaseEmitterVoltage(jj)+"; "+data.getBaseCurrent(ii, jj)+"; "+data.getCollectorCurrent(ii, jj)+"; "+data.getEmitterCurrent(ii, jj)); //do testów
 						data.checkMaximumValues(ii, jj);
 						addToGraph(frame.graph1Setting, jj, ii);
 						addToGraph(frame.graph2Setting, jj, ii);
