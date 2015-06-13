@@ -32,31 +32,31 @@ public class GraphSettings extends JPanel
 	Graph graph;
 	
 	/**
-	 * Use {@link #GraphSettings(Color, String[], String[], String[], Graph)} as constructor.
+	 * Use {@link #GraphSettings(Color, String[], String[], String[], Graph, String)} as constructor.
 	 * 
 	 * @param frameColor color of frame
 	 * @param oxin_ names of voltages
 	 * @param oyin_ names of currents
 	 * @param voltagesUnits units in which voltage could be shown
 	 * @param graph_ reference to Graph which's settings it contains
+	 * @param title name that should be displayed as settings title
 	 * */
-	public GraphSettings(Color frameColor,String[] oxin_,String[] oyin_,String[] voltagesUnits,Graph graph_) 
+	public GraphSettings(Color frameColor,String[] oxin_,String[] oyin_,String[] voltagesUnits,Graph graph_, String title) 
 	{
 		setBorder(new LineBorder(frameColor));
 		oxin=oxin_;
 		oyin=oyin_;
 		graph=graph_;
 		
-		add(new JLabel("",JLabel.CENTER));
+		add(new JLabel(title,JLabel.CENTER));
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		ox=new ValuePanel(Localization.getString("OX"),oxin);
 		add(ox);
 		oy=new ValuePanel(Localization.getString("OY"),oyin);
 		add(oy);
 		//Zmieniłem to idiotyczne pole na parametr, Szatan
-		parameter=new ValuePanel(oxin[1],5,voltagesUnits);
+		parameter=new ValuePanel(oxin[1],5,0,Localization.getString("volts"));
 		add(parameter);
-		parameter.value.setText("0");
 		//Jedno napięcie to argument, drugie to parametr
 		ox.unit.addItemListener(new ItemListener()
 		{

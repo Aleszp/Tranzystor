@@ -10,7 +10,7 @@ public class Localization
 	public Localization(Locale currentLocale)
 	{
 		texts = ResourceBundle.getBundle("pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Labels", currentLocale);
-		version = "Alfa 1.3";
+		version = "Alfa 1.4";
 	}
 	public static String getString(String title)
 	{

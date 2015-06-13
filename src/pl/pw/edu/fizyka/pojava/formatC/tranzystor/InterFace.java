@@ -3,6 +3,7 @@ package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 
@@ -54,7 +55,7 @@ public class InterFace extends JFrame
 	
 	public InterFace(Color frameColorIn, Simulation simulation) throws HeadlessException 
 	{
-		super(Localization.getString("title"));
+		super(Localization.texts.getString("title")+" ("+Localization.version+")");
 		setSize(640,480);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new GridLayout());
@@ -63,8 +64,8 @@ public class InterFace extends JFrame
 		
         GraphsPanel graphs =new GraphsPanel(frameColor);
         
-		graph1Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph1);		
-		graph2Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph2);
+		graph1Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph1,Localization.texts.getString("grahp1Title"));		
+		graph2Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph2,Localization.texts.getString("grahp2Title"));
 		
 		graph1Setting.refreshGraph();
 		graph2Setting.refreshGraph();
@@ -74,29 +75,28 @@ public class InterFace extends JFrame
 		graphsSetttings.add(graph2Setting);
 		
 		ValuePanel[] settings1Panels_={
-				new ValuePanel(Localization.getString("startVoltage"),6,0),
-				new ValuePanel(Localization.getString("steps"),6,1000),
-				new ValuePanel(Localization.getString("endVoltage"),6,1)};
+				new ValuePanel(Localization.getString("startVoltage"),6,0,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("steps"),6,100),
+				new ValuePanel(Localization.getString("endVoltage"),6,1,Localization.getString("volts"))};
 		collectorEmitterVoltageSettingsPanel=settings1Panels_;
-		settings1 =new SettingsPanel(frameColor, 3 ,collectorEmitterVoltageSettingsPanel,"Ube");
+		settings1 =new SettingsPanel(frameColor, 3 ,collectorEmitterVoltageSettingsPanel,Localization.getString("Uce"));
 		
 		ValuePanel[] settings2Panels_={
-				new ValuePanel(Localization.getString("startVoltage"),6,0),
-				new ValuePanel(Localization.getString("steps"),6,100),
-				new ValuePanel(Localization.getString("endVoltage"),6,1)};
+				new ValuePanel(Localization.getString("startVoltage"),6,0,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("steps"),6,1000),
+				new ValuePanel(Localization.getString("endVoltage"),6,1,Localization.getString("volts"))};
 		baseEmitterVoltageSettingsPanel=settings2Panels_;
-		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,Localization.getString("Uce"));
+		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,Localization.getString("Ube"));
 		
 		ValuePanel[] settings3Panels_={
-				new ValuePanel(Localization.getString("UceMax"),6,1),
-				new ValuePanel(Localization.getString("UbeMax"),6,1),
-				new ValuePanel(Localization.getString("UcbMax"),6,1),
-				new ValuePanel(Localization.getString("IcMax"),6,10000),
-				new ValuePanel(Localization.getString("IbMax"),6,10000),
-				new ValuePanel(Localization.getString("IeMax"),6,10000)};
+				new ValuePanel(Localization.getString("UceMax"),6,45,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("UbeMax"),6,6,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("UcbMax"),6,50,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("IcMax"),6,100,Localization.getString("miliampers")),
+				new ValuePanel(Localization.getString("IbMax"),6,100,Localization.getString("miliampers")),
+				new ValuePanel(Localization.getString("IeMax"),6,100,Localization.getString("miliampers"))};
 		maximumValuesSettingsPanel=settings3Panels_;
 		settings3=new SettingsPanel(frameColor, 6 ,maximumValuesSettingsPanel,Localization.getString("limitingValues"));
-		
 		
 		JPanel settings12 =new JPanel();
 		settings12.setLayout(new BorderLayout());
@@ -109,7 +109,6 @@ public class InterFace extends JFrame
 		settings.add(settings3);
 		
 		hybridMatrix =new MatrixPanel(frameColor,6);
-
 		buttons =new ButtonPanel(simulation);
 		
 		JPanel mainPanel =new JPanel();
@@ -124,7 +123,11 @@ public class InterFace extends JFrame
 		settingPanel.add(settings);
 		settingPanel.add(hybridMatrix);
 		
-		JScrollPane settingScrollPane = new JScrollPane(settingPanel);
+		JPanel settingPanelPanel=new JPanel();
+		settingPanelPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1,1));
+		settingPanelPanel.add(settingPanel);
+		JScrollPane settingScrollPane = new JScrollPane(settingPanelPanel);
+		settingScrollPane.setMaximumSize(new Dimension(640,480));
 		
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab(Localization.getString("simulationMenu"),mainPanel);

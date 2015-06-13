@@ -40,9 +40,9 @@ public class ValuePanel extends JPanel
 	/**
 	 * @author Aleksander Szpakiewicz-Szatan
 	 * Use {@link #ValuePanel(String, int, double)} as constructor.
-	 * @param name - nazwa wyświetlana obok pola
-	 * @param textFieldSize - długość pola w znakach
-	 * @param defaultValue - wartość domyśłna
+	 * @param name - name of field
+	 * @param textFieldSize - lenght of field (in characters)
+	 * @param defaultValue - default value
 	 */
 	public ValuePanel(String name, int textFieldSize ,double defaultValue) 
 	{
@@ -55,9 +55,9 @@ public class ValuePanel extends JPanel
 	/**
 	 * @author Aleksander Szpakiewicz-Szatan
 	 * Use {@link #ValuePanel(String, int, int)} as constructor.
-	 * @param name - nazwa wyświetlana obok pola
-	 * @param textFieldSize - długość pola w znakach
-	 * @param defaultValue - wartość domyśłna
+	 * @param name - name of field
+	 * @param textFieldSize - lenght of field (in characters)
+	 * @param defaultValue - default value
 	 */
 	public ValuePanel(String name, int textFieldSize ,int defaultValue) 
 	{
@@ -66,6 +66,43 @@ public class ValuePanel extends JPanel
 		label=new JLabel(name);
 		add(label);
 		add(value);
+	}
+	
+	/**
+	 * @author Aleksander Szpakiewicz-Szatan
+	 * Use {@link #ValuePanel(String, int, double)} as constructor.
+	 * @param name - name of field
+	 * @param textFieldSize - lenght of field (in characters)
+	 * @param defaultValue - default value
+	 * @param unit - unit of value (i.e. volts, miliampers)
+	 */
+	public ValuePanel(String name, int textFieldSize ,double defaultValue, String unit) 
+	{
+		value = new JTextField(textFieldSize);
+		value.setText(String.valueOf(defaultValue));
+		label=new JLabel(name);
+		add(label);
+		add(value);
+		JLabel unitLabel=new JLabel(unit);
+		add(unitLabel);
+	}
+	/**
+	 * @author Aleksander Szpakiewicz-Szatan
+	 * Use {@link #ValuePanel(String, int, int)} as constructor.
+	 * @param name - name of field
+	 * @param textFieldSize - lenght of field (in characters)
+	 * @param defaultValue - default value
+	 * @param unit - unit of value (i.e. volts, miliampers)
+	 */
+	public ValuePanel(String name, int textFieldSize ,int defaultValue, String unit) 
+	{
+		value = new JTextField(textFieldSize);		
+		value.setText(String.valueOf(defaultValue));
+		label=new JLabel(name);
+		add(label);
+		add(value);
+		JLabel unitLabel=new JLabel(unit);
+		add(unitLabel);
 	}
 	
 	public ValuePanel(String name,String[] unitType) 

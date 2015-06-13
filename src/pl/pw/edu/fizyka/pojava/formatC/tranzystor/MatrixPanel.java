@@ -19,7 +19,7 @@ public class MatrixPanel extends JPanel
 	
 	public MatrixPanel(Color frameColor ,int textFieldSize) 
 	{
-		h11 =new ValuePanel(Localization.getString("h11"),textFieldSize,6000);
+		h11 =new ValuePanel(Localization.getString("h11"),textFieldSize,6000,Localization.getString("ohms"));
 		h21 =new ValuePanel(Localization.getString("h21"),textFieldSize,380);
 
 		JPanel Column1 =new JPanel();
@@ -28,15 +28,15 @@ public class MatrixPanel extends JPanel
 		Column1.add(h21);
 
 		h12 =new ValuePanel(Localization.getString("h12"),textFieldSize,0.00016);
-		h22 =new ValuePanel(Localization.getString("h22"),textFieldSize,0.00000005);
+		h22 =new ValuePanel(Localization.getString("h22"),textFieldSize,0.00000005,Localization.getString("siemens"));
 
 		JPanel Column2 =new JPanel();
 		Column2.setLayout(new BoxLayout(Column2,BoxLayout.Y_AXIS));
 		Column2.add(h12);
 		Column2.add(h22);
 		
-		saturationVoltage=new ValuePanel(Localization.getString("UceSAT"),textFieldSize,0.25);
-		saturationCurrent=new ValuePanel(Localization.getString("IcSAT"),textFieldSize,330);
+		saturationVoltage=new ValuePanel(Localization.getString("UceSAT"),textFieldSize,0.25,Localization.getString("volts"));
+		saturationCurrent=new ValuePanel(Localization.getString("IcSAT"),textFieldSize,330,Localization.getString("miliampers"));
 		
 		JPanel Column3 =new JPanel();
 		Column3.setLayout(new BoxLayout(Column3,BoxLayout.Y_AXIS));
