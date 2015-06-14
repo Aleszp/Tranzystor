@@ -63,6 +63,7 @@ class Simulator implements Runnable
 		{
 			if(simulation.working==true)
 			{
+				frame.buttons.exportButton.setBackground(frame.buttons.inActiveColor);
 				data.collectorEmitterVoltegeSteps=(int)frame.collectorEmitterVoltageSettingsPanel[1].getValue(); //Ucesteps
 				data.baseEmitterVoltegeSteps=(int)frame.baseEmitterVoltageSettingsPanel[1].getValue(); //Ubesteps
 				data.setMaximumValues(frame.maximumValuesSettingsPanel);
@@ -78,7 +79,7 @@ class Simulator implements Runnable
 					for(int ii=0;ii<data.collectorEmitterVoltegeSteps&&simulation.working==true;ii++)
 					{
 						data.countCurrentsForSingleStep(ii, jj);
-						System.out.println(data.getCollectorEmitterVoltage(ii)+"; "+data.getBaseEmitterVoltage(jj)+"; "+data.getBaseCurrent(ii, jj)+"; "+data.getCollectorCurrent(ii, jj)+"; "+data.getEmitterCurrent(ii, jj)); //do testów
+						//System.out.println(data.getCollectorEmitterVoltage(ii)+"; "+data.getBaseEmitterVoltage(jj)+"; "+data.getBaseCurrent(ii, jj)+"; "+data.getCollectorCurrent(ii, jj)+"; "+data.getEmitterCurrent(ii, jj)); //do testów
 						data.checkMaximumValues(ii, jj);
 						addToGraph(frame.graph1Setting, jj, ii);
 						addToGraph(frame.graph2Setting, jj, ii);
@@ -86,6 +87,7 @@ class Simulator implements Runnable
 				}
 				simulation.working=false;
 				frame.buttons.startStopButton.setText(Localization.texts.getString("startButton"));
+				frame.buttons.exportButton.setBackground(frame.buttons.activeColor);
 			}
 			else
 			{

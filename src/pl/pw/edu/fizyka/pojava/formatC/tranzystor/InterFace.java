@@ -56,7 +56,7 @@ public class InterFace extends JFrame
 	public InterFace(Color frameColorIn, Simulation simulation) throws HeadlessException 
 	{
 		super(Localization.texts.getString("title")+" ("+Localization.version+")");
-		setSize(640,480);
+		setSize(800,600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new GridLayout());
 	

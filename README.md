@@ -8,4 +8,4 @@ Do zrobienia:
  - Ujednolicić jednostki w których wprowadzane są wartości (albo wszędzie ampery, albo miliampery)				[x];
  - Dodać możliwość wczytywania przygotowanych tranzystorów (innych niż domyślny BC107) 						[ ];
  - Dodać możliwość zapisywania tranzystorów użytkownika (do późniejszego wczytania)						[ ];
- - Dodać możliwość wyeksportowania wyników do pliku .csv									[ ];
+ - Dodać możliwość wyeksportowania wyników do pliku .csv									[x];

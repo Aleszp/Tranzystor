@@ -16,20 +16,25 @@ public class ButtonPanel extends JPanel
 	JButton exportButton;
 	JButton startStopButton;
 	Simulation simulation;
+	Color activeColor;
+	Color inActiveColor;
 
 	public ButtonPanel(Simulation simulation_) 
 	{
 		simulation=simulation_;
+		
+		inActiveColor=Color.GRAY;
 		loadButton = new JButton(Localization.getString("loadButton"));	
 		saveButton = new JButton(Localization.getString("saveButton"));
 		exportButton = new JButton(Localization.getString("exportButton"));
 		startStopButton = new JButton(Localization.getString("startButton"));  
 		
-		loadButton.setBackground(Color.GRAY);
+		loadButton.setBackground(inActiveColor);
 		loadButton.setOpaque(true);
-		saveButton.setBackground(Color.GRAY);
+		saveButton.setBackground(inActiveColor);
 		saveButton.setOpaque(true);
-		exportButton.setBackground(Color.GRAY);
+		activeColor=exportButton.getBackground();
+		exportButton.setBackground(inActiveColor);
 		exportButton.setOpaque(true);
 		
 		ActionListener startStopAction=new ActionListener()

@@ -1,24 +1,32 @@
 package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class FileIO 
+public class FileIO implements Runnable
 {
 	Data data;
 	Simulation simulation;
-	public FileIO(InterFace frame,Data data_, Simulation simulation_)
+	InterFace frame;
+	static Thread thread;
+	
+	
+	public FileIO(InterFace frame_,Data data_, Simulation simulation_)
 	{
 		data=data_;
 		simulation=simulation_;
-		frame.buttons.exportButton.addActionListener(new ExportListener(frame, simulation));
+		frame=frame_;
+		frame.buttons.exportButton.addActionListener(new ExportListener(frame, simulation,this));
 	}
 	public void exportSingleCurrent(JFileChooser chooser,int currentId)
 	{
@@ -46,7 +54,7 @@ public class FileIO
 		     e.printStackTrace();
 		}
 	}
-	public void exportCurrentsForSingleVoltage(File file, JFileChooser chooser,int voltageId, int parameterId)
+	public void exportCurrentsForSingleVoltage(JFileChooser chooser,int voltageId, int parameterId)
 	{
 		try
 		{
@@ -101,24 +109,33 @@ public class FileIO
 	{ 
 		InterFace frame;
 		Simulation simulation;
-		public ExportListener(InterFace frame_,Simulation simulation_)
+		FileIO fileIO;
+		ExportOptionsFrame exportFrame;
+		
+		public ExportListener(InterFace frame_,Simulation simulation_, FileIO fileIO_)
 		{
 			frame=frame_;
 			simulation=simulation_;
+			fileIO=fileIO_;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-		  	JFileChooser chooser=new JFileChooser();
-		  	chooser.setDialogTitle(Localization.getString("chooseFile"));
-		  	int result = chooser.showDialog(frame,Localization.getString("export"));  	
-		  	if(result==JFileChooser.APPROVE_OPTION)
-		  	{
-		  		exportSingleCurrent(chooser,0);
-		  	}
+			exportFrame=new ExportOptionsFrame(frame,fileIO);
+			
 		}
 			
+	}
+	
+		
+	
+
+	@Override
+	public void run() 
+	{
+		
+		
 	}
 };
 
@@ -127,16 +144,94 @@ class ExportOptionsFrame extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	
-	JPanel Panel;
+	JScrollPane scrollablePane;
+	JPanel masterPanel;
+	ValuePanel vPanel;
+	int decision;
+	InterFace frame;
+	FileIO fileIO;
 	
-	ExportOptionsFrame()
+	ExportOptionsFrame(InterFace frame_,FileIO fileIO_)
 	{
 		super(Localization.getString("exportOptions"));
+		frame=frame_;
+		fileIO=fileIO_;
+		decision=-1;
 		setSize(320,240);
 		setVisible(true);
 		
+		masterPanel = new JPanel();
+		masterPanel.setLayout(new BorderLayout());
+		scrollablePane=new JScrollPane(masterPanel);
+		add(scrollablePane);	
+		vPanel=new ValuePanel(Localization.getString("current"), frame.currentsNames);
+		masterPanel.add(vPanel,BorderLayout.CENTER);
+		
+		JPanel buttonPanel= new JPanel(); 
+		
+		JButton readyButton=new JButton(Localization.getString("next"));
+		buttonPanel.add(readyButton);
+		readyButton.addActionListener(new ExportReadyListener(this,fileIO));
+		
+		JButton cancelButton=new JButton(Localization.getString("cancel"));
+		buttonPanel.add(cancelButton,BorderLayout.SOUTH);
+		cancelButton.addActionListener(new CancelListener(this));
+		masterPanel.add(buttonPanel,BorderLayout.SOUTH);
+		
 	}
-	
+	public class ExportReadyListener implements ActionListener
+	{
+		ExportOptionsFrame exportFrame;
+		FileIO fileIO;
+		public ExportReadyListener(ExportOptionsFrame exportFrame_, FileIO fileIO_)
+		{
+			exportFrame=exportFrame_;
+			fileIO=fileIO_;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			exportFrame.setVisible(false);
+			exportFrame.checkDecision();
+			JFileChooser chooser=new JFileChooser();
+		  	chooser.setDialogTitle(Localization.getString("chooseFile"));
+		  	chooser.setFileFilter(new FileNameExtensionFilter(Localization.getString("csv"), "csv"));
+		  	
+		  	int result = chooser.showDialog(frame,Localization.getString("export"));  	
+		  	if(result==JFileChooser.APPROVE_OPTION)
+		  	{
+		  		if(exportFrame.getDecision()==0) //Ib
+		  			fileIO.exportSingleCurrent(chooser,0);
+		  		if(exportFrame.getDecision()==1) //Ie
+		  			fileIO.exportSingleCurrent(chooser,2);
+		  		if(exportFrame.getDecision()==2) //Ic
+		  			fileIO.exportSingleCurrent(chooser,1);
+		  	}
+			
+		};
+	};
+	public class CancelListener implements ActionListener
+	{
+		ExportOptionsFrame exportFrame;
+		public CancelListener(ExportOptionsFrame exportFrame_)
+		{
+			exportFrame=exportFrame_;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			exportFrame.setVisible(false);
+		}
+	}
+	public int getDecision()
+	{
+		return decision;
+	}
+	public void checkDecision()
+	{
+		decision=vPanel.getUnit();
+	}
 };
 
 
