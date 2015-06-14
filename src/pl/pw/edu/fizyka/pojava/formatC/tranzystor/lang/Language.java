@@ -1,4 +1,4 @@
-package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
+package pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 public class Language 
 {
 	JFrame frame;
-
 	int chosen; //Id of chosen language, -1 means no language chosen yet 	
 	
 	public Language()
@@ -67,7 +66,6 @@ public class Language
 		{
 			chosen=buttonId;
 			frame.dispose();
-			System.out.println(chosen);
 		}
 	};
 }

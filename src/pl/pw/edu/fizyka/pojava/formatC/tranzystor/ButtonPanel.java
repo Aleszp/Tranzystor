@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
+
 public class ButtonPanel extends JPanel 
 {
 	private static final long serialVersionUID = 5962242182743707191L;

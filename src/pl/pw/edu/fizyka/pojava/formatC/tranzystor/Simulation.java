@@ -2,6 +2,9 @@ package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
 import java.awt.Color;
 
+import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Language;
+import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
+
 /**
  *Main class of program. Here GUI and data containers are initialized.<br> 
  *@author Aleksander Szpakiewicz-Szatan
@@ -36,7 +39,7 @@ public class Simulation
 		Simulation simulation=new Simulation();
 		
 		InterFace frame = new InterFace(Color.blue,simulation);
-		frame.setTitle(Localization.texts.getString("title")+" ("+Localization.version+")");
+		frame.setTitle(Localization.getString("title")+" ("+Localization.getString("version")+")");
 		frame.setVisible(true);
 		Simulator simulator=new Simulator(frame, simulation);
 		simulator.run();
@@ -45,13 +48,13 @@ public class Simulation
 class Simulator implements Runnable
 {
 	InterFace frame;
-	Data data;
+	DataContainer data;
 	Simulation simulation;
 	
 	public Simulator(InterFace frame_, Simulation simulation_)
 	{
 		frame=frame_;
-		data=new Data();
+		data=new DataContainer();
 		FileIO fileIO=new FileIO(frame,data,simulation);
 		fileIO.dummy();
 		simulation=simulation_;
@@ -86,7 +89,7 @@ class Simulator implements Runnable
 					}
 				}
 				simulation.working=false;
-				frame.buttons.startStopButton.setText(Localization.texts.getString("startButton"));
+				frame.buttons.startStopButton.setText(Localization.getString("startButton"));
 				frame.buttons.exportButton.setBackground(frame.buttons.activeColor);
 			}
 			else
@@ -102,7 +105,7 @@ class Simulator implements Runnable
 			}
 		}
 	}
-	void addToGraph(GraphSettings graphSettings, int baseEmitterVoltageStep, int collectorEmitterVoltageStep)
+	void addToGraph(ChartSettings graphSettings, int baseEmitterVoltageStep, int collectorEmitterVoltageStep)
 	{
 		double voltage, current;
 		if(graphSettings.ox.unit.getSelectedIndex()==0&&(Math.abs(graphSettings.parameter.getValue()-data.getCollectorEmitterVoltage(collectorEmitterVoltageStep))<0.01)) //Ube
@@ -122,7 +125,7 @@ class Simulator implements Runnable
 				current=data.getCollectorCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);
 		graphSettings.graph.addData(voltage, current);
 	}
-	void clearGraph(GraphSettings graphSettings)
+	void clearGraph(ChartSettings graphSettings)
 	{
 		graphSettings.graph.clearData();
 	}

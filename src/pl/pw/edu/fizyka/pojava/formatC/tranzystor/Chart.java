@@ -13,12 +13,14 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
+
 /**
  *Displays calculated values. 
  *
  *@author Aleksander Szpakiewicz-Szatan
  **/
-public class Graph extends JPanel 
+public class Chart extends JPanel 
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -32,7 +34,7 @@ public class Graph extends JPanel
 	 * 
 	 * @param frameColor_ sets color of frame
 	 *  */
-	public Graph(Color frameColor_) 
+	public Chart(Color frameColor_) 
 	{
 		setBorder(new LineBorder(frameColor_));
 		

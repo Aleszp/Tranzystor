@@ -1,4 +1,4 @@
-package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
+package pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -6,11 +6,9 @@ import java.util.ResourceBundle;
 public class Localization 
 {
 	static ResourceBundle texts;
-	static String version;
 	public Localization(Locale currentLocale)
 	{
-		texts = ResourceBundle.getBundle("pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Labels", currentLocale);
-		version = "Alfa 1.5";
+		texts = ResourceBundle.getBundle("pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Texts", currentLocale);
 	}
 	public static String getString(String title)
 	{

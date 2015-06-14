@@ -4,23 +4,23 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 
-public class GraphsPanel extends JPanel 
+public class ChartPanel extends JPanel 
 {
 	private static final long serialVersionUID = 3429864083441722430L;
 	int number;
-	Graph graph1;
-	Graph graph2;
+	Chart graph1;
+	Chart graph2;
 	
-	public GraphsPanel(Color frameColor) 
+	public ChartPanel(Color frameColor) 
 	{
 		GridLayout layot=new GridLayout();
 		setLayout(layot);
 		layot.setVgap(10);
 		layot.setHgap(10);
 		
-		graph1=new Graph(frameColor);
+		graph1=new Chart(frameColor);
 		add(graph1);
-		graph2=new Graph(frameColor);
+		graph2=new Chart(frameColor);
 		add(graph2);
 		/*
 		//Dodane do testu metody addData (w przyszłości zostanie usunięte)

@@ -16,11 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
+
 
 /**
  * Contains settings for single chart.
  *  */
-public class GraphSettings extends JPanel 
+public class ChartSettings extends JPanel 
 {
 	private static final long serialVersionUID = -376298015343955111L;
 	
@@ -29,10 +31,10 @@ public class GraphSettings extends JPanel
 	ValuePanel parameter;
 	String[] oxin;
 	String[] oyin;
-	Graph graph;
+	Chart graph;
 	
 	/**
-	 * Use {@link #GraphSettings(Color, String[], String[], String[], Graph, String)} as constructor.
+	 * Use {@link #GraphSettings(Color, String[], String[], String[], Chart, String)} as constructor.
 	 * 
 	 * @param frameColor color of frame
 	 * @param oxin_ names of voltages
@@ -41,7 +43,7 @@ public class GraphSettings extends JPanel
 	 * @param graph_ reference to Graph which's settings it contains
 	 * @param title name that should be displayed as settings title
 	 * */
-	public GraphSettings(Color frameColor,String[] oxin_,String[] oyin_,String[] voltagesUnits,Graph graph_, String title) 
+	public ChartSettings(Color frameColor,String[] oxin_,String[] oyin_,String[] voltagesUnits,Chart graph_, String title) 
 	{
 		setBorder(new LineBorder(frameColor));
 		oxin=oxin_;

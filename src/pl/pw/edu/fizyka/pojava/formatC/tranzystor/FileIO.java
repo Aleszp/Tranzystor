@@ -13,46 +13,29 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
+
 public class FileIO implements Runnable
 {
-	Data data;
+	DataContainer data;
 	Simulation simulation;
 	InterFace frame;
 	static Thread thread;
+	JFileChooser chooser;
+	int currentId;
 	
-	
-	public FileIO(InterFace frame_,Data data_, Simulation simulation_)
+	public FileIO(InterFace frame_,DataContainer data_, Simulation simulation_)
 	{
 		data=data_;
 		simulation=simulation_;
 		frame=frame_;
-		frame.buttons.exportButton.addActionListener(new ExportListener(frame, simulation,this));
+		frame.buttons.exportButton.addActionListener(new ExportListener(frame, simulation,this,frame.buttons.exportButton));
 	}
-	public void exportSingleCurrent(JFileChooser chooser,int currentId)
+	public void exportSingleCurrent(JFileChooser chooser_,int currentId_)
 	{
-		try
-		{
-		    FileWriter writer = new FileWriter(chooser.getSelectedFile());
-	 
-		    writer.append(Localization.getString("Ube")+"\\"+Localization.getString("Uce")+",");
-		    for(int ii=0;ii<data.collectorEmitterVoltegeSteps;ii++)
-		    	writer.append(data.getCollectorEmitterVoltage(ii)+",");
-		    writer.append('\n');
-	 
-		    for(int jj=0;jj<data.baseEmitterVoltegeSteps;jj++)
-		    {
-		    	writer.append(data.getBaseEmitterVoltage(jj)+",");
-			    for(int ii=0;ii<data.collectorEmitterVoltegeSteps;ii++)
-			    	writer.append(data.getCurrent(ii,jj,currentId)+",");
-			    writer.append('\n');
-		    }
-		    writer.flush();
-		    writer.close();
-		}
-		catch(IOException e)
-		{
-		     e.printStackTrace();
-		}
+		chooser=chooser_;
+		currentId=currentId_;
+		run();
 	}
 	public void exportCurrentsForSingleVoltage(JFileChooser chooser,int voltageId, int parameterId)
 	{
@@ -111,19 +94,21 @@ public class FileIO implements Runnable
 		Simulation simulation;
 		FileIO fileIO;
 		ExportOptionsFrame exportFrame;
+		JButton thisButton;
 		
-		public ExportListener(InterFace frame_,Simulation simulation_, FileIO fileIO_)
+		public ExportListener(InterFace frame_,Simulation simulation_, FileIO fileIO_,JButton thisButton_)
 		{
 			frame=frame_;
 			simulation=simulation_;
 			fileIO=fileIO_;
+			thisButton=thisButton_;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-			exportFrame=new ExportOptionsFrame(frame,fileIO);
-			
+			if(thisButton.getBackground()==frame.buttons.activeColor)
+				exportFrame=new ExportOptionsFrame(frame,fileIO);
 		}
 			
 	}
@@ -134,8 +119,29 @@ public class FileIO implements Runnable
 	@Override
 	public void run() 
 	{
-		
-		
+		try
+		{
+		    FileWriter writer = new FileWriter(chooser.getSelectedFile());
+	 
+		    writer.append(Localization.getString("Ube")+"\\"+Localization.getString("Uce")+",");
+		    for(int ii=0;ii<data.collectorEmitterVoltegeSteps;ii++)
+		    	writer.append(data.getCollectorEmitterVoltage(ii)+",");
+		    writer.append('\n');
+	 
+		    for(int jj=0;jj<data.baseEmitterVoltegeSteps;jj++)
+		    {
+		    	writer.append(data.getBaseEmitterVoltage(jj)+",");
+			    for(int ii=0;ii<data.collectorEmitterVoltegeSteps;ii++)
+			    	writer.append(data.getCurrent(ii,jj,currentId)+",");
+			    writer.append('\n');
+		    }
+		    writer.flush();
+		    writer.close();
+		}
+		catch(IOException e)
+		{
+		     e.printStackTrace();
+		}
 	}
 };
 

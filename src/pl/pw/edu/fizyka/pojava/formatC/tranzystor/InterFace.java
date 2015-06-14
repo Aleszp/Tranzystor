@@ -16,6 +16,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
+
 /**
  * Renders programs InterFace that consists of two sections between which user may switch: <br> 
  *  - first section with two graphs and basic simulation controls; <br>
@@ -38,8 +40,8 @@ public class InterFace extends JFrame
 	SettingsPanel settings1;
 	SettingsPanel settings2;
 	SettingsPanel settings3;
-	GraphSettings graph1Setting;
-	GraphSettings graph2Setting;
+	ChartSettings graph1Setting;
+	ChartSettings graph2Setting;
 	
 	ValuePanel[] collectorEmitterVoltageSettingsPanel;
 	ValuePanel[] baseEmitterVoltageSettingsPanel;
@@ -55,17 +57,17 @@ public class InterFace extends JFrame
 	
 	public InterFace(Color frameColorIn, Simulation simulation) throws HeadlessException 
 	{
-		super(Localization.texts.getString("title")+" ("+Localization.version+")");
+		super(Localization.getString("title")+" ("+Localization.getString("version")+")");
 		setSize(800,600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new GridLayout());
 	
         frameColor=frameColorIn; 					//zmienna koloru ramek
 		
-        GraphsPanel graphs =new GraphsPanel(frameColor);
+        ChartPanel graphs =new ChartPanel(frameColor);
         
-		graph1Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph1,Localization.texts.getString("grahp1Title"));		
-		graph2Setting=new GraphSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph2,Localization.texts.getString("grahp2Title"));
+		graph1Setting=new ChartSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph1,Localization.getString("grahp1Title"));		
+		graph2Setting=new ChartSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph2,Localization.getString("grahp2Title"));
 		
 		graph1Setting.refreshGraph();
 		graph2Setting.refreshGraph();

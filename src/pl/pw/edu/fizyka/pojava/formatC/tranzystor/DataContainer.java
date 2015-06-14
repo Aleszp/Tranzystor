@@ -9,7 +9,7 @@ import org.junit.Test;
  *Contains all the model's data. With it's methods calculates currents for voltages.  
  *@author Aleksander Szpakiewicz-Szatan
  */
-public class Data 
+public class DataContainer 
 {
 	int collectorEmitterVoltegeSteps;
 	int baseEmitterVoltegeSteps;
@@ -87,7 +87,7 @@ public class Data
 	/**
 	 * Use {@link #Data()} as constructor. 
 	 */
-	public Data() throws HeadlessException 
+	public DataContainer() throws HeadlessException 
 	{
 		
 		fitParameter=5;
@@ -123,12 +123,10 @@ public class Data
 		for(int ii=1;ii<collectorEmitterVoltegeSteps;ii++)
 		{
 			voltageCE[ii]=voltageCE[ii-1]+collectorEmitterStep;
-			System.out.println(voltageCE[ii]);
 		}
 		for(int jj=1;jj<baseEmitterVoltegeSteps;jj++)
 		{
 			voltageBE[jj]=voltageBE[jj-1]+baseEmitterStep;
-			System.out.println(voltageBE[jj]);
 		}
 	}
 	
@@ -181,7 +179,7 @@ public class Data
 	@Test
 	public void testCountCurrentsForSingleStep()
 	{
-		Data dataContainer=new Data();
+		DataContainer dataContainer=new DataContainer();
 		
 		int collectorEmittervoltageStep=39;
 		int baseEmittervoltageStep=2;
