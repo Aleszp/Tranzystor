@@ -33,6 +33,8 @@ public class ButtonPanel extends JPanel
 		
 		loadButton.setBackground(inActiveColor);
 		loadButton.setOpaque(true);
+		
+		
 		saveButton.setBackground(inActiveColor);
 		saveButton.setOpaque(true);
 		activeColor=exportButton.getBackground();

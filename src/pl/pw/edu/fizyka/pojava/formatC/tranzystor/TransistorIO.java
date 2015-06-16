@@ -1,11 +1,15 @@
 package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.InputStream;
 import java.util.Scanner;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
 
@@ -13,22 +17,17 @@ public class TransistorIO
 {
 	InterFace frame;
 	MatrixPanel hMatrix;
-	ValuePanel vPanel[];
-	JFrame dialogFrame;
+	ValuePanel maximumValuesPanel[];
+	DialogFrame dialogFrame;
 	
 	
 	public TransistorIO(InterFace frame_)
 	{
 		frame=frame_;
 		hMatrix=frame.hybridMatrix;
-		vPanel=frame.maximumValuesSettingsPanel;
-		frame.buttons.loadButton.addActionListener(new LoadTransistorListener());
-		
-		dialogFrame=new JFrame(Localization.getString("chooseTransistor"));
-		dialogFrame.setSize(320, 240);
-		String tranzistors[]={"BC107","BC159","BC177","BC527"};
-		ValuePanel vPanel=new ValuePanel(Localization.getString("chooseTransistor"), tranzistors);
-		dialogFrame.add(vPanel);
+		maximumValuesPanel=frame.maximumValuesSettingsPanel;
+		dialogFrame=new DialogFrame(Localization.getString("chooseTransistor"),this);
+		frame.buttons.loadButton.addActionListener(new LoadTransistorListener(dialogFrame));
 	}
 	
 	void prepareArray(double h11Value,double h12Value,double h21Value,double h22Value)
@@ -45,15 +44,20 @@ public class TransistorIO
 	}
 	void prepareMaximumValues(double maxVoltageCE, double maxVoltageBE, double maxVoltageCB, double maxCollectorCurrent, double maxBaseCurrent, double maxEmitterCurrent)
 	{
-		vPanel[0].setValue(maxVoltageCE);
-		vPanel[1].setValue(maxVoltageBE);
-		vPanel[2].setValue(maxVoltageCB);
-		vPanel[3].setValue(maxCollectorCurrent);
-		vPanel[4].setValue(maxBaseCurrent);
-		vPanel[5].setValue(maxEmitterCurrent);
+		maximumValuesPanel[0].setValue(maxVoltageCE);
+		maximumValuesPanel[1].setValue(maxVoltageBE);
+		maximumValuesPanel[2].setValue(maxVoltageCB);
+		maximumValuesPanel[3].setValue(maxCollectorCurrent);
+		maximumValuesPanel[4].setValue(maxBaseCurrent);
+		maximumValuesPanel[5].setValue(maxEmitterCurrent);
 	}
 	public class LoadTransistorListener implements ActionListener
 	{
+		DialogFrame dialogFrame;
+		public LoadTransistorListener(DialogFrame dialogFrame_)
+		{
+			dialogFrame=dialogFrame_;
+		}
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
@@ -92,5 +96,52 @@ public class TransistorIO
 	InputStream openInternalFileStream(String fileName)
 	{
 	    return this.getClass().getResourceAsStream(fileName);
+	}
+}
+class DialogFrame extends JFrame
+{
+	private static final long serialVersionUID = 1L;
+	ValuePanel valuePanel;
+	public DialogFrame(String title,TransistorIO transistorIO)
+	{
+		super(title);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setSize(320, 120);
+		setMinimumSize(new Dimension(320,120));
+		setLayout(new BorderLayout());
+		String tranzistors[]={"BC107","BC159","BC177","BC527",Localization.getString("customTransistor")};
+		valuePanel=new ValuePanel(Localization.getString("chooseTransistor"), tranzistors);
+		valuePanel.unit.setSize(300, 20);
+		add(valuePanel, BorderLayout.CENTER);
+		
+		JPanel buttonPanel= new JPanel(); 
+		
+		JButton readyButton=new JButton(Localization.getString("load"));
+		buttonPanel.add(readyButton);
+		readyButton.addActionListener(new LoadTranaistorReadyListener(transistorIO, this));
+		
+		JButton cancelButton=new CancelButton(Localization.getString("cancel"),this);
+		buttonPanel.add(cancelButton,BorderLayout.SOUTH);
+		add(buttonPanel,BorderLayout.SOUTH);
+	}
+	public class LoadTranaistorReadyListener implements ActionListener 
+	{
+		TransistorIO transistorIO;
+		DialogFrame dialogFrame;
+		public LoadTranaistorReadyListener(TransistorIO transistorIO_, DialogFrame dialogFrame_)
+		{
+			transistorIO=transistorIO_;
+			dialogFrame=dialogFrame_;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			int transistors[]={107,159,177,527};
+			int index=dialogFrame.valuePanel.getSelectedIndex();
+			if(index<4)transistorIO.LoadDefaultTransistor(transistors[index]);
+			else System.out.println("Not yet implemented");
+			dialogFrame.setVisible(false);
+		}
+		
 	}
 }

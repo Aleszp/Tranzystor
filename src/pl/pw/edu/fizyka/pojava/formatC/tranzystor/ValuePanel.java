@@ -112,7 +112,25 @@ public class ValuePanel extends JPanel
 		add(unit);
 	}
 	
-	public int getUnit()
+	/**
+	 * @author Aleksander Szpakiewicz-Szatan
+	 * Use {@link #ValuePanel(String, int, int)} as constructor.
+	 * @param name - name of field
+	 * @param textFieldSize - lenght of field (in characters)
+	 * @param unit - unit of value (i.e. volts, miliampers)
+	 */
+	public ValuePanel(String name, int textFieldSize , String unit) 
+	{
+		value = new JTextField(textFieldSize);		
+		value.setText("0");
+		label=new JLabel(name);
+		add(label);
+		add(value);
+		JLabel unitLabel=new JLabel(unit);
+		add(unitLabel);
+	}
+
+	public int getSelectedIndex() //Zmieniłem nazwę z getUnit na getSelectedIndex() by lepiej wskazywała co robi. Szatan
 	{
 		return unit.getSelectedIndex();						//trzeba doda� throw i catch na wypadek nie istniena wrato�ci
 	}
@@ -120,6 +138,15 @@ public class ValuePanel extends JPanel
 	public double getValue()
 	{
 		return Double.valueOf(value.getText());				//trzeba doda� throw i catch na wypadek nie istniena wrato�ci
+	}
+	public void setValue(double value_)
+	{
+		value.setText(""+value_);
+	}
+	
+	public void setValue(int value_)
+	{
+		value.setText(""+value_);
 	}
 	/*
 	public void setUnit(int number)

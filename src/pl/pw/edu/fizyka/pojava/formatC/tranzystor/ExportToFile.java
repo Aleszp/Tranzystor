@@ -112,9 +112,6 @@ public class ExportToFile implements Runnable
 		}
 			
 	}
-	
-		
-	
 
 	@Override
 	public void run() 
@@ -160,6 +157,7 @@ class ExportOptionsFrame extends JFrame
 	ExportOptionsFrame(InterFace frame_,ExportToFile fileIO_)
 	{
 		super(Localization.getString("exportOptions"));
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		frame=frame_;
 		fileIO=fileIO_;
 		decision=-1;
@@ -179,9 +177,8 @@ class ExportOptionsFrame extends JFrame
 		buttonPanel.add(readyButton);
 		readyButton.addActionListener(new ExportReadyListener(this,fileIO));
 		
-		JButton cancelButton=new JButton(Localization.getString("cancel"));
+		JButton cancelButton=new CancelButton(Localization.getString("cancel"),this);
 		buttonPanel.add(cancelButton,BorderLayout.SOUTH);
-		cancelButton.addActionListener(new CancelListener(this));
 		masterPanel.add(buttonPanel,BorderLayout.SOUTH);
 		
 	}
@@ -217,26 +214,13 @@ class ExportOptionsFrame extends JFrame
 			
 		};
 	};
-	public class CancelListener implements ActionListener
-	{
-		ExportOptionsFrame exportFrame;
-		public CancelListener(ExportOptionsFrame exportFrame_)
-		{
-			exportFrame=exportFrame_;
-		}
-		@Override
-		public void actionPerformed(ActionEvent e) 
-		{
-			exportFrame.setVisible(false);
-		}
-	}
 	public int getDecision()
 	{
 		return decision;
 	}
 	public void checkDecision()
 	{
-		decision=vPanel.getUnit();
+		decision=vPanel.getSelectedIndex();
 	}
 };
 

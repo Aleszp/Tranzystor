@@ -22,16 +22,5 @@ public class ChartPanel extends JPanel
 		add(graph1);
 		graph2=new Chart(frameColor);
 		add(graph2);
-		/*
-		//Dodane do testu metody addData (w przyszłości zostanie usunięte)
-		graph1.addData(1,1);
-		graph1.addData(2,2);
-		graph1.addData(3,1);
-		graph1.addData(4,5);
-		graph1.addData(6,7);
-		for(double ii=0.0;ii<10;ii+=0.1)
-			graph2.addData(ii,ii*ii-7*ii+5);
-		//Koniec testu metody addData		
-		*/
 	}
 }

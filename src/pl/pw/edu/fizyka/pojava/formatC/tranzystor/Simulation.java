@@ -55,7 +55,9 @@ class Simulator implements Runnable
 	{
 		frame=frame_;
 		data=new DataContainer();
-		FileIO fileIO=new FileIO(frame,data,simulation);
+		ExportToFile fileIO=new ExportToFile(frame,data,simulation);
+		TransistorIO transistorIO= new TransistorIO(frame);
+		transistorIO.LoadDefaultTransistor(107);
 		fileIO.dummy();
 		simulation=simulation_;
 	}
@@ -82,7 +84,6 @@ class Simulator implements Runnable
 					for(int ii=0;ii<data.collectorEmitterVoltegeSteps&&simulation.working==true;ii++)
 					{
 						data.countCurrentsForSingleStep(ii, jj);
-						//System.out.println(data.getCollectorEmitterVoltage(ii)+"; "+data.getBaseEmitterVoltage(jj)+"; "+data.getBaseCurrent(ii, jj)+"; "+data.getCollectorCurrent(ii, jj)+"; "+data.getEmitterCurrent(ii, jj)); //do testów
 						data.checkMaximumValues(ii, jj);
 						addToGraph(frame.graph1Setting, jj, ii);
 						addToGraph(frame.graph2Setting, jj, ii);

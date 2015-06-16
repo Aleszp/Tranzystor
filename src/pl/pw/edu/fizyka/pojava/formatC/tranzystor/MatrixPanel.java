@@ -21,24 +21,24 @@ public class MatrixPanel extends JPanel
 	
 	public MatrixPanel(Color frameColor ,int textFieldSize) 
 	{
-		h11 =new ValuePanel(Localization.getString("h11"),textFieldSize,6000,Localization.getString("ohms"));
-		h21 =new ValuePanel(Localization.getString("h21"),textFieldSize,380);
+		h11 =new ValuePanel(Localization.getString("h11"),textFieldSize,Localization.getString("ohms"));
+		h21 =new ValuePanel(Localization.getString("h21"),textFieldSize);
 
 		JPanel Column1 =new JPanel();
 		Column1.setLayout(new BoxLayout(Column1,BoxLayout.Y_AXIS));
 		Column1.add(h11);
 		Column1.add(h21);
 
-		h12 =new ValuePanel(Localization.getString("h12"),textFieldSize,0.00016);
-		h22 =new ValuePanel(Localization.getString("h22"),textFieldSize,0.00000005,Localization.getString("siemens"));
+		h12 =new ValuePanel(Localization.getString("h12"),textFieldSize);
+		h22 =new ValuePanel(Localization.getString("h22"),textFieldSize,Localization.getString("siemens"));
 
 		JPanel Column2 =new JPanel();
 		Column2.setLayout(new BoxLayout(Column2,BoxLayout.Y_AXIS));
 		Column2.add(h12);
 		Column2.add(h22);
 		
-		saturationVoltage=new ValuePanel(Localization.getString("UceSAT"),textFieldSize,0.25,Localization.getString("volts"));
-		saturationCurrent=new ValuePanel(Localization.getString("IcSAT"),textFieldSize,330,Localization.getString("miliampers"));
+		saturationVoltage=new ValuePanel(Localization.getString("UceSAT"),textFieldSize,Localization.getString("volts"));
+		saturationCurrent=new ValuePanel(Localization.getString("IcSAT"),textFieldSize,Localization.getString("miliampers"));
 		
 		JPanel Column3 =new JPanel();
 		Column3.setLayout(new BoxLayout(Column3,BoxLayout.Y_AXIS));
@@ -67,8 +67,6 @@ public class MatrixPanel extends JPanel
 	 * @return H11 element of transistor's hybrid matrix 
 	 */
 	public double getH22(){return h22.getValue();}
-	
-	
 	/**
 	 * @return saturationVoltage element of transistor's hybrid matrix 
 	 */
@@ -79,12 +77,24 @@ public class MatrixPanel extends JPanel
 	public double getSaturationCurrent(){return saturationCurrent.getValue();}
 	
 	/**
+	 * Use {@link #setSaturationVoltage(double)} to set value of transistor's saturation voltage
+	 * @param value - value which should be set
+	 */
+	public void setSaturationVoltage(double value){saturationVoltage.setValue(value);}
+	/**
+	 * Use {@link #setSaturationCurrent(double)} to set value of transistor's saturation current
+	 * @param value - value which should be set
+	 */
+	public void setSaturationCurrent(double value){saturationCurrent.setValue(value);}
+	
+	/**
 	 * Use {@link #getH(int)} to get value of transistor's h-matrix
-	 * @return value of h-matrix element with id as follows:
+	 * @param id - h-matrix elemet's id:
 	 * <li>0 - h11 </li>
 	 * <li>1 - h12 </li>
 	 * <li>2 - h21 </li>
 	 * <li>3 - h22 </li>
+	 * @return value of h-matrix element
 	 */
 	public double getH(int id)
 	{
@@ -93,5 +103,21 @@ public class MatrixPanel extends JPanel
 		if(id==2)return h21.getValue();
 		if(id==3)return h22.getValue();
 		return -1; //returns -1 if no matrix element was chosen
+	}
+	/**
+	 * Use {@link #setH(double, int)} to set value of transistor's h-matrix
+	 * @param value - value which should be set
+	 * @param id - h-matrix elemet's id:
+	 * <li>0 - h11 </li>
+	 * <li>1 - h12 </li>
+	 * <li>2 - h21 </li>
+	 * <li>3 - h22 </li>
+	 */
+	public void setH(double value,int id)
+	{
+		if(id==0) h11.setValue(value);
+		if(id==1) h12.setValue(value);
+		if(id==2) h21.setValue(value);
+		if(id==3) h22.setValue(value);
 	}
 }

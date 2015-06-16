@@ -138,7 +138,7 @@ public class DataContainer
 	public void countCurrentsForSingleStep(int collectorEmitterVoltageStepId, int baseEmitterVoltageStepId)
 	{	
 		//If base-emitter voltage is lower than saturation base-emitter voltage treat it as non-linear 
-		if(voltageBE[baseEmitterVoltageStepId]<saturationVoltage)
+		if(Math.abs(voltageBE[baseEmitterVoltageStepId])<Math.abs(saturationVoltage))
 		{
 			setBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,0.1*saturationCurrent*(Math.exp(voltageBE[baseEmitterVoltageStepId]/(fitParameter*0.026))-1));
 		}
@@ -159,12 +159,12 @@ public class DataContainer
 	 */
 	public void checkMaximumValues(int collectorEmitterVoltageStepId, int baseEmitterVoltageStepId)
 	{
-		if(voltageBE[baseEmitterVoltageStepId]>maxVoltageBE||
-				voltageCE[collectorEmitterVoltageStepId]>maxVoltageCE||
-				(voltageCE[collectorEmitterVoltageStepId]-voltageBE[baseEmitterVoltageStepId])>maxVoltageCB||
-				getBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId)>maxBaseCurrent||
-				getCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId)>maxCollectorCurrent||
-				getEmitterCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId)>maxEmitterCurrent)
+		if(Math.abs(voltageBE[baseEmitterVoltageStepId])>maxVoltageBE||
+				Math.abs(voltageCE[collectorEmitterVoltageStepId])>maxVoltageCE||
+				Math.abs(voltageCE[collectorEmitterVoltageStepId]-voltageBE[baseEmitterVoltageStepId])>maxVoltageCB||
+				Math.abs(getBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId))>maxBaseCurrent||
+				Math.abs(getCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId))>maxCollectorCurrent||
+				Math.abs(getEmitterCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId))>maxEmitterCurrent)
 		{
 			setBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,0);
 			setCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,0);

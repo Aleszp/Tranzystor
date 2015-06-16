@@ -77,26 +77,26 @@ public class InterFace extends JFrame
 		graphsSetttings.add(graph2Setting);
 		
 		ValuePanel[] settings1Panels_={
-				new ValuePanel(Localization.getString("startVoltage"),6,0,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("startVoltage"),6,Localization.getString("volts")),
 				new ValuePanel(Localization.getString("steps"),6,100),
 				new ValuePanel(Localization.getString("endVoltage"),6,1,Localization.getString("volts"))};
 		collectorEmitterVoltageSettingsPanel=settings1Panels_;
 		settings1 =new SettingsPanel(frameColor, 3 ,collectorEmitterVoltageSettingsPanel,Localization.getString("Uce"));
 		
 		ValuePanel[] settings2Panels_={
-				new ValuePanel(Localization.getString("startVoltage"),6,0,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("startVoltage"),6,Localization.getString("volts")),
 				new ValuePanel(Localization.getString("steps"),6,1000),
 				new ValuePanel(Localization.getString("endVoltage"),6,1,Localization.getString("volts"))};
 		baseEmitterVoltageSettingsPanel=settings2Panels_;
 		settings2 =new SettingsPanel(frameColor, 3 ,baseEmitterVoltageSettingsPanel,Localization.getString("Ube"));
 		
 		ValuePanel[] settings3Panels_={
-				new ValuePanel(Localization.getString("UceMax"),6,45,Localization.getString("volts")),
-				new ValuePanel(Localization.getString("UbeMax"),6,6,Localization.getString("volts")),
-				new ValuePanel(Localization.getString("UcbMax"),6,50,Localization.getString("volts")),
-				new ValuePanel(Localization.getString("IcMax"),6,100,Localization.getString("miliampers")),
-				new ValuePanel(Localization.getString("IbMax"),6,100,Localization.getString("miliampers")),
-				new ValuePanel(Localization.getString("IeMax"),6,100,Localization.getString("miliampers"))};
+				new ValuePanel(Localization.getString("UceMax"),6,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("UbeMax"),6,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("UcbMax"),6,Localization.getString("volts")),
+				new ValuePanel(Localization.getString("IcMax"),6,Localization.getString("miliampers")),
+				new ValuePanel(Localization.getString("IbMax"),6,Localization.getString("miliampers")),
+				new ValuePanel(Localization.getString("IeMax"),6,Localization.getString("miliampers"))};
 		maximumValuesSettingsPanel=settings3Panels_;
 		settings3=new SettingsPanel(frameColor, 6 ,maximumValuesSettingsPanel,Localization.getString("limitingValues"));
 		
