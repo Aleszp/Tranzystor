@@ -47,7 +47,7 @@ public class InterFace extends JFrame
 	ValuePanel[] baseEmitterVoltageSettingsPanel;
 	ValuePanel[] maximumValuesSettingsPanel;
 	
-	ButtonPanel buttons;
+	ButtonPanel buttonPanel; //Zmieniłem z buttons na buttonPanel dla przejrzystości kodu
 	
 	/**
 	 * Default (and only constructor) which creates InterFace 
@@ -111,12 +111,12 @@ public class InterFace extends JFrame
 		settings.add(settings3);
 		
 		hybridMatrix =new MatrixPanel(frameColor,6);
-		buttons =new ButtonPanel(simulation);
+		buttonPanel =new ButtonPanel(simulation);
 		
 		JPanel mainPanel =new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(graphs,BorderLayout.CENTER);
-		mainPanel.add(buttons,BorderLayout.SOUTH);
+		mainPanel.add(buttonPanel,BorderLayout.SOUTH);
 		
 		JPanel settingPanel =new JPanel();						//g��wna ramka
 		settingPanel.setLayout(new BoxLayout(settingPanel,BoxLayout.Y_AXIS));

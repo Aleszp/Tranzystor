@@ -29,7 +29,7 @@ public class ExportToFile implements Runnable
 		data=data_;
 		simulation=simulation_;
 		frame=frame_;
-		frame.buttons.exportButton.addActionListener(new ExportListener(frame, simulation,this,frame.buttons.exportButton));
+		frame.buttonPanel.exportButton.addActionListener(new ExportListener(frame, simulation,this,frame.buttonPanel.exportButton));
 	}
 	public void exportSingleCurrent(JFileChooser chooser_,int currentId_)
 	{
@@ -107,7 +107,7 @@ public class ExportToFile implements Runnable
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-			if(thisButton.getBackground()==frame.buttons.activeColor)
+			if(thisButton.getBackground()==frame.buttonPanel.activeColor)
 				exportFrame=new ExportOptionsFrame(frame,fileIO);
 		}
 			
@@ -198,7 +198,7 @@ class ExportOptionsFrame extends JFrame
 			exportFrame.setVisible(false);
 			exportFrame.checkDecision();
 			JFileChooser chooser=new JFileChooser();
-		  	chooser.setDialogTitle(Localization.getString("chooseFile"));
+		  	chooser.setDialogTitle(Localization.getString("chooseExportFile"));
 		  	chooser.setFileFilter(new FileNameExtensionFilter(Localization.getString("csv"), "csv"));
 		  	
 		  	int result = chooser.showDialog(frame,Localization.getString("export"));  	

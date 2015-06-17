@@ -19,8 +19,9 @@ public class Language
 	
 	public Language()
 	{
-		frame =new JFrame("Wybierz język, choose language.");
+		frame=new JFrame("Wybierz język, choose language.");
 		frame.setSize(320, 60);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new FlowLayout());
 		chosen=-1;
 		JButton button[]=new JButton[2];
