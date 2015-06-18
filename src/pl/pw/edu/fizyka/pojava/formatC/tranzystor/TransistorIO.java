@@ -147,7 +147,7 @@ public class TransistorIO implements Runnable
 	@Override
 	public void run() 
 	{
-		File chosenFile=chooseFile(Localization.getString("chooseCustomTransistor"),Localization.getString("load"),frame);
+		File chosenFile=chooseFile(Localization.getString("chooseSaveTransistor"),Localization.getString("save"),frame);
 		if(chosenFile!=null)
 			SaveTransistor(chosenFile);
 	}
