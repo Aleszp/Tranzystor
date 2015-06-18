@@ -114,18 +114,18 @@ public class Simulation implements Runnable
 	void addToGraph(ChartSettings graphSettings, int baseEmitterVoltageStep, int collectorEmitterVoltageStep)
 	{
 		double voltage, current;
-		if(graphSettings.ox.unit.getSelectedIndex()==0&&(Math.abs(graphSettings.parameter.getValue()-data.getCollectorEmitterVoltage(collectorEmitterVoltageStep))<0.01)) //Ube
+		if(graphSettings.ox.comboBox.getSelectedIndex()==0&&(Math.abs(graphSettings.parameter.getValue()-data.getCollectorEmitterVoltage(collectorEmitterVoltageStep))<0.01)) //Ube
 			voltage=data.getBaseEmitterVoltage(baseEmitterVoltageStep);
 		else
-			if(graphSettings.ox.unit.getSelectedIndex()==1&&(Math.abs(graphSettings.parameter.getValue()-data.getBaseEmitterVoltage(baseEmitterVoltageStep))<0.01)) //Uce
+			if(graphSettings.ox.comboBox.getSelectedIndex()==1&&(Math.abs(graphSettings.parameter.getValue()-data.getBaseEmitterVoltage(baseEmitterVoltageStep))<0.01)) //Uce
 				voltage=data.getCollectorEmitterVoltage(collectorEmitterVoltageStep);
 			else
 				return;
 		
-		if(graphSettings.oy.unit.getSelectedIndex()==0) //Ib
+		if(graphSettings.oy.comboBox.getSelectedIndex()==0) //Ib
 			current=data.getBaseCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);
 		else
-			if(graphSettings.oy.unit.getSelectedIndex()==1) //Ie
+			if(graphSettings.oy.comboBox.getSelectedIndex()==1) //Ie
 				current=data.getEmitterCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);
 			else											//Ic
 				current=data.getCollectorCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);

@@ -181,7 +181,7 @@ class TranzistorLoadDialogFrame extends JFrame implements Runnable
 		
 		String tranzistors[]={"BC107 "+Localization.getString("default"),"BC159","BC177","BC527",Localization.getString("customTransistor")};
 		valuePanel=new ValuePanel(Localization.getString("chooseTransistor"), tranzistors);
-		valuePanel.unit.setSize(300, 20);
+		valuePanel.comboBox.setSize(300, 20);
 		add(valuePanel, BorderLayout.CENTER);
 		
 		JPanel buttonPanel= new JPanel(); 

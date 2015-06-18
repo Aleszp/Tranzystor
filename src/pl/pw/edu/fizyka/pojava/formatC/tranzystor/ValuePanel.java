@@ -9,8 +9,8 @@ import javax.swing.JTextField;
 Nie mogłeś zrobić trzech klas do różnych zastosowań? Przecież i tak narobiłeś ich chorą ilość. 
 Szatan*/
 /**
- * 
- * @author Łukasz Krzysztofik (człowieku, że też muszę za Ciebie pisać dokumentację. Szatan)
+ * Class used to contain comboBoxes/textFields with labels
+ * @author Łukasz Krzysztofik (documentation Aleksander Szpakiewicz-Szatan)
  *
  */
 public class ValuePanel extends JPanel 
@@ -18,9 +18,14 @@ public class ValuePanel extends JPanel
 	private static final long serialVersionUID = 1397518244713660284L;
 	
 	JTextField value;
-	JComboBox<String> unit;
+	JComboBox<String> comboBox; //changed name from 'unit' to 'comboBox', as in way it's used it makes more sense. Szatan
 	JLabel label;
 	
+	/**
+	 * Use ValuePanel(String,int) as constructor
+	 * @param name - name of field being shown in labe
+	 * @param textFieldSize - lenght of textField (in signs)
+	 */
 	public ValuePanel(String name, int textFieldSize) 
 	{
 		value = new JTextField(textFieldSize);
@@ -28,15 +33,8 @@ public class ValuePanel extends JPanel
 		add(value);
 	}
 	
-	public ValuePanel(String name, int textFieldSize ,String[] unitType) 
-	{
-		value = new JTextField(textFieldSize);
-		//unit = new JComboBox<String>(unitType); //Różne jednostki raczej nie są potrzebne. Szatan
-		label=new JLabel(name);
-		add(label);
-		add(value);
-		//add(unit);  // j. w.
-	}
+	//Removed unused constructors, Szatan
+	
 	/**
 	 * @author Aleksander Szpakiewicz-Szatan
 	 * Use {@link #ValuePanel(String, int, double)} as constructor.
@@ -105,11 +103,16 @@ public class ValuePanel extends JPanel
 		add(unitLabel);
 	}
 	
-	public ValuePanel(String name,String[] unitType) 
+	/**
+	 * Use ValuePanel as constructor
+	 * @param name - comboBox name
+	 * @param comboBoxStrings - strings that comboBox should contain
+	 */
+	public ValuePanel(String name,String[] comboBoxStrings)  //renamed variable from 'unitType' to 'comboBoxString' as it's more logical
 	{
-		unit = new JComboBox<String>(unitType);
+		comboBox = new JComboBox<String>(comboBoxStrings);
 		add(new JLabel(name));
-		add(unit);
+		add(comboBox);
 	}
 	
 	/**
@@ -130,33 +133,35 @@ public class ValuePanel extends JPanel
 		add(unitLabel);
 	}
 
-	public int getSelectedIndex() //Zmieniłem nazwę z getUnit na getSelectedIndex() by lepiej wskazywała co robi. Szatan
+	/**
+	 * @return index number of selected item in combobox
+	 */
+	public int getSelectedIndex() //Changed method name from 'getUnit' to 'getSelectedIndex' as it fits better it's purpose. Szatan
 	{
-		return unit.getSelectedIndex();						//trzeba doda� throw i catch na wypadek nie istniena wrato�ci
+		return comboBox.getSelectedIndex();
 	}
-	
+	/**
+	 * @return value typed in textField
+	 */
 	public double getValue()
 	{
-		return Double.valueOf(value.getText());				//trzeba doda� throw i catch na wypadek nie istniena wrato�ci
+		return Double.valueOf(value.getText());
 	}
+	/**
+	 * Use setValue(double) to set value inside textField
+	 * @param value_ - value that should be set
+	 */
 	public void setValue(double value_)
 	{
 		value.setText(""+value_);
 	}
-	
+	/**
+	 * Use setValue(int) to set value inside textField
+	 * @param value_ - value that should be set
+	 */
 	public void setValue(int value_)
 	{
 		value.setText(""+value_);
 	}
-	/*
-	public void setUnit(int number)
-	{
-		unit.setSelectedIndex(number);
-	}
-	
-	public void setValue(double number)
-	{
-		value.setText(String.valueOf(number));
-	}
-	*/
+	//Removed unused setters during cleanup. Szatan
 }

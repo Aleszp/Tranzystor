@@ -60,7 +60,7 @@ public class ChartSettings extends JPanel
 		parameter=new ValuePanel(oxin[1],5,0,Localization.getString("volts"));
 		add(parameter);
 		//Jedno napięcie to argument, drugie to parametr
-		ox.unit.addItemListener(new ItemListener()
+		ox.comboBox.addItemListener(new ItemListener()
 		{
             @Override
             public void itemStateChanged(ItemEvent e)
@@ -81,24 +81,8 @@ public class ChartSettings extends JPanel
 	 */
 	public void refreshGraph()
 	{
-		graph.chart.setTitle(Localization.getString("chartTitle1")+" "+oyin[oy.unit.getSelectedIndex()]+" "+Localization.getString("chartTitle2")+" "+oxin[ox.unit.getSelectedIndex()]+" "+Localization.getString("chartTitle3")+" "+oxin[1-ox.unit.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+		graph.chart.setTitle(Localization.getString("chartTitle1")+" "+oyin[oy.comboBox.getSelectedIndex()]+" "+Localization.getString("chartTitle2")+" "+oxin[ox.comboBox.getSelectedIndex()]+" "+Localization.getString("chartTitle3")+" "+oxin[1-ox.comboBox.getSelectedIndex()]+"="+parameter.value.getText()+"V");
 	}
 	
-	/*
-	public int getOX()
-	{
-		return ox.getUnit();
-	}
-	
-
-	public int getOY()
-	{
-		return oy.getUnit();
-	}
-	
-	public void setParameter(String parametr)
-	{
-		graphParameterLabel.setText(parametr);
-	}
-	*/
+	//Removed unused getters and setters during clean-up. Szatan
 }
