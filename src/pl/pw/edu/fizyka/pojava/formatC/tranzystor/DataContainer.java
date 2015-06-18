@@ -57,39 +57,10 @@ public class DataContainer
 	double maxVoltageCB;
 	
 	/**
-	 * Use {@link #Data(int, int, double[], double[])} as constructor.
-	 * 
-	 * @param collectorEmitterVoltegeSteps_ number of steps for collector-emitter voltage value
-	 * @param baseEmitterVoltegeSteps_ number of steps for base-emitter voltage value
-	 * @param collectorEmitterVoltageRange_   array:<ul><li> 0 - start collector-emitter voltage value,</li> <li>1 - end collector-emitter voltage value</li></ul>
-	 * @param baseEmitterVoltageRange_   array:<ul><li> 0 - start base-emitter voltage value, </li> <li>1 - end base-emitter voltage value</li></ul>
-	 * 
-	 * @see #collectorEmitterVoltageRange
-	 * @see #baseEmitterVoltageRange
-	 */
-	
-	//Commented out in order to make tests not throw "Test class can only have one constructor" error, especially as they demand it to have no parameters
-	/*public Data(int collectorEmitterVoltegeSteps_,int baseEmitterVoltegeSteps_, double collectorEmitterVoltageRange_[], double baseEmitterVoltageRange_[]) throws HeadlessException 
-	{
-		//Wczytaj dane początkowe
-		collectorEmitterVoltegeSteps=collectorEmitterVoltegeSteps_;
-		baseEmitterVoltegeSteps=baseEmitterVoltegeSteps_;
-		collectorEmitterVoltageRange=new double[2];
-		baseEmitterVoltageRange=new double[2];
-		collectorEmitterVoltageRange[0]=collectorEmitterVoltageRange_[0];
-		collectorEmitterVoltageRange[1]=collectorEmitterVoltageRange_[1];
-		baseEmitterVoltageRange[0]=baseEmitterVoltageRange_[0];
-		baseEmitterVoltageRange[1]=baseEmitterVoltageRange_[1];
-		
-		createArrays();
-	}*/
-	
-	/**
 	 * Use {@link #Data()} as constructor. 
 	 */
 	public DataContainer() throws HeadlessException 
 	{
-		
 		fitParameter=5;
 		createArrays();
 	}

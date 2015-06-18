@@ -114,7 +114,7 @@ public class TransistorIO implements Runnable
 			bufferedWriter.write(hMatrix.getSaturationCurrent()+",");
 			bufferedWriter.write(hMatrix.getSaturationVoltage()+",");
 			for(int ii=0;ii<6;ii++)
-				bufferedWriter.write(maximumValuesPanel[0].getValue()+",");
+				bufferedWriter.write(maximumValuesPanel[ii].getValue()+",");
 			bufferedWriter.flush();
 			bufferedWriter.close();	
 		} 

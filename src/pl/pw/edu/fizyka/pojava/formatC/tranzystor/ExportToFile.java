@@ -15,6 +15,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
 
+/**
+ * Class being used to export simulation results to file
+ * @author Aleksander Szpakiewicz-Szatan
+ */
 public class ExportToFile implements Runnable
 {
 	DataContainer data;
@@ -24,6 +28,12 @@ public class ExportToFile implements Runnable
 	JFileChooser chooser;
 	int currentId;
 	
+	/**
+	 * Use ExportToFile(InterFace,DataContainer,Simulation) as constructor
+	 * @param frame_ - interface (which contains settings)
+	 * @param data_ - data class with simulation results
+	 * @param simulation_ - simulation that should be exported
+	 */
 	public ExportToFile(InterFace frame_,DataContainer data_, Simulation simulation_)
 	{
 		data=data_;

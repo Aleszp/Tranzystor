@@ -32,13 +32,12 @@ public class Chart extends JPanel
 	/**
 	 * Use {@link #Graph(Color)} as constructor.
 	 * 
-	 * @param frameColor_ sets color of frame
+	 * @param frameColor_ sets color of borders
 	 *  */
 	public Chart(Color frameColor_) 
 	{
 		setBorder(new LineBorder(frameColor_));
-		
-			
+	
 		dataSeries =new XYSeries("");
 		dataCollection = new XYSeriesCollection();
 		dataCollection.addSeries(dataSeries);
@@ -66,12 +65,17 @@ public class Chart extends JPanel
 	 * @param x argument of added point (voltage)
 	 * @param y value of added point (current)
 	 * 
-	 * @see #Graph(Color, in, int)
+	 * @see #Graph(Color, int, int)
 	 */
 	void addData(double x, double y)
 	{
 		dataSeries.add(x,y);
 	}
+	/**
+	 * Use {@link #addData(double, double)} clear chart
+	 * 
+	 * @see #Graph(Color, int, int)
+	 */
 	void clearData()
 	{
 		dataSeries.clear();

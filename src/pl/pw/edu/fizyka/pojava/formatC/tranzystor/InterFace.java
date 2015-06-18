@@ -118,7 +118,7 @@ public class InterFace extends JFrame
 		mainPanel.add(graphs,BorderLayout.CENTER);
 		mainPanel.add(buttonPanel,BorderLayout.SOUTH);
 		
-		JPanel settingPanel =new JPanel();						//g��wna ramka
+		JPanel settingPanel =new JPanel();
 		settingPanel.setLayout(new BoxLayout(settingPanel,BoxLayout.Y_AXIS));
 		settingPanel.add(new JLabel(Localization.getString("settingsTitle1"),JLabel.CENTER));
 		settingPanel.add(graphsSetttings);
