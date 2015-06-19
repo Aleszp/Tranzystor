@@ -5,7 +5,7 @@ Więcej szczegółów w pliku Specyfikacja.pdf.
 Aktualna wersja: Beta 1.0
 Do zrobienia:
  - Sprawdzić, czy gdzieś nie ma błędów			[];
- - Uzupełnić dokumentację wszystkich klas i funkcji	[];
+ - Uzupełnić dokumentację wszystkich klas i metod	[X];
  - Poprawić estetykę kodu				[];
  - Ewentualne inne ulepszenia				[];
 

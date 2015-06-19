@@ -1,23 +1,15 @@
 package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
 import java.awt.Color;
-/*import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;*/
-
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
-//import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
-
 
 /**
  * Contains settings for single chart.
@@ -56,10 +48,10 @@ public class ChartSettings extends JPanel
 		add(ox);
 		oy=new ValuePanel(Localization.getString("OY"),oyin);
 		add(oy);
-		//Zmieniłem to idiotyczne pole na parametr, Szatan
+		//Changed that dumb field into parameter, Szatan
 		parameter=new ValuePanel(oxin[1],5,0,Localization.getString("volts"));
 		add(parameter);
-		//Jedno napięcie to argument, drugie to parametr
+		//One voltage is argument, second one parameter
 		ox.comboBox.addItemListener(new ItemListener()
 		{
             @Override
@@ -83,6 +75,5 @@ public class ChartSettings extends JPanel
 	{
 		graph.chart.setTitle(Localization.getString("chartTitle1")+" "+oyin[oy.comboBox.getSelectedIndex()]+" "+Localization.getString("chartTitle2")+" "+oxin[ox.comboBox.getSelectedIndex()]+" "+Localization.getString("chartTitle3")+" "+oxin[1-ox.comboBox.getSelectedIndex()]+"="+parameter.value.getText()+"V");
 	}
-	
 	//Removed unused getters and setters during clean-up. Szatan
 }

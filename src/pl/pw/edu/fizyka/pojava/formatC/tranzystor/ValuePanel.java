@@ -5,12 +5,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/*Łukasz, bardziej tego udziwnić nie mogłeś? 
-Nie mogłeś zrobić trzech klas do różnych zastosowań? Przecież i tak narobiłeś ich chorą ilość. 
-Szatan*/
+/*Łukasz, was it even possible to make it weirder? 
+You could just make three separate classes instead of one with three different constructors. Szatan*/
+
 /**
  * Class used to contain comboBoxes/textFields with labels
- * @author Łukasz Krzysztofik (documentation Aleksander Szpakiewicz-Szatan)
+ * @author Łukasz Krzysztofik (documentation and additions Aleksander Szpakiewicz-Szatan)
  *
  */
 public class ValuePanel extends JPanel 

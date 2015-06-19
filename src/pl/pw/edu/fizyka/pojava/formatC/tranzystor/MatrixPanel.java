@@ -8,7 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
-
+/**
+ * Class containing h-matrix Panel which contains of ValuePanels that hold h-matrix data and saturation data (as it well fitted in GUI)
+ */
 public class MatrixPanel extends JPanel 
 {
 	private static final long serialVersionUID = -404291353413943280L;

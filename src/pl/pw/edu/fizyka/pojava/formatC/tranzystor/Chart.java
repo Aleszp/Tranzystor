@@ -27,7 +27,6 @@ public class Chart extends JPanel
 	XYSeries dataSeries;
 	XYSeriesCollection dataCollection;
 	JFreeChart chart;
-	
 
 	/**
 	 * Use {@link #Graph(Color)} as constructor.

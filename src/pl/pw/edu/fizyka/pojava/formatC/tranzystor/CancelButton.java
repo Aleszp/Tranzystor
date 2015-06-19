@@ -40,6 +40,9 @@ public class CancelButton extends JButton
 			frame=frame_;
 		}
 		@Override
+		/**
+		 * Makes frame hide.
+		 */
 		public void actionPerformed(ActionEvent e) 
 		{
 			frame.setVisible(false);

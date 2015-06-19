@@ -40,7 +40,7 @@ public class ButtonPanel extends JPanel
 		exportButton = new JButton(Localization.getString("exportButton"));
 		startStopButton = new JButton(Localization.getString("startButton"));  
 		
-		activeColor=exportButton.getBackground();
+		activeColor=exportButton.getBackground(); //this way active buttons colors are the same in every Look'n'Feel
 		exportButton.setBackground(inactiveColor);
 		
 		/**
@@ -71,7 +71,5 @@ public class ButtonPanel extends JPanel
 		add(exportButton);
 		add(startStopButton);
 		setLayout(new GridLayout());
-		
-		
 	}
 }
