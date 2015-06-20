@@ -23,7 +23,7 @@ import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
  *  - first section with two graphs and basic simulation controls; <br>
  *  - second section with control panel; <br>
  *  */
-public class InterFace extends JFrame 
+public class InterFace extends JFrame implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -101,63 +101,7 @@ public class InterFace extends JFrame
 			{
 				if(tabbedPane.getSelectedIndex()==1)
 					return;
-				DataContainer data=simulation.data;
-				chart1Setting.refreshChart();
-				chart2Setting.refreshChart();
-				if(!simulation.getWorking())
-				{
-					simulation.clearChart(chart1Setting);
-					simulation.clearChart(chart2Setting);
-				}
-				int maximalBaseEmitterVoltageStep=data.baseEmitterVoltegeSteps;
-				int maximalCollectorEmitterVoltageStep=data.collectorEmitterVoltegeSteps;
-				
-				if(maximalBaseEmitterVoltageStep<5000&&maximalCollectorEmitterVoltageStep<5000||simulation.getWorking()==false)
-				{
-					maximalBaseEmitterVoltageStep=simulation.getBaseEmitterVoltageStep();
-					maximalCollectorEmitterVoltageStep=simulation.getCollectorEmitterVoltageStep();
-					int chart1VoltageStep=0;
-					int chart2VoltageStep=0;
-					int chart1OX=chart1Setting.ox.getSelectedIndex();
-					int chart2OX=chart2Setting.ox.getSelectedIndex();
-					for(int ii=0;ii<maximalBaseEmitterVoltageStep;ii++)
-					{
-						if(chart1OX==1)
-							if(Math.abs(data.getBaseEmitterVoltage(ii)-chart1Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
-								chart1VoltageStep=ii;
-						if(chart2OX==1)
-							if(Math.abs(data.getBaseEmitterVoltage(ii)-chart2Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
-								chart2VoltageStep=ii;
-					}
-					for(int ii=0;ii<maximalCollectorEmitterVoltageStep;ii++)
-					{
-						if(chart1OX==0)
-							if(Math.abs(data.getBaseEmitterVoltage(ii)-chart1Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
-								chart1VoltageStep=ii;
-						if(chart2OX==0)
-							if(Math.abs(data.getBaseEmitterVoltage(ii)-chart2Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
-								chart2VoltageStep=ii;
-					}
-					for(int ii=0;ii<maximalBaseEmitterVoltageStep;ii++)
-					{
-						if(chart1OX==0)
-							simulation.forceAddToGraph(chart1Setting, ii, chart1VoltageStep);
-						if(chart2OX==0)
-							simulation.forceAddToGraph(chart2Setting, ii, chart2VoltageStep);
-					}
-					for(int ii=0;ii<maximalCollectorEmitterVoltageStep;ii++)
-					{
-						if(simulation.getWorking())
-						{
-							maximalBaseEmitterVoltageStep=simulation.getBaseEmitterVoltageStep();
-							maximalCollectorEmitterVoltageStep=simulation.getCollectorEmitterVoltageStep();
-						}
-						if(chart1OX==1)
-							simulation.forceAddToGraph(chart1Setting, chart1VoltageStep, ii);
-						if(chart2OX==1)
-							simulation.forceAddToGraph(chart2Setting, chart2VoltageStep, ii);
-					}
-				}
+				run();
 			}
         };
         tabbedPane.addChangeListener(changeListener);
@@ -222,5 +166,66 @@ public class InterFace extends JFrame
 		settings.add(settings12);
 		settings.add(settings3);
 		return settings;
+	}
+	@Override
+	public void run() 
+	{
+		DataContainer data=simulation.data;
+		chart1Setting.refreshChart();
+		chart2Setting.refreshChart();
+		if(!simulation.getWorking())
+		{
+			simulation.clearChart(chart1Setting);
+			simulation.clearChart(chart2Setting);
+		}
+		int maximalBaseEmitterVoltageStep=data.baseEmitterVoltegeSteps;
+		int maximalCollectorEmitterVoltageStep=data.collectorEmitterVoltegeSteps;
+		
+		if(simulation.getWorking()==false) //maximalBaseEmitterVoltageStep<5000&&maximalCollectorEmitterVoltageStep<5000||
+		{
+			maximalBaseEmitterVoltageStep=simulation.getBaseEmitterVoltageStep();
+			maximalCollectorEmitterVoltageStep=simulation.getCollectorEmitterVoltageStep();
+			int chart1VoltageStep=0;
+			int chart2VoltageStep=0;
+			int chart1OX=chart1Setting.ox.getSelectedIndex();
+			int chart2OX=chart2Setting.ox.getSelectedIndex();
+			for(int ii=0;ii<maximalBaseEmitterVoltageStep;ii++)
+			{
+				if(chart1OX==1)
+					if(Math.abs(data.getBaseEmitterVoltage(ii)-chart1Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
+						chart1VoltageStep=ii;
+				if(chart2OX==1)
+					if(Math.abs(data.getBaseEmitterVoltage(ii)-chart2Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
+						chart2VoltageStep=ii;
+			}
+			for(int ii=0;ii<maximalCollectorEmitterVoltageStep;ii++)
+			{
+				if(chart1OX==0)
+					if(Math.abs(data.getBaseEmitterVoltage(ii)-chart1Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
+						chart1VoltageStep=ii;
+				if(chart2OX==0)
+					if(Math.abs(data.getBaseEmitterVoltage(ii)-chart2Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
+						chart2VoltageStep=ii;
+			}
+			for(int ii=0;ii<maximalBaseEmitterVoltageStep;ii++)
+			{
+				if(chart1OX==0)
+					simulation.forceAddToGraph(chart1Setting, ii, chart1VoltageStep);
+				if(chart2OX==0)
+					simulation.forceAddToGraph(chart2Setting, ii, chart2VoltageStep);
+			}
+			for(int ii=0;ii<maximalCollectorEmitterVoltageStep;ii++)
+			{
+				if(simulation.getWorking())
+				{
+					maximalBaseEmitterVoltageStep=simulation.getBaseEmitterVoltageStep();
+					maximalCollectorEmitterVoltageStep=simulation.getCollectorEmitterVoltageStep();
+				}
+				if(chart1OX==1)
+					simulation.forceAddToGraph(chart1Setting, chart1VoltageStep, ii);
+				if(chart2OX==1)
+					simulation.forceAddToGraph(chart2Setting, chart2VoltageStep, ii);
+			}
+		}
 	}
 }
