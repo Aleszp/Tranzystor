@@ -52,7 +52,7 @@ public class TranzistorLoadDialogFrame extends JFrame implements Runnable
 	}
 	/**
 	 * Listener used by loadButton to tell program to load transistor
-	 * @author aleksander
+	 * @author Aleksander Szpakiewicz-Szatan
 	 *
 	 */
 	public class LoadTransistorReadyListener implements ActionListener 

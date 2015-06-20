@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
 
@@ -51,7 +49,8 @@ public class ExportToFile implements Runnable
 	 */
 	public void addExportButtonListener()
 	{
-		frame.buttonPanel.exportButton.addActionListener(new ExportListener(frame,this,frame.buttonPanel.exportButton));
+		ExportListener exportListener=new ExportListener(frame,this,frame.buttonPanel.exportButton);
+		frame.buttonPanel.exportButton.addActionListener(exportListener);
 	}
 	/**
 	 * Listener added to exportButton which makes program export simulation results.
@@ -62,14 +61,14 @@ public class ExportToFile implements Runnable
 		InterFace frame;
 		ExportToFile fileIO;
 		ExportOptionsFrame exportFrame;
-		JButton thisButton;
+		ActivableButton thisButton;
 		/**
 		 * Use ExportListener(InterFace, Simulation, ExportToFile, JButton) as constructor
 		 * @param frame_ - InterFace in which settings are held 
 		 * @param fileIO_ - ExportToFile class used by its frame
 		 * @param thisButton_
 		 */
-		public ExportListener(InterFace frame_, ExportToFile fileIO_,JButton thisButton_)
+		public ExportListener(InterFace frame_, ExportToFile fileIO_,ActivableButton thisButton_)
 		{
 			frame=frame_;
 			fileIO=fileIO_;
@@ -79,7 +78,7 @@ public class ExportToFile implements Runnable
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-			if(thisButton.getBackground()==frame.buttonPanel.activeColor)
+			if(thisButton.getActive()==true)
 				exportFrame=new ExportOptionsFrame(frame,fileIO);
 		}
 			

@@ -72,8 +72,8 @@ public class Simulation implements Runnable
 		{
 			if(getWorking()==true)
 			{
-				frame.buttonPanel.exportButton.setBackground(frame.buttonPanel.inactiveColor);
-				frame.buttonPanel.loadButton.setBackground(frame.buttonPanel.inactiveColor);
+				frame.buttonPanel.exportButton.setActive(false,Localization.getString("exportInactive"));
+				frame.buttonPanel.loadButton.setActive(false,Localization.getString("loadInactive"));
 				data.collectorEmitterVoltegeSteps=(int)frame.collectorEmitterVoltageSettingsPanel[1].getValue(); //Ucesteps
 				data.baseEmitterVoltegeSteps=(int)frame.baseEmitterVoltageSettingsPanel[1].getValue(); //Ubesteps
 				data.setMaximumValues(frame.maximumValuesSettingsPanel);
@@ -96,8 +96,8 @@ public class Simulation implements Runnable
 				}
 				setWorking(false);
 				frame.buttonPanel.startStopButton.setText(Localization.getString("startButton"));
-				frame.buttonPanel.loadButton.setBackground(frame.buttonPanel.activeColor);
-				frame.buttonPanel.exportButton.setBackground(frame.buttonPanel.activeColor);
+				frame.buttonPanel.loadButton.setActive(true,"");
+				frame.buttonPanel.exportButton.setActive(true,"");
 			}
 			else
 			{

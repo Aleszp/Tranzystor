@@ -17,10 +17,10 @@ import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
 public class ButtonPanel extends JPanel 
 {
 	private static final long serialVersionUID = 5962242182743707191L;
-	JButton loadButton;	
-	JButton saveButton;
-	JButton exportButton;
-	JButton startStopButton;
+	ActivableButton loadButton;	
+	ActivableButton saveButton;
+	ActivableButton exportButton;
+	ActivableButton startStopButton;
 	Simulation simulation;
 	Color activeColor;
 	Color inactiveColor;
@@ -33,15 +33,13 @@ public class ButtonPanel extends JPanel
 	public ButtonPanel(Simulation simulation_) 
 	{
 		simulation=simulation_;
-		
 		inactiveColor=Color.GRAY;
-		loadButton = new JButton(Localization.getString("loadButton"));	
-		saveButton = new JButton(Localization.getString("saveButton"));
-		exportButton = new JButton(Localization.getString("exportButton"));
-		startStopButton = new JButton(Localization.getString("startButton"));  
 		
-		activeColor=exportButton.getBackground(); //this way active buttons colors are the same in every Look'n'Feel
-		exportButton.setBackground(inactiveColor);
+		activeColor=new JButton().getBackground(); //this way active buttons colors are the same in every Look'n'Feel
+		loadButton = new ActivableButton(Localization.getString("loadButton"),inactiveColor,activeColor,true);	
+		saveButton = new ActivableButton(Localization.getString("saveButton"), inactiveColor, activeColor,true);
+		exportButton = new ActivableButton(Localization.getString("exportButton"), inactiveColor, activeColor,true);
+		startStopButton = new ActivableButton(Localization.getString("startButton"), inactiveColor, activeColor,false,Localization.getString("exportInactive"));  
 		
 		/**
 		 *  Listener that is used to start and stop simulation
@@ -72,4 +70,6 @@ public class ButtonPanel extends JPanel
 		add(startStopButton);
 		setLayout(new GridLayout());
 	}
+	
+	
 }

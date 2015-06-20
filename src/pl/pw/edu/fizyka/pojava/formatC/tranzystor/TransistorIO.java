@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.Scanner;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -105,7 +104,7 @@ public class TransistorIO implements Runnable
 		 */
 		public void actionPerformed(ActionEvent e)
 		{
-			if(buttonPanel.loadButton.getBackground()!=buttonPanel.inactiveColor)
+			if(buttonPanel.loadButton.getActive()==true)
 				dialogFrame.setVisible(true);
 		}
 	};
