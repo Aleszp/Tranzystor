@@ -23,7 +23,7 @@ public class ChartSettings extends JPanel
 	ValuePanel parameter;
 	String[] oxin;
 	String[] oyin;
-	Chart graph;
+	Chart chart;
 	
 	/**
 	 * Use {@link #GraphSettings(Color, String[], String[], String[], Chart, String)} as constructor.
@@ -35,12 +35,12 @@ public class ChartSettings extends JPanel
 	 * @param graph_ reference to Graph which's settings it contains
 	 * @param title name that should be displayed as settings title
 	 * */
-	public ChartSettings(Color frameColor,String[] oxin_,String[] oyin_,String[] voltagesUnits,Chart graph_, String title) 
+	public ChartSettings(Color frameColor,String[] oxin_,String[] oyin_,Chart graph_, String title) 
 	{
 		setBorder(new LineBorder(frameColor));
 		oxin=oxin_;
 		oyin=oyin_;
-		graph=graph_;
+		chart=graph_;
 		
 		add(new JLabel(title,JLabel.CENTER));
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -68,12 +68,13 @@ public class ChartSettings extends JPanel
 		
 	}
 	/**
-	 * Use it to refresh text displayed on graph after changing it's settings.
+	 * Use it to refresh text displayed on chart after changing it's settings.
 	 * @author Aleksander Szpakiewicz-Szatan
 	 */
-	public void refreshGraph()
+	public void refreshChart()
 	{
-		graph.chart.setTitle(Localization.getString("chartTitle1")+" "+oyin[oy.comboBox.getSelectedIndex()]+" "+Localization.getString("chartTitle2")+" "+oxin[ox.comboBox.getSelectedIndex()]+" "+Localization.getString("chartTitle3")+" "+oxin[1-ox.comboBox.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+		chart.chart.setTitle(Localization.getString("chartTitle1")+" "+oyin[oy.comboBox.getSelectedIndex()]+" "+Localization.getString("chartTitle2")+" "+oxin[ox.comboBox.getSelectedIndex()]+" "+Localization.getString("chartTitle3")+" "+oxin[1-ox.comboBox.getSelectedIndex()]+"="+parameter.value.getText()+"V");
+		
 	}
 	//Removed unused getters and setters during clean-up. Szatan
 }

@@ -49,6 +49,9 @@ public class DataContainer
 	double saturationCurrent;
 	double fitParameter;
 	
+	double collectorEmitterVoltageStep;
+	double baseEmitterVoltageStep;
+	
 	double maxBaseCurrent;
 	double maxCollectorCurrent;
 	double maxEmitterCurrent;
@@ -77,27 +80,27 @@ public class DataContainer
 	}
 	/**
 	 * Use {@link #createArrays(double, double, double, double)} to fill arrays of voltages.
-	 * @param collectorEmitterStartVoltege - collector-emitter voltage value for start of simulation
-	 * @param collectorEmitterEndVoltege - collector-emitter voltage value for end of simulation
-	 * @param baseEmitterStartVoltege - base-emitter voltage value for start of simulation
-	 * @param baseEmitterEndVoltege - base-emitter voltage value for end of simulation
+	 * @param collectorEmitterStartVoltage - collector-emitter voltage value for start of simulation
+	 * @param collectorEmitterEndVoltage - collector-emitter voltage value for end of simulation
+	 * @param baseEmitterStartVoltage - base-emitter voltage value for start of simulation
+	 * @param baseEmitterEndVoltage - base-emitter voltage value for end of simulation
 	 */
-	public void fillVoltageArrays(double collectorEmitterStartVoltege,double collectorEmitterEndVoltege,double baseEmitterStartVoltege,double baseEmitterEndVoltege)
+	public void fillVoltageArrays(double collectorEmitterStartVoltage,double collectorEmitterEndVoltage,double baseEmitterStartVoltage,double baseEmitterEndVoltage)
 	{
 		voltageCE=new double[collectorEmitterVoltegeSteps];
 		voltageBE=new double[baseEmitterVoltegeSteps];
 		currents=new double[collectorEmitterVoltegeSteps][baseEmitterVoltegeSteps][3];
-		voltageCE[0]=collectorEmitterStartVoltege;
-		voltageBE[0]=baseEmitterStartVoltege;
-		double collectorEmitterStep=(collectorEmitterEndVoltege-collectorEmitterStartVoltege)/(collectorEmitterVoltegeSteps-1);
-		double baseEmitterStep=(baseEmitterEndVoltege-baseEmitterStartVoltege)/(baseEmitterVoltegeSteps-1);
+		voltageCE[0]=collectorEmitterStartVoltage;
+		voltageBE[0]=baseEmitterStartVoltage;
+		collectorEmitterVoltageStep=(collectorEmitterEndVoltage-collectorEmitterStartVoltage)/(collectorEmitterVoltegeSteps-1);
+		baseEmitterVoltageStep=(baseEmitterEndVoltage-baseEmitterStartVoltage)/(baseEmitterVoltegeSteps-1);
 		for(int ii=1;ii<collectorEmitterVoltegeSteps;ii++)
 		{
-			voltageCE[ii]=voltageCE[ii-1]+collectorEmitterStep;
+			voltageCE[ii]=voltageCE[ii-1]+collectorEmitterVoltageStep;
 		}
 		for(int jj=1;jj<baseEmitterVoltegeSteps;jj++)
 		{
-			voltageBE[jj]=voltageBE[jj-1]+baseEmitterStep;
+			voltageBE[jj]=voltageBE[jj-1]+baseEmitterVoltageStep;
 		}
 	}
 	

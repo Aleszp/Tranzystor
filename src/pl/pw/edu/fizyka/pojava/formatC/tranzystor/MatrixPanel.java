@@ -21,6 +21,11 @@ public class MatrixPanel extends JPanel
 	ValuePanel saturationVoltage;
 	ValuePanel saturationCurrent;
 	
+	/**
+	 * Use MatrixPanel(Color,int) as constructor
+	 * @param frameColor - color of borders
+	 * @param textFieldSize - size (in chars) of text fields
+	 */
 	public MatrixPanel(Color frameColor ,int textFieldSize) 
 	{
 		h11 =new ValuePanel(Localization.getString("h11"),textFieldSize,Localization.getString("ohms"));

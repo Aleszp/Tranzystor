@@ -13,8 +13,8 @@ public class ChartPanel extends JPanel
 {
 	private static final long serialVersionUID = 3429864083441722430L;
 	int number;
-	Chart graph1;
-	Chart graph2;
+	Chart chart1;
+	Chart chart2;
 	
 	/**
 	 * Use ChartPanel(Color) as constructor
@@ -22,14 +22,14 @@ public class ChartPanel extends JPanel
 	 */
 	public ChartPanel(Color frameColor) 
 	{
-		GridLayout layout=new GridLayout(); //poprawiłem literówkę w nazwie zmiennej layot -> layout, Szatan
+		GridLayout layout=new GridLayout(); //removed typo layot -> layout, Szatan
 		setLayout(layout);
 		layout.setVgap(10);
 		layout.setHgap(10);
 		
-		graph1=new Chart(frameColor);
-		add(graph1);
-		graph2=new Chart(frameColor);
-		add(graph2);
+		chart1=new Chart(frameColor);
+		add(chart1);
+		chart2=new Chart(frameColor);
+		add(chart2);
 	}
 }

@@ -33,49 +33,161 @@ public class InterFace extends JFrame
 	String[] voltagesNames ={Localization.getString("Ube"), Localization.getString("Uce")};
 	String[] currentsNames ={Localization.getString("Ib"),Localization.getString("Ie"),Localization.getString("Ic")};
 	
-	String[] voltagesUnits ={"V" ,"mV"};
-	String[] currentsUnits ={"A","mA"};
-	
 	MatrixPanel hybridMatrix;
 	SettingsPanel settings1;
 	SettingsPanel settings2;
 	SettingsPanel settings3;
-	ChartSettings graph1Setting;
-	ChartSettings graph2Setting;
+	ChartSettings chart1Setting;
+	ChartSettings chart2Setting;
+	
+	Simulation simulation;
 	
 	ValuePanel[] collectorEmitterVoltageSettingsPanel;
 	ValuePanel[] baseEmitterVoltageSettingsPanel;
 	ValuePanel[] maximumValuesSettingsPanel;
 	
-	ButtonPanel buttonPanel; //Zmieniłem z buttons na buttonPanel dla przejrzystości kodu
+	ButtonPanel buttonPanel; //Changed field name from buttons into buttonPanel to be more descriptive. Szatan
 	
 	/**
 	 * Default (and only constructor) which creates InterFace 
 	 *  - first section with two graphs and basic simulation controls; <br>
 	 *  - second section with control panel; <br>
-	 *  */
+	 *  
+	 */
 	
-	public InterFace(Color frameColorIn, Simulation simulation) throws HeadlessException 
+	public InterFace(Color frameColorIn, Simulation simulation_) throws HeadlessException 
 	{
 		super(Localization.getString("title")+" ("+Localization.getString("version")+")");
 		setSize(800,600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new GridLayout());
 	
-        frameColor=frameColorIn; 					//zmienna koloru ramek
-		
+		simulation=simulation_;
+        frameColor=frameColorIn; 			
         ChartPanel graphs =new ChartPanel(frameColor);
         
-		graph1Setting=new ChartSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph1,Localization.getString("grahp1Title"));		
-		graph2Setting=new ChartSettings(frameColor,voltagesNames,currentsNames,voltagesUnits,graphs.graph2,Localization.getString("grahp2Title"));
+        JPanel graphsSetttings=prepareChartsSettingsPanel(graphs);
+        JPanel settings=prepareSettingsPanels();
+
+		hybridMatrix =new MatrixPanel(frameColor,6);
+		buttonPanel =new ButtonPanel(simulation);
 		
-		graph1Setting.refreshGraph();
-		graph2Setting.refreshGraph();
+		JPanel mainPanel =new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(graphs,BorderLayout.CENTER);
+		mainPanel.add(buttonPanel,BorderLayout.SOUTH);
 		
-		JPanel graphsSetttings =new JPanel();						
-		graphsSetttings.add(graph1Setting);
-		graphsSetttings.add(graph2Setting);
+		JPanel settingPanel =new JPanel();
+		settingPanel.setLayout(new BoxLayout(settingPanel,BoxLayout.Y_AXIS));
+		settingPanel.add(new JLabel(Localization.getString("settingsTitle1"),JLabel.CENTER));
+		settingPanel.add(graphsSetttings);
+		settingPanel.add(settings);
+		settingPanel.add(hybridMatrix);
 		
+		JPanel settingPanelPanel=new JPanel();
+		settingPanelPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1,1));
+		settingPanelPanel.add(settingPanel);
+		JScrollPane settingScrollPane = new JScrollPane(settingPanelPanel);
+		settingScrollPane.setMaximumSize(new Dimension(640,480));
+		
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.addTab(Localization.getString("simulationMenu"),mainPanel);
+        tabbedPane.addTab(Localization.getString("settingsMenu"),settingScrollPane);
+        
+        ChangeListener changeListener=new ChangeListener() //When changing tab charts are refreshed (to fit their settings). Szatan
+        {
+			@Override
+			public void stateChanged(ChangeEvent e) 
+			{
+				if(tabbedPane.getSelectedIndex()==1)
+					return;
+				DataContainer data=simulation.data;
+				chart1Setting.refreshChart();
+				chart2Setting.refreshChart();
+				if(!simulation.getWorking())
+				{
+					simulation.clearChart(chart1Setting);
+					simulation.clearChart(chart2Setting);
+				}
+				int maximalBaseEmitterVoltageStep=data.baseEmitterVoltegeSteps;
+				int maximalCollectorEmitterVoltageStep=data.collectorEmitterVoltegeSteps;
+				
+				if(maximalBaseEmitterVoltageStep<5000&&maximalCollectorEmitterVoltageStep<5000||simulation.getWorking()==false)
+				{
+					maximalBaseEmitterVoltageStep=simulation.getBaseEmitterVoltageStep();
+					maximalCollectorEmitterVoltageStep=simulation.getCollectorEmitterVoltageStep();
+					int chart1VoltageStep=0;
+					int chart2VoltageStep=0;
+					int chart1OX=chart1Setting.ox.getSelectedIndex();
+					int chart2OX=chart2Setting.ox.getSelectedIndex();
+					for(int ii=0;ii<maximalBaseEmitterVoltageStep;ii++)
+					{
+						if(chart1OX==1)
+							if(Math.abs(data.getBaseEmitterVoltage(ii)-chart1Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
+								chart1VoltageStep=ii;
+						if(chart2OX==1)
+							if(Math.abs(data.getBaseEmitterVoltage(ii)-chart2Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
+								chart2VoltageStep=ii;
+					}
+					for(int ii=0;ii<maximalCollectorEmitterVoltageStep;ii++)
+					{
+						if(chart1OX==0)
+							if(Math.abs(data.getBaseEmitterVoltage(ii)-chart1Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
+								chart1VoltageStep=ii;
+						if(chart2OX==0)
+							if(Math.abs(data.getBaseEmitterVoltage(ii)-chart2Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
+								chart2VoltageStep=ii;
+					}
+					for(int ii=0;ii<maximalBaseEmitterVoltageStep;ii++)
+					{
+						if(chart1OX==0)
+							simulation.forceAddToGraph(chart1Setting, ii, chart1VoltageStep);
+						if(chart2OX==0)
+							simulation.forceAddToGraph(chart2Setting, ii, chart2VoltageStep);
+					}
+					for(int ii=0;ii<maximalCollectorEmitterVoltageStep;ii++)
+					{
+						if(simulation.getWorking())
+						{
+							maximalBaseEmitterVoltageStep=simulation.getBaseEmitterVoltageStep();
+							maximalCollectorEmitterVoltageStep=simulation.getCollectorEmitterVoltageStep();
+						}
+						if(chart1OX==1)
+							simulation.forceAddToGraph(chart1Setting, chart1VoltageStep, ii);
+						if(chart2OX==1)
+							simulation.forceAddToGraph(chart2Setting, chart2VoltageStep, ii);
+					}
+				}
+			}
+        };
+        tabbedPane.addChangeListener(changeListener);
+        
+        add(tabbedPane);
+	}
+	/**
+	 * Use prepareCharts(ChartPanel) to prepare panel with charts setting panels
+	 * @param charts - chart panel that contains charts for which settings should be prepared.
+	 * @return JPanel that contains charts settings panels
+	 */
+	JPanel prepareChartsSettingsPanel(ChartPanel charts)
+	{
+		JPanel chartsSetttings=new JPanel();
+		
+		chart1Setting=new ChartSettings(frameColor,voltagesNames,currentsNames,charts.chart1,Localization.getString("grahp1Title"));		
+		chart2Setting=new ChartSettings(frameColor,voltagesNames,currentsNames,charts.chart2,Localization.getString("grahp2Title"));
+		
+		chart1Setting.refreshChart();
+		chart2Setting.refreshChart();
+							
+		chartsSetttings.add(chart1Setting);
+		chartsSetttings.add(chart2Setting);
+		return chartsSetttings;
+	}
+	/**
+	 * @return JPanel that contains simulation voltages parameters and limiting values' settings panels.
+	 */
+	JPanel prepareSettingsPanels()
+	{
 		ValuePanel[] settings1Panels_={
 				new ValuePanel(Localization.getString("startVoltage"),6,Localization.getString("volts")),
 				new ValuePanel(Localization.getString("steps"),6,100),
@@ -109,43 +221,6 @@ public class InterFace extends JFrame
 		settings.setLayout(new GridLayout());
 		settings.add(settings12);
 		settings.add(settings3);
-		
-		hybridMatrix =new MatrixPanel(frameColor,6);
-		buttonPanel =new ButtonPanel(simulation);
-		
-		JPanel mainPanel =new JPanel();
-		mainPanel.setLayout(new BorderLayout());
-		mainPanel.add(graphs,BorderLayout.CENTER);
-		mainPanel.add(buttonPanel,BorderLayout.SOUTH);
-		
-		JPanel settingPanel =new JPanel();
-		settingPanel.setLayout(new BoxLayout(settingPanel,BoxLayout.Y_AXIS));
-		settingPanel.add(new JLabel(Localization.getString("settingsTitle1"),JLabel.CENTER));
-		settingPanel.add(graphsSetttings);
-		settingPanel.add(settings);
-		settingPanel.add(hybridMatrix);
-		
-		JPanel settingPanelPanel=new JPanel();
-		settingPanelPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1,1));
-		settingPanelPanel.add(settingPanel);
-		JScrollPane settingScrollPane = new JScrollPane(settingPanelPanel);
-		settingScrollPane.setMaximumSize(new Dimension(640,480));
-		
-        JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab(Localization.getString("simulationMenu"),mainPanel);
-        tabbedPane.addTab(Localization.getString("settingsMenu"),settingScrollPane);
-        
-        ChangeListener changeListener=new ChangeListener() //Przy zmianie karty odświeżone zostają wykresy (by dostosować je do zmian w zakładce ustawień). Szatan
-        {
-			@Override
-			public void stateChanged(ChangeEvent e) 
-			{
-				graph1Setting.refreshGraph();
-				graph2Setting.refreshGraph();
-			}
-        };
-        tabbedPane.addChangeListener(changeListener);
-        
-        add(tabbedPane);
-	}	
+		return settings;
+	}
 }

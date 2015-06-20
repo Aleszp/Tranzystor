@@ -143,8 +143,8 @@ public class ValuePanel extends JPanel
 	/**
 	 * @return value typed in textField
 	 */
-	public double getValue()
-	{
+	public double getValue() throws NumberFormatException
+	{		
 		return Double.valueOf(value.getText());
 	}
 	/**
