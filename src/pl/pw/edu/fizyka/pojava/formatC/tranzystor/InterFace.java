@@ -178,16 +178,21 @@ public class InterFace extends JFrame
 		return settings;
 	}
 	/**
-	 * This method refreshes charts.
+	 * This method refreshes charts (only if simulation isn't working). Locks ability to start simulation while it works).
 	 */
 	public void refresh() 
-	{
+	{	
+		if(simulation.getWorking()||!simulation.frame.buttonPanel.startStopButton.getActive())
+		{
+			return;
+		}
+		simulation.frame.buttonPanel.startStopButton.setActive(false, Localization.getString("refreshing"));
 		DataContainer data=simulation.data;
 		chart1Setting.refreshChart();
 		chart2Setting.refreshChart();
 		clearCharts();
-		int maximalBaseEmitterVoltageStep=data.baseEmitterVoltegeSteps;
-		int maximalCollectorEmitterVoltageStep=data.collectorEmitterVoltegeSteps;	
+		int maximalBaseEmitterVoltageStep=data.baseEmitterVoltageSteps;
+		int maximalCollectorEmitterVoltageStep=data.collectorEmitterVoltageSteps;	
 		try
 		{
 			int chart1VoltageStep=0;
@@ -231,6 +236,7 @@ public class InterFace extends JFrame
 				if(chart2OX==1)
 					simulation.forceAddToGraph(chart2Setting, chart2VoltageStep, ii);
 			}
+			simulation.frame.buttonPanel.startStopButton.setActive(true, "");
 		}
 		catch(Exception e)
 		{		

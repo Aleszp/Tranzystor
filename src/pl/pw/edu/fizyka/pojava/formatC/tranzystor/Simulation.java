@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Language;
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
@@ -13,7 +14,7 @@ import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
  *Main class of program. Here GUI and data containers are initialized.<br> 
  *@author Aleksander Szpakiewicz-Szatan
  */
-public class Simulation implements Runnable
+public class Simulation
 { 
 	boolean working;
 	InterFace frame;
@@ -69,15 +70,29 @@ public class Simulation implements Runnable
 	public static void main(String[] args) 
 	{
 		Simulation simulation=new Simulation();
-		simulation.exec.execute(simulation);
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+		{
+			protected Void doInBackground() throws Exception 
+			{
+				simulation.simulate();
+				return null;
+			}
+		};
+		worker.execute();
 	}
-	@Override
 	/**
-	 * Do all the necessary calculations, but only when allowed (siumlation is working) 
+	 * Do all the necessary calculations, but only when allowed (simulation is working) 
 	 */
-	public synchronized void run() 
+	public synchronized void simulate() 
 	{
 		frame.buttonPanel.exportButton.setActive(false,Localization.getString("exportInactive"));
+		int ox1Index=frame.chart1Setting.ox.getSelectedIndex();
+		int ox2Index=frame.chart2Setting.ox.getSelectedIndex();
+		int oy1Index=frame.chart1Setting.oy.getSelectedIndex();
+		int oy2Index=frame.chart2Setting.oy.getSelectedIndex();
+		double parameter1=frame.chart1Setting.parameter.getValue(); 
+		double parameter2=frame.chart2Setting.parameter.getValue();
+		
 		
 		while(true)
 		{
@@ -88,8 +103,8 @@ public class Simulation implements Runnable
 					frame.clearCharts();
 					frame.buttonPanel.exportButton.setActive(false,Localization.getString("exportInactive"));
 					frame.buttonPanel.loadButton.setActive(false,Localization.getString("loadInactive"));
-					data.collectorEmitterVoltegeSteps=(int)frame.collectorEmitterVoltageSettingsPanel[1].getValue(); //Ucesteps
-					data.baseEmitterVoltegeSteps=(int)frame.baseEmitterVoltageSettingsPanel[1].getValue(); //Ubesteps
+					data.collectorEmitterVoltageSteps=(int)frame.collectorEmitterVoltageSettingsPanel[1].getValue(); //Ucesteps
+					data.baseEmitterVoltageSteps=(int)frame.baseEmitterVoltageSettingsPanel[1].getValue(); //Ubesteps
 					data.setMaximumValues(frame.maximumValuesSettingsPanel);
 					data.loadArray(frame);
 					data.setSaturationValues(frame.hybridMatrix);
@@ -98,14 +113,14 @@ public class Simulation implements Runnable
 					clearChart(frame.chart1Setting);
 					clearChart(frame.chart2Setting);
 				
-					for(baseEmitterVoltageStep=0;baseEmitterVoltageStep<data.baseEmitterVoltegeSteps&&working==true;baseEmitterVoltageStep++)
+					for(baseEmitterVoltageStep=0;baseEmitterVoltageStep<data.baseEmitterVoltageSteps&&working==true;baseEmitterVoltageStep++)
 					{
-						for(collectorEmitterVoltageStep=0;collectorEmitterVoltageStep<data.collectorEmitterVoltegeSteps&&working==true;collectorEmitterVoltageStep++)
+						for(collectorEmitterVoltageStep=0;collectorEmitterVoltageStep<data.collectorEmitterVoltageSteps&&working==true;collectorEmitterVoltageStep++)
 						{
 							data.countCurrentsForSingleStep(collectorEmitterVoltageStep, baseEmitterVoltageStep);
 							data.checkMaximumValues(collectorEmitterVoltageStep, baseEmitterVoltageStep);
-							addToGraph(frame.chart1Setting, baseEmitterVoltageStep, collectorEmitterVoltageStep);
-							addToGraph(frame.chart2Setting, baseEmitterVoltageStep, collectorEmitterVoltageStep);
+							addToGraph(frame.chart1Setting,ox1Index,oy1Index,parameter1, baseEmitterVoltageStep, collectorEmitterVoltageStep);
+							addToGraph(frame.chart2Setting,ox2Index,oy2Index,parameter2, baseEmitterVoltageStep, collectorEmitterVoltageStep);
 						}
 					}
 				}
@@ -151,23 +166,26 @@ public class Simulation implements Runnable
 	/**
 	 * Method used to add simulations results to graphs (while simulation works)
 	 * @param chartSettings -settings for chart to which data could be added (in order to check if this data should be added)
+	 * @param oxIndex - index of chosen ox (tells whether its base-emitter or collector-emitter voltage)
+	 * @param oxIndex - index of chosen oy (tells whether its base, collector or emitter current)
+	 * @param parameter - value of parameter (base-emitter or collector-emitter voltage)
 	 * @param baseEmitterVoltageStep - number of base-emitter voltage step (to check valid data)
 	 * @param collectorEmitterVoltageStep - number of collector-emitter voltage step (to check valid data) 
 	 */
-	void addToGraph(ChartSettings chartSettings, int baseEmitterVoltageStep, int collectorEmitterVoltageStep)
+	void addToGraph(ChartSettings chartSettings, int oxIndex, int oyIndex, double parameter, int baseEmitterVoltageStep, int collectorEmitterVoltageStep)
 	{
 		double voltage=0, current=0;
-		if(chartSettings.ox.comboBox.getSelectedIndex()==0&&Math.abs(chartSettings.parameter.getValue()-data.getCollectorEmitterVoltage(collectorEmitterVoltageStep))<data.collectorEmitterVoltageStep/2) //Ube
+		if(oxIndex==0&&Math.abs(parameter-data.getCollectorEmitterVoltage(collectorEmitterVoltageStep))<data.collectorEmitterVoltageStep/2) //Ube
 			voltage=data.getBaseEmitterVoltage(baseEmitterVoltageStep);	
 		else
-			if(chartSettings.ox.comboBox.getSelectedIndex()==1&&(Math.abs(chartSettings.parameter.getValue()-data.getBaseEmitterVoltage(baseEmitterVoltageStep))<data.baseEmitterVoltageStep/2)) //Uce
+			if(oxIndex==1&&(Math.abs(parameter-data.getBaseEmitterVoltage(baseEmitterVoltageStep))<data.baseEmitterVoltageStep/2)) //Uce
 				voltage=data.getCollectorEmitterVoltage(collectorEmitterVoltageStep);
 			else
 				return;
-		if(chartSettings.oy.comboBox.getSelectedIndex()==0) //Ib
+		if(oyIndex==0) //Ib
 			current=data.getBaseCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);
 		else
-			if(chartSettings.oy.comboBox.getSelectedIndex()==1) //Ie
+			if(oyIndex==1) //Ie
 				current=data.getEmitterCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);
 			else											//Ic
 				current=data.getCollectorCurrent(collectorEmitterVoltageStep, baseEmitterVoltageStep);
@@ -177,7 +195,7 @@ public class Simulation implements Runnable
 		}
 		catch(NullPointerException e)
 		{
-			
+			e.printStackTrace();
 		}
 		
 	}

@@ -38,8 +38,8 @@ public class ButtonPanel extends JPanel
 		activeColor=new JButton().getBackground(); //this way active buttons colors are the same in every Look'n'Feel
 		loadButton = new ActivableButton(Localization.getString("loadButton"),inactiveColor,activeColor,true);	
 		saveButton = new ActivableButton(Localization.getString("saveButton"), inactiveColor, activeColor,true);
-		exportButton = new ActivableButton(Localization.getString("exportButton"), inactiveColor, activeColor,true);
-		startStopButton = new ActivableButton(Localization.getString("startButton"), inactiveColor, activeColor,false,Localization.getString("exportInactive"));  
+		exportButton = new ActivableButton(Localization.getString("exportButton"), inactiveColor, activeColor,false,Localization.getString("exportInactive"));
+		startStopButton = new ActivableButton(Localization.getString("startButton"), inactiveColor, activeColor,true);  
 		
 		/**
 		 *  Listener that is used to start and stop simulation
@@ -49,6 +49,8 @@ public class ButtonPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
+				if(!startStopButton.getActive())
+					return;
 				if(simulation.working)
 				{
 					simulation.working=false;

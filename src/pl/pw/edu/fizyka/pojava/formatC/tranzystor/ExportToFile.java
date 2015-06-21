@@ -103,14 +103,14 @@ public class ExportToFile
 		    FileWriter writer = new FileWriter(chooser.getSelectedFile());
 	 
 		    writer.append(Localization.getString("Ube")+"\\"+Localization.getString("Uce")+",");
-		    for(int ii=0;ii<data.collectorEmitterVoltegeSteps;ii++)
+		    for(int ii=0;ii<data.collectorEmitterVoltageSteps;ii++)
 		    	writer.append(data.getCollectorEmitterVoltage(ii)+",");
 		    writer.append('\n');
 	 
-		    for(int jj=0;jj<data.baseEmitterVoltegeSteps;jj++)
+		    for(int jj=0;jj<data.baseEmitterVoltageSteps;jj++)
 		    {
 		    	writer.append(data.getBaseEmitterVoltage(jj)+",");
-			    for(int ii=0;ii<data.collectorEmitterVoltegeSteps;ii++)
+			    for(int ii=0;ii<data.collectorEmitterVoltageSteps;ii++)
 			    	writer.append(data.getCurrent(ii,jj,currentId)+",");
 			    writer.append('\n');
 		    }

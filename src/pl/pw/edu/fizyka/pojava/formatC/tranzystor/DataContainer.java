@@ -11,8 +11,8 @@ import org.junit.Test;
  */
 public class DataContainer 
 {
-	int collectorEmitterVoltegeSteps;
-	int baseEmitterVoltegeSteps;
+	int collectorEmitterVoltageSteps;
+	int baseEmitterVoltageSteps;
 	
 	double voltageCE[]; 
 	
@@ -74,9 +74,9 @@ public class DataContainer
 	public void createArrays()
 	{
 		hMatrix=new double[4];
-		voltageCE=new double[collectorEmitterVoltegeSteps];
-		voltageBE=new double[baseEmitterVoltegeSteps];
-		currents=new double[collectorEmitterVoltegeSteps][baseEmitterVoltegeSteps][3];
+		voltageCE=new double[collectorEmitterVoltageSteps];
+		voltageBE=new double[baseEmitterVoltageSteps];
+		currents=new double[collectorEmitterVoltageSteps][baseEmitterVoltageSteps][3];
 	}
 	/**
 	 * Use {@link #createArrays(double, double, double, double)} to fill arrays of voltages.
@@ -87,18 +87,18 @@ public class DataContainer
 	 */
 	public void fillVoltageArrays(double collectorEmitterStartVoltage,double collectorEmitterEndVoltage,double baseEmitterStartVoltage,double baseEmitterEndVoltage)
 	{
-		voltageCE=new double[collectorEmitterVoltegeSteps];
-		voltageBE=new double[baseEmitterVoltegeSteps];
-		currents=new double[collectorEmitterVoltegeSteps][baseEmitterVoltegeSteps][3];
+		voltageCE=new double[collectorEmitterVoltageSteps];
+		voltageBE=new double[baseEmitterVoltageSteps];
+		currents=new double[collectorEmitterVoltageSteps][baseEmitterVoltageSteps][3];
 		voltageCE[0]=collectorEmitterStartVoltage;
 		voltageBE[0]=baseEmitterStartVoltage;
-		collectorEmitterVoltageStep=(collectorEmitterEndVoltage-collectorEmitterStartVoltage)/(collectorEmitterVoltegeSteps-1);
-		baseEmitterVoltageStep=(baseEmitterEndVoltage-baseEmitterStartVoltage)/(baseEmitterVoltegeSteps-1);
-		for(int ii=1;ii<collectorEmitterVoltegeSteps;ii++)
+		collectorEmitterVoltageStep=(collectorEmitterEndVoltage-collectorEmitterStartVoltage)/(collectorEmitterVoltageSteps-1);
+		baseEmitterVoltageStep=(baseEmitterEndVoltage-baseEmitterStartVoltage)/(baseEmitterVoltageSteps-1);
+		for(int ii=1;ii<collectorEmitterVoltageSteps;ii++)
 		{
 			voltageCE[ii]=voltageCE[ii-1]+collectorEmitterVoltageStep;
 		}
-		for(int jj=1;jj<baseEmitterVoltegeSteps;jj++)
+		for(int jj=1;jj<baseEmitterVoltageSteps;jj++)
 		{
 			voltageBE[jj]=voltageBE[jj-1]+baseEmitterVoltageStep;
 		}
@@ -158,8 +158,8 @@ public class DataContainer
 		int collectorEmittervoltageStep=39;
 		int baseEmittervoltageStep=2;
 		
-		dataContainer.collectorEmitterVoltegeSteps=100;
-		dataContainer.baseEmitterVoltegeSteps=200;
+		dataContainer.collectorEmitterVoltageSteps=100;
+		dataContainer.baseEmitterVoltageSteps=200;
 		dataContainer.createArrays();
 		
 		dataContainer.saturationVoltage=0.25;
@@ -232,8 +232,8 @@ public class DataContainer
 		int collectorEmitterVoltageStepId=0;
 		int baseEmitterVoltageStepId=0;
 		double testValue=0.45;
-		collectorEmitterVoltegeSteps=1;
-		baseEmitterVoltegeSteps=1;
+		collectorEmitterVoltageSteps=1;
+		baseEmitterVoltageSteps=1;
 		createArrays();
 		setBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,testValue);
 		assertEquals(getBaseCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId), testValue, 0.001);
@@ -271,8 +271,8 @@ public class DataContainer
 		int collectorEmitterVoltageStepId=0;
 		int baseEmitterVoltageStepId=0;
 		double testValue=7.62;
-		collectorEmitterVoltegeSteps=1;
-		baseEmitterVoltegeSteps=1;
+		collectorEmitterVoltageSteps=1;
+		baseEmitterVoltageSteps=1;
 		createArrays();
 		setCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,testValue);
 		assertEquals(getCollectorCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId), testValue, 0.001);
@@ -309,8 +309,8 @@ public class DataContainer
 		int collectorEmitterVoltageStepId=0;
 		int baseEmitterVoltageStepId=0;
 		double testValue=3.14;
-		collectorEmitterVoltegeSteps=1;
-		baseEmitterVoltegeSteps=1;
+		collectorEmitterVoltageSteps=1;
+		baseEmitterVoltageSteps=1;
 		createArrays();
 		setEmitterCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId,testValue);
 		assertEquals(getEmitterCurrent(collectorEmitterVoltageStepId,baseEmitterVoltageStepId), testValue, 0.001);

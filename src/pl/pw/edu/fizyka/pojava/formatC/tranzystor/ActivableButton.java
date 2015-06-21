@@ -6,8 +6,7 @@ import javax.swing.JButton;
 
 /**
  * Button that will only work if it's activated;
- * @author aleksander
- *
+ * @author Aleksander Szpakiewicz-Szatan
  */
 public class ActivableButton extends JButton
 {

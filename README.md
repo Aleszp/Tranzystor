@@ -2,12 +2,12 @@
 Symulator tranzystora bipolarnego - projekt niezbędny by zaliczyć przedmiot Programowanie Obiektowe.
 Więcej szczegółów w pliku Specyfikacja.pdf.
 
-Aktualna wersja: Beta 1.0
+Aktualna wersja: RC 1.2 (release candidate)
 Do zrobienia:
- - Sprawdzić, czy gdzieś nie ma błędów			[];
+ - Sprawdzić, czy gdzieś nie ma błędów			[X];
  - Uzupełnić dokumentację wszystkich klas i metod	[X];
- - Poprawić estetykę kodu				[];
- - Ewentualne inne ulepszenia				[];
+ - Poprawić estetykę kodu				[X];
+ - Ewentualne inne ulepszenia				[X];
 
 Do zrobienia (a Alfie):
  - Zmienić zmienne statyczne na niestatyczne tam, gdzie nie powinny być 							[x];
