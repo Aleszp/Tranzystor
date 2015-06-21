@@ -16,3 +16,5 @@ Do zrobienia (a Alfie):
  - Dodać możliwość wczytywania przygotowanych tranzystorów (innych niż domyślny BC107) 						[x];
  - Dodać możliwość zapisywania tranzystorów użytkownika (do późniejszego wczytania)						[x];
  - Dodać możliwość wyeksportowania wyników do pliku .csv									[x];
+
+Załączono plik wykonywalny Tranzystor.jar 
