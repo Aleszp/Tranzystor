@@ -3,13 +3,14 @@ Symulator tranzystora bipolarnego - projekt niezbędny by zaliczyć przedmiot Pr
 Więcej szczegółów w pliku Specyfikacja.pdf.
 
 Aktualna wersja: RC 1.2.2 (release candidate)
-Do zrobienia:
+
+Do zrobienia (w Becie):
  - Sprawdzić, czy gdzieś nie ma błędów			[X];
  - Uzupełnić dokumentację wszystkich klas i metod	[X];
  - Poprawić estetykę kodu				[X];
  - Ewentualne inne ulepszenia				[X];
 
-Do zrobienia (a Alfie):
+Do zrobienia (w Alfie):
  - Zmienić zmienne statyczne na niestatyczne tam, gdzie nie powinny być 							[x];
  - Zmienić wielojęzyczność tak, by wczytywać słowa z wnętrza jar'a (za pomocą mechanzmu internacjonalizacji wbudowanych w JDK)	[x];
  - Ujednolicić jednostki w których wprowadzane są wartości (albo wszędzie ampery, albo miliampery)				[x];
