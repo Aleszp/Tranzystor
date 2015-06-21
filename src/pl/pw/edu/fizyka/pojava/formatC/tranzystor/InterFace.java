@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -23,7 +24,7 @@ import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
  *  - first section with two graphs and basic simulation controls; <br>
  *  - second section with control panel; <br>
  *  */
-public class InterFace extends JFrame implements Runnable
+public class InterFace extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -39,6 +40,7 @@ public class InterFace extends JFrame implements Runnable
 	SettingsPanel settings3;
 	ChartSettings chart1Setting;
 	ChartSettings chart2Setting;
+	Thread thread;
 	
 	Simulation simulation;
 	
@@ -101,12 +103,21 @@ public class InterFace extends JFrame implements Runnable
 			{
 				if(tabbedPane.getSelectedIndex()==1)
 					return;
-				run();
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+				{
+					protected Void doInBackground() throws Exception 
+					{
+						refresh();
+						return null;
+					}
+				};
+				worker.execute();
 			}
         };
         tabbedPane.addChangeListener(changeListener);
         
         add(tabbedPane);
+        
 	}
 	/**
 	 * Use prepareCharts(ChartPanel) to prepare panel with charts setting panels
@@ -167,24 +178,19 @@ public class InterFace extends JFrame implements Runnable
 		settings.add(settings3);
 		return settings;
 	}
-	@Override
-	public void run() 
+	/**
+	 * This method refreshes charts.
+	 */
+	public void refresh() 
 	{
 		DataContainer data=simulation.data;
 		chart1Setting.refreshChart();
 		chart2Setting.refreshChart();
-		if(!simulation.getWorking())
-		{
-			simulation.clearChart(chart1Setting);
-			simulation.clearChart(chart2Setting);
-		}
+		clearCharts();
 		int maximalBaseEmitterVoltageStep=data.baseEmitterVoltegeSteps;
-		int maximalCollectorEmitterVoltageStep=data.collectorEmitterVoltegeSteps;
-		
-		if(simulation.getWorking()==false) //maximalBaseEmitterVoltageStep<5000&&maximalCollectorEmitterVoltageStep<5000||
+		int maximalCollectorEmitterVoltageStep=data.collectorEmitterVoltegeSteps;	
+		try
 		{
-			maximalBaseEmitterVoltageStep=simulation.getBaseEmitterVoltageStep();
-			maximalCollectorEmitterVoltageStep=simulation.getCollectorEmitterVoltageStep();
 			int chart1VoltageStep=0;
 			int chart2VoltageStep=0;
 			int chart1OX=chart1Setting.ox.getSelectedIndex();
@@ -227,5 +233,17 @@ public class InterFace extends JFrame implements Runnable
 					simulation.forceAddToGraph(chart2Setting, chart2VoltageStep, ii);
 			}
 		}
+		catch(Exception e)
+		{		
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * This method clears both charts.
+	 */
+	public void clearCharts()
+	{
+		simulation.clearChart(chart1Setting);
+		simulation.clearChart(chart2Setting);
 	}
 }

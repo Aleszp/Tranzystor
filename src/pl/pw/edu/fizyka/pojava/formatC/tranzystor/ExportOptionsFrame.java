@@ -60,11 +60,18 @@ public class ExportOptionsFrame extends JFrame
 		masterPanel.add(buttonPanel,BorderLayout.SOUTH);
 		
 	}
-	
+	/**
+	 * Listener for exportReadyButton.
+	 */
 	public class ExportReadyListener implements ActionListener
 	{
 		ExportOptionsFrame exportFrame;
 		ExportToFile fileIO;
+		/**
+		 * Use ExportReadyListener(ExportOptionsFrame,ExportToFile) as constructor
+		 * @param exportFrame_ - ExportOptionsFrame which should be made visible
+		 * @param fileIO_ - ExportToFile class for which it should choose current to export
+		 */
 		public ExportReadyListener(ExportOptionsFrame exportFrame_, ExportToFile fileIO_)
 		{
 			exportFrame=exportFrame_;
@@ -72,6 +79,9 @@ public class ExportOptionsFrame extends JFrame
 		}
 		
 		@Override
+		/**
+		 * Shows dialog in which user may choose which current to export
+		 */
 		public void actionPerformed(ActionEvent e) 
 		{
 			exportFrame.setVisible(false);

@@ -43,7 +43,6 @@ public class ExportToFile implements Runnable
 		currentId=currentId_;
 		run();
 	}
-	
 	/**
 	 * Use this method to add exportButton listener when everything is properly initialized
 	 */
@@ -83,7 +82,6 @@ public class ExportToFile implements Runnable
 		}
 			
 	}
-
 	@Override
 	/**
 	 * Use run() to make program export selected by user current into selected by user file in separate thread.

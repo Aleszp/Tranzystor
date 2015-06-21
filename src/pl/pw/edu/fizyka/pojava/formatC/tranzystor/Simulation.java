@@ -1,8 +1,11 @@
 package pl.pw.edu.fizyka.pojava.formatC.tranzystor;
 
 import java.awt.Color;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.JOptionPane;
+
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Language;
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
 
@@ -18,6 +21,8 @@ public class Simulation implements Runnable
 	DataContainer data;
 	int baseEmitterVoltageStep;
 	int collectorEmitterVoltageStep;
+	TransistorIO transistorIO;
+	ExecutorService exec;
 	
 	static Language lang;
 	/**
@@ -27,6 +32,7 @@ public class Simulation implements Runnable
 	public Simulation()
 	{
 		working=false;
+		exec=Executors.newFixedThreadPool(1);
 		lang=new Language();
 		localization=new Localization(lang.initialise());
 		
@@ -36,7 +42,7 @@ public class Simulation implements Runnable
 	
 		data=new DataContainer();
 		ExportToFile fileIO=new ExportToFile(frame,data,this);
-		TransistorIO transistorIO= new TransistorIO(frame);
+		transistorIO=new TransistorIO(frame);
 		transistorIO.LoadDefaultTransistor(107);
 		fileIO.addExportButtonListener();
 	}
@@ -63,7 +69,7 @@ public class Simulation implements Runnable
 	public static void main(String[] args) 
 	{
 		Simulation simulation=new Simulation();
-		simulation.run();
+		simulation.exec.execute(simulation);
 	}
 	@Override
 	/**
@@ -72,12 +78,14 @@ public class Simulation implements Runnable
 	public void run() 
 	{
 		frame.buttonPanel.exportButton.setActive(false,Localization.getString("exportInactive"));
+		
 		while(true)
 		{
 			if(getWorking()==true)
 			{
 				try
 				{
+					frame.clearCharts();
 					frame.buttonPanel.exportButton.setActive(false,Localization.getString("exportInactive"));
 					frame.buttonPanel.loadButton.setActive(false,Localization.getString("loadInactive"));
 					data.collectorEmitterVoltegeSteps=(int)frame.collectorEmitterVoltageSettingsPanel[1].getValue(); //Ucesteps
@@ -129,7 +137,6 @@ public class Simulation implements Runnable
 			{
 				frame.buttonPanel.startStopButton.setText(Localization.getString("startButton"));
 				frame.buttonPanel.loadButton.setActive(true,"");
-				frame.buttonPanel.exportButton.setActive(true,"");
 				try 
 				{
 					Thread.sleep(10);

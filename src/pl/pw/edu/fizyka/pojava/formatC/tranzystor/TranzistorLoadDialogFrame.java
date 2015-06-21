@@ -22,6 +22,8 @@ public class TranzistorLoadDialogFrame extends JFrame implements Runnable
 	private static final long serialVersionUID = 1L;
 	ValuePanel valuePanel;
 	TransistorIO transistorIO;
+	Thread thread;
+	boolean load;
 	/**
 	 * Use TranzistorLoadDialogFrame(String,TransistorIO) as constructor
 	 * @param title - title that dialogFrame should display
@@ -31,6 +33,7 @@ public class TranzistorLoadDialogFrame extends JFrame implements Runnable
 	{
 		super(title);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		load=false;
 		transistorIO=transistorIO_;
 		setSize(320, 120);
 		setMinimumSize(new Dimension(320,120));
@@ -49,6 +52,7 @@ public class TranzistorLoadDialogFrame extends JFrame implements Runnable
 		JButton cancelButton=new CancelButton(Localization.getString("cancel"),this);
 		buttonPanel.add(cancelButton,BorderLayout.SOUTH);
 		add(buttonPanel,BorderLayout.SOUTH);
+		thread=new Thread();
 	}
 	/**
 	 * Listener used by loadButton to tell program to load transistor
@@ -73,7 +77,7 @@ public class TranzistorLoadDialogFrame extends JFrame implements Runnable
 		 */
 		public void actionPerformed(ActionEvent e) 
 		{
-			dialogFrame.run();
+			run();
 		}
 		
 	}
@@ -84,23 +88,22 @@ public class TranzistorLoadDialogFrame extends JFrame implements Runnable
 	public void run() 
 	{
 		int transistors[]={107,159,177,527};
-		int index=valuePanel.getSelectedIndex();
-		if(index<4)
-			transistorIO.LoadDefaultTransistor(transistors[index]);
-		else 
-		{
-			File chosenFile=transistorIO.chooseFile(Localization.getString("chooseCustomTransistor"),Localization.getString("load"),this);
-			if(chosenFile!=null)
-			try 
+			int index=valuePanel.getSelectedIndex();
+			if(index<4)
+				transistorIO.LoadDefaultTransistor(transistors[index]);
+			else 
 			{
-				transistorIO.LoadTransistor(chosenFile);
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
+				File chosenFile=transistorIO.chooseFile(Localization.getString("chooseCustomTransistor"),Localization.getString("load"),this);
+				if(chosenFile!=null)
+					try 
+					{
+						transistorIO.LoadTransistor(chosenFile);
+					} 
+					catch (IOException e) 
+					{
+						e.printStackTrace();
+					}
 			}
-		}
-		
 		setVisible(false);
 	}
 }
