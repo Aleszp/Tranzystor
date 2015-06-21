@@ -75,7 +75,7 @@ public class Simulation implements Runnable
 	/**
 	 * Do all the necessary calculations, but only when allowed (siumlation is working) 
 	 */
-	public void run() 
+	public synchronized void run() 
 	{
 		frame.buttonPanel.exportButton.setActive(false,Localization.getString("exportInactive"));
 		

@@ -40,7 +40,6 @@ public class InterFace extends JFrame
 	SettingsPanel settings3;
 	ChartSettings chart1Setting;
 	ChartSettings chart2Setting;
-	Thread thread;
 	
 	Simulation simulation;
 	

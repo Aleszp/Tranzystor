@@ -5,11 +5,11 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
 
@@ -17,7 +17,7 @@ import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
  * Dialog frame used while loading transistor, extension of TransistorIO class 
  * @author Aleksander Szpakiewicz-Szatan
  */
-public class TranzistorLoadDialogFrame extends JFrame implements Runnable
+public class TranzistorLoadDialogFrame extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	ValuePanel valuePanel;
@@ -77,15 +77,15 @@ public class TranzistorLoadDialogFrame extends JFrame implements Runnable
 		 */
 		public void actionPerformed(ActionEvent e) 
 		{
-			run();
+			load();
 		}
 		
 	}
-	@Override
+	
 	/**
 	 * Loads one of predefined transistors or asks user to choose custom transistor's file (and tries to load it)
 	 */
-	public void run() 
+	public void load() 
 	{
 		int transistors[]={107,159,177,527};
 			int index=valuePanel.getSelectedIndex();
@@ -93,16 +93,30 @@ public class TranzistorLoadDialogFrame extends JFrame implements Runnable
 				transistorIO.LoadDefaultTransistor(transistors[index]);
 			else 
 			{
-				File chosenFile=transistorIO.chooseFile(Localization.getString("chooseCustomTransistor"),Localization.getString("load"),this);
-				if(chosenFile!=null)
-					try 
+				JFrame pointer=this;
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+				{
+					protected Void doInBackground() throws Exception 
 					{
-						transistorIO.LoadTransistor(chosenFile);
-					} 
-					catch (IOException e) 
-					{
-						e.printStackTrace();
+						File chosenFile=transistorIO.chooseFile(Localization.getString("chooseCustomTransistor"),Localization.getString("load"),pointer);
+						if(chosenFile!=null)
+							try 
+							{
+								transistorIO.LoadTransistor(chosenFile);
+							} 
+							catch (Exception e) 
+							{
+								JOptionPane.showMessageDialog(
+									transistorIO.frame, Localization.getString("transistorSaveErrorDesc"),
+										Localization.getString("transistorSaveError"),
+										JOptionPane.ERROR_MESSAGE);
+								transistorIO.LoadDefaultTransistor(107);
+							}
+						return null;
 					}
+				};
+				worker.execute();
+				
 			}
 		setVisible(false);
 	}

@@ -10,8 +10,10 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.Scanner;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
@@ -19,7 +21,7 @@ import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
  * Class used to save and load transistor parameters.
  * @author Aleksander Szpakiewicz-Szatan
  */
-public class TransistorIO implements Runnable
+public class TransistorIO
 {
 	InterFace frame;
 	MatrixPanel hMatrix;
@@ -129,7 +131,15 @@ public class TransistorIO implements Runnable
 		 */
 		public void actionPerformed(ActionEvent e) 
 		{
-			transistorIO.run();
+			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+			{
+				protected Void doInBackground() throws Exception 
+				{
+					transistorIO.save();
+					return null;
+				}
+			};
+			worker.execute();
 		}
 	}
 	/**
@@ -177,7 +187,7 @@ public class TransistorIO implements Runnable
 	 */
 	void LoadDefaultTransistor(int transistorModel)
 	{
-		if(transistorModel!=107||transistorModel!=159||transistorModel!=177||transistorModel!=527)
+		if(transistorModel!=107&&transistorModel!=159&&transistorModel!=177&&transistorModel!=527)
 			transistorModel=107;
 		Scanner scanner=new Scanner(openInternalFileStream("BuiltInTransistors.csv"));
 		scanner.useDelimiter(",");
@@ -201,12 +211,11 @@ public class TransistorIO implements Runnable
 	{
 	    return this.getClass().getResourceAsStream(fileName);
 	}
-
-	@Override
+	
 	/**
 	 * Let user choose file to which save file and save it. If user doesn't choose any file do nothing
 	 */
-	public void run() 
+	public void save() 
 	{
 		File chosenFile=chooseFile(Localization.getString("chooseSaveTransistor"),Localization.getString("save"),frame);
 		if(chosenFile!=null)

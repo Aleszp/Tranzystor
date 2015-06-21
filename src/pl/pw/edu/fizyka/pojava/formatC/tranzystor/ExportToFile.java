@@ -4,19 +4,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import javax.swing.JFileChooser;
+import javax.swing.SwingWorker;
+
 import pl.pw.edu.fizyka.pojava.formatC.tranzystor.lang.Localization;
 
 /**
  * Class being used to export simulation results to file
  * @author Aleksander Szpakiewicz-Szatan
  */
-public class ExportToFile implements Runnable
+public class ExportToFile
 {
 	DataContainer data;
 	Simulation simulation;
 	InterFace frame;
-	static Thread thread;
 	JFileChooser chooser;
 	int currentId;
 	
@@ -41,7 +43,15 @@ public class ExportToFile implements Runnable
 	{
 		chooser=chooser_;
 		currentId=currentId_;
-		run();
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+		{
+			protected Void doInBackground() throws Exception 
+			{
+				export();
+				return null;
+			}
+		};
+		worker.execute();
 	}
 	/**
 	 * Use this method to add exportButton listener when everything is properly initialized
@@ -82,11 +92,11 @@ public class ExportToFile implements Runnable
 		}
 			
 	}
-	@Override
+	
 	/**
-	 * Use run() to make program export selected by user current into selected by user file in separate thread.
+	 * Use this method to make program export selected by user current into selected by user file in separate thread.
 	 */
-	public void run() 
+	public void export() 
 	{
 		try
 		{
