@@ -93,7 +93,6 @@ public class Simulation
 		double parameter1=frame.chart1Setting.parameter.getValue(); 
 		double parameter2=frame.chart2Setting.parameter.getValue();
 		
-		
 		while(true)
 		{
 			if(getWorking()==true)
@@ -103,34 +102,12 @@ public class Simulation
 					frame.clearCharts();
 					frame.buttonPanel.exportButton.setActive(false,Localization.getString("exportInactive"));
 					frame.buttonPanel.loadButton.setActive(false,Localization.getString("loadInactive"));
-					data.collectorEmitterVoltageSteps=(int)frame.collectorEmitterVoltageSettingsPanel[1].getValue(); //Ucesteps
-					data.baseEmitterVoltageSteps=(int)frame.baseEmitterVoltageSettingsPanel[1].getValue(); //Ubesteps
-					data.setMaximumValues(frame.maximumValuesSettingsPanel);
-					data.loadArray(frame);
-					data.setSaturationValues(frame.hybridMatrix);
-					data.fillVoltageArrays(frame.collectorEmitterVoltageSettingsPanel[0].getValue(), frame.collectorEmitterVoltageSettingsPanel[2].getValue(), frame.baseEmitterVoltageSettingsPanel[0].getValue(), frame.baseEmitterVoltageSettingsPanel[2].getValue());
-				
-					clearChart(frame.chart1Setting);
-					clearChart(frame.chart2Setting);
-				
-					for(baseEmitterVoltageStep=0;baseEmitterVoltageStep<data.baseEmitterVoltageSteps&&working==true;baseEmitterVoltageStep++)
-					{
-						for(collectorEmitterVoltageStep=0;collectorEmitterVoltageStep<data.collectorEmitterVoltageSteps&&working==true;collectorEmitterVoltageStep++)
-						{
-							data.countCurrentsForSingleStep(collectorEmitterVoltageStep, baseEmitterVoltageStep);
-							data.checkMaximumValues(collectorEmitterVoltageStep, baseEmitterVoltageStep);
-							addToGraph(frame.chart1Setting,ox1Index,oy1Index,parameter1, baseEmitterVoltageStep, collectorEmitterVoltageStep);
-							addToGraph(frame.chart2Setting,ox2Index,oy2Index,parameter2, baseEmitterVoltageStep, collectorEmitterVoltageStep);
-						}
-					}
+					doDataOperations();	
+					computeValues(ox1Index,oy1Index,ox2Index,oy2Index,parameter1,parameter2);
 				}
 				catch(NumberFormatException e)
 				{
-					setWorking(false);
-					frame.buttonPanel.startStopButton.setText(Localization.getString("startButton"));
-					frame.buttonPanel.loadButton.setActive(true,"");
-					frame.buttonPanel.exportButton.setActive(true,"");
-					
+					finish();
 					JOptionPane.showMessageDialog(
 							frame, Localization.getString("wrongNumberDesc"),
 							Localization.getString("wrongNumber"),
@@ -138,15 +115,9 @@ public class Simulation
 				}
 				catch(Exception e)
 				{
-					setWorking(false);
-					frame.buttonPanel.startStopButton.setText(Localization.getString("startButton"));
-					frame.buttonPanel.loadButton.setActive(true,"");
-					frame.buttonPanel.exportButton.setActive(true,"");
+					finish();
 				}
-				setWorking(false);
-				frame.buttonPanel.startStopButton.setText(Localization.getString("startButton"));
-				frame.buttonPanel.loadButton.setActive(true,"");
-				frame.buttonPanel.exportButton.setActive(true,"");
+				finish();
 			}
 			else
 			{
@@ -160,6 +131,28 @@ public class Simulation
 				{
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+	/**
+	 * Use computeValues(int,int,int,int,double,double) to calculate values and add them to charts
+	 * @param ox1Index - index of first charts chosen voltage
+	 * @param oy1Index - index of first charts chosen current
+	 * @param ox2Index - index of second charts chosen voltage
+	 * @param oy2Index - index of second charts chosen current
+	 * @param parameter1 - first chart's parameter value 
+	 * @param parameter2 - second chart's parameter value
+	 */
+	void computeValues(int ox1Index,int oy1Index,int ox2Index,int oy2Index, double parameter1,double parameter2)
+	{
+		for(baseEmitterVoltageStep=0;baseEmitterVoltageStep<data.baseEmitterVoltageSteps&&working==true;baseEmitterVoltageStep++)
+		{
+			for(collectorEmitterVoltageStep=0;collectorEmitterVoltageStep<data.collectorEmitterVoltageSteps&&working==true;collectorEmitterVoltageStep++)
+			{
+				data.countCurrentsForSingleStep(collectorEmitterVoltageStep, baseEmitterVoltageStep);
+				data.checkMaximumValues(collectorEmitterVoltageStep, baseEmitterVoltageStep);
+				addToGraph(frame.chart1Setting,ox1Index,oy1Index,parameter1, baseEmitterVoltageStep, collectorEmitterVoltageStep);
+				addToGraph(frame.chart2Setting,ox2Index,oy2Index,parameter2, baseEmitterVoltageStep, collectorEmitterVoltageStep);
 			}
 		}
 	}
@@ -228,7 +221,6 @@ public class Simulation
 		{
 			
 		}
-		
 	}
 	/**
 	 * Use clearChart(ChartSettings) to remove all data from chart.
@@ -243,4 +235,29 @@ public class Simulation
 	 * @return int - collector-emitter voltage actual step
 	 */
 	int getCollectorEmitterVoltageStep(){return collectorEmitterVoltageStep;}
+	/**
+	 * Method used when simulation finishes (or errors)
+	 */
+	void finish()
+	{
+		setWorking(false);
+		frame.buttonPanel.startStopButton.setText(Localization.getString("startButton"));
+		frame.buttonPanel.loadButton.setActive(true,"");
+		frame.buttonPanel.exportButton.setActive(true,"");
+	}
+	/**
+	 * This method is just grouped bunch of DataContainer class'es methods runned one after another. 
+	 */
+	void doDataOperations()
+	{
+		data.collectorEmitterVoltageSteps=(int)frame.collectorEmitterVoltageSettingsPanel[1].getValue(); //Ucesteps
+		data.baseEmitterVoltageSteps=(int)frame.baseEmitterVoltageSettingsPanel[1].getValue(); //Ubesteps
+		data.setMaximumValues(frame.maximumValuesSettingsPanel);
+		data.loadArray(frame);
+		data.setSaturationValues(frame.hybridMatrix);
+		data.fillVoltageArrays(frame.collectorEmitterVoltageSettingsPanel[0].getValue(),
+				frame.collectorEmitterVoltageSettingsPanel[2].getValue(),
+				frame.baseEmitterVoltageSettingsPanel[0].getValue(), 
+				frame.baseEmitterVoltageSettingsPanel[2].getValue());
+	}
 }

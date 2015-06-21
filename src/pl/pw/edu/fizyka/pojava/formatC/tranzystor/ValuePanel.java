@@ -32,9 +32,7 @@ public class ValuePanel extends JPanel
 		add(new JLabel(name));
 		add(value);
 	}
-	
 	//Removed unused constructors, Szatan
-	
 	/**
 	 * @author Aleksander Szpakiewicz-Szatan
 	 * Use {@link #ValuePanel(String, int, double)} as constructor.

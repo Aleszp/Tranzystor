@@ -72,6 +72,4 @@ public class ButtonPanel extends JPanel
 		add(startStopButton);
 		setLayout(new GridLayout());
 	}
-	
-	
 }

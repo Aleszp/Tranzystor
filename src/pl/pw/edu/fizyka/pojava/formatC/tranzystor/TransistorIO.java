@@ -240,6 +240,5 @@ public class TransistorIO
 	  		chosenFile=chooser.getSelectedFile();
 	  	return chosenFile;
 	}
-	
 }
 

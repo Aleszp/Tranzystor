@@ -91,29 +91,7 @@ public class InterFace extends JFrame
 		JScrollPane settingScrollPane = new JScrollPane(settingPanelPanel);
 		settingScrollPane.setMaximumSize(new Dimension(640,480));
 		
-        JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab(Localization.getString("simulationMenu"),mainPanel);
-        tabbedPane.addTab(Localization.getString("settingsMenu"),settingScrollPane);
-        
-        ChangeListener changeListener=new ChangeListener() //When changing tab charts are refreshed (to fit their settings). Szatan
-        {
-			@Override
-			public void stateChanged(ChangeEvent e) 
-			{
-				if(tabbedPane.getSelectedIndex()==1)
-					return;
-				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
-				{
-					protected Void doInBackground() throws Exception 
-					{
-						refresh();
-						return null;
-					}
-				};
-				worker.execute();
-			}
-        };
-        tabbedPane.addChangeListener(changeListener);
+        JTabbedPane tabbedPane = prepareTabbedPane(mainPanel,settingScrollPane);
         
         add(tabbedPane);
         
@@ -183,9 +161,7 @@ public class InterFace extends JFrame
 	public void refresh() 
 	{	
 		if(simulation.getWorking()||!simulation.frame.buttonPanel.startStopButton.getActive())
-		{
 			return;
-		}
 		simulation.frame.buttonPanel.startStopButton.setActive(false, Localization.getString("refreshing"));
 		DataContainer data=simulation.data;
 		chart1Setting.refreshChart();
@@ -217,25 +193,7 @@ public class InterFace extends JFrame
 					if(Math.abs(data.getBaseEmitterVoltage(ii)-chart2Setting.parameter.getValue())<data.baseEmitterVoltageStep/2)
 						chart2VoltageStep=ii;
 			}
-			for(int ii=0;ii<maximalBaseEmitterVoltageStep;ii++)
-			{
-				if(chart1OX==0)
-					simulation.forceAddToGraph(chart1Setting, ii, chart1VoltageStep);
-				if(chart2OX==0)
-					simulation.forceAddToGraph(chart2Setting, ii, chart2VoltageStep);
-			}
-			for(int ii=0;ii<maximalCollectorEmitterVoltageStep;ii++)
-			{
-				if(simulation.getWorking())
-				{
-					maximalBaseEmitterVoltageStep=simulation.getBaseEmitterVoltageStep();
-					maximalCollectorEmitterVoltageStep=simulation.getCollectorEmitterVoltageStep();
-				}
-				if(chart1OX==1)
-					simulation.forceAddToGraph(chart1Setting, chart1VoltageStep, ii);
-				if(chart2OX==1)
-					simulation.forceAddToGraph(chart2Setting, chart2VoltageStep, ii);
-			}
+			addValues(chart1OX, chart2OX,chart1VoltageStep, chart2VoltageStep,maximalBaseEmitterVoltageStep,maximalCollectorEmitterVoltageStep);
 			simulation.frame.buttonPanel.startStopButton.setActive(true, "");
 		}
 		catch(Exception e)
@@ -251,4 +209,65 @@ public class InterFace extends JFrame
 		simulation.clearChart(chart1Setting);
 		simulation.clearChart(chart2Setting);
 	}
+	/**
+	 * Use prepareTabbedPane(JPanel, JScrollPane)
+	 * @param mainPanel - main panel of interface
+	 * @param settingScrollPane - setting panel of interface
+	 * @return JTabbedPane with ChangeListener and added interface's main panel and it's setting panel
+	 */
+	public JTabbedPane prepareTabbedPane(JPanel mainPanel,JScrollPane settingScrollPane)
+	{
+		JTabbedPane tabbedPane=new JTabbedPane();
+        tabbedPane.addTab(Localization.getString("simulationMenu"),mainPanel);
+        tabbedPane.addTab(Localization.getString("settingsMenu"),settingScrollPane);
+        
+        ChangeListener changeListener=new ChangeListener() //When changing tab charts are refreshed (to fit their settings). Szatan
+        {
+			@Override
+			public void stateChanged(ChangeEvent e) 
+			{
+				if(tabbedPane.getSelectedIndex()==1)
+					return;
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+				{
+					protected Void doInBackground() throws Exception 
+					{
+						refresh();
+						return null;
+					}
+				};
+				worker.execute();
+			}
+        };
+        tabbedPane.addChangeListener(changeListener);
+        return tabbedPane;
+	}
+	/**
+	 * use addValues(int, int, int, int, int,int) to add Values to charts
+	 * @param chart1OX - chosen voltage on chart1
+	 * @param chart2OX - chosen voltage on chart2
+	 * @param chart1VoltageStep - step of chart1 chosen voltage
+	 * @param chart2VoltageStep - step of chart2 chosen voltage
+	 * @param maximalBaseEmitterVoltageStep - number of maximal base-emitter voltage step
+	 * @param maximalCollectorEmitterVoltageStep - number of maximal base-emitter voltage step
+	 */
+	public void addValues(int chart1OX, int chart2OX, int chart1VoltageStep, int chart2VoltageStep,int maximalBaseEmitterVoltageStep, int maximalCollectorEmitterVoltageStep)
+	{
+		for(int ii=0;ii<maximalBaseEmitterVoltageStep;ii++)
+		{
+			if(chart1OX==0)
+				simulation.forceAddToGraph(chart1Setting, ii, chart1VoltageStep);
+			if(chart2OX==0)
+				simulation.forceAddToGraph(chart2Setting, ii, chart2VoltageStep);
+		}
+		for(int ii=0;ii<maximalCollectorEmitterVoltageStep;ii++)
+		{
+			if(chart1OX==1)
+				simulation.forceAddToGraph(chart1Setting, chart1VoltageStep, ii);
+			if(chart2OX==1)
+				simulation.forceAddToGraph(chart2Setting, chart2VoltageStep, ii);
+		}
+	}
 }
+
+
